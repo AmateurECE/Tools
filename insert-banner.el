@@ -10,11 +10,11 @@
 ;; CREATED:	    06/16/2017
 ;;
 ;; LAST EDITED:	    06/16/2017
-;;;;;;
+;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Function Definitions
-;;;;;;
+;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    insert-file-banner
@@ -28,7 +28,7 @@
 ;; RETURN:	    void.
 ;;
 ;; NOTES:	    
-;;;;;;
+;;;
 (defun insert-file-banner (name)
   "Insert a banner at the top of a file"
   (interactive "sFilename: \n")
@@ -69,7 +69,7 @@
 	))
 
   (insert "\n" nl)
-(if (eq 'nl "#")
+(if (string-equal sym "#")
     (insert " NAME:		    " name "\n")
   (insert " NAME:	    " name "\n")
   )
@@ -81,8 +81,7 @@
   (insert " CREATED:	    " date)
   (insert nl "\n" nl)
   (insert " LAST EDITED:	    " date)
-  (if (or (eq major-mode 'emacs-lisp-mode)
-	  (eq major-mode 'asm-mode))
+  (if (string-equal sym ";")
       (insert sym sym sym)
     (insert nl sym sym)
     )
@@ -100,7 +99,7 @@
 ;; RETURN:	    void.
 ;;
 ;; NOTES:	    
-;;;;;;
+;;;
 (defun insert-function-header (name)
   "Insert a header at the top of a function"
   (interactive "sFunction-Name: \n")
@@ -110,7 +109,7 @@
   
 (unless (cond ((eq major-mode 'c-mode)
 	       (progn
-		 (setq nl "\n *")
+		 (setq nl " *")
 		 (setq sym "*")
 		 (setq stt "/")
 		 )
@@ -118,14 +117,14 @@
 	      ((or (eq major-mode 'emacs-lisp-mode)
 		   (eq major-mode 'asm-mode))
 	       (progn
-		 (setq nl "\n;;")
+		 (setq nl ";;")
 		 (setq sym ";")
 		 )
 	       )
 	      )
   (progn
-    (setq nl "\n\#")
-    (setq sym "\#"))
+    (setq nl "#")
+    (setq sym "#"))
   )
     
   (when (not (null stt)) (insert stt))
@@ -138,13 +137,13 @@
       (insert sym)
       )
     )
-  (insert nl)
-  (insert " FUNCTION:	    " name nl nl)
-  (insert " DESCRIPTION:	    " nl nl)
-  (insert " ARGUMENTS:	    " nl nl)
-  (insert " RETURN:	    " nl nl)
-  (insert " NOTES:	    ")
-  (if (eq 'sym ";")
+  (insert "\n" nl)
+  (insert " FUNCTION:	    " name "\n" nl "\n" nl)
+  (insert " DESCRIPTION:	    " "\n" nl "\n" nl)
+  (insert " ARGUMENTS:	    " "\n" nl "\n" nl)
+  (insert " RETURN:	    " "\n" nl "\n" nl)
+  (insert " NOTES:	    \n")
+  (if (string-equal sym ";")
       (insert sym sym sym)
     (insert nl sym sym)
     )
@@ -163,7 +162,7 @@
 ;; RETURN:	    void.
 ;;
 ;; NOTES:	    
-;;;;;;
+;;;
 (defun insert-section-header (name)
   "Insert a section header"
   (interactive "sSection-Name: \n")
@@ -181,7 +180,7 @@
 	      ((or (eq major-mode 'emacs-lisp-mode)
 		   (eq major-mode 'asm-mode))
 	       (progn
-		 (setq nl "\n;;")
+		 (setq nl ";;")
 		 (setq sym ";")
 		 )
 	       )
@@ -204,7 +203,7 @@
     )
 
   (insert "\n" nl " " name "\n")
-  (if (eq 'sym ";")
+  (if (string-equal sym ";")
       (insert sym sym sym)
     (insert nl sym sym)
     )
