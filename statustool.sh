@@ -1,4 +1,15 @@
 #!/bin/bash
+################################################################################
+# NAME:		    statustool.sh
+#
+# AUTHOR:	    Ethan D. Twardy
+#
+# DESCRIPTION:	    Determines if the working directory is clean in a repo.
+#
+# CREATED:	    06/22/2017
+#
+# LAST EDITED:	    06/22/2017
+###
 
 HM="$PWD"
 DIRS=`ls`
