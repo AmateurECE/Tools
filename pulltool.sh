@@ -12,12 +12,11 @@
 # LAST EDITED:	    06/22/2017
 ###
 
-HM=$PWD
-DIRS=`ls`
+DIRS=`ls $1`
 
 for dir in $DIRS; do
-    if [ -d "$HM/$dir/.git" ]; then
-	cd "$HM/$dir"
+    if [ -d "$1/$dir/.git" ]; then
+	cd "$1/$dir"
 	echo "$dir:"
 	git pull
 	echo
