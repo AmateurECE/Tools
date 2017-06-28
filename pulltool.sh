@@ -57,7 +57,7 @@ for dir in $DIRS; do
 	dir=`echo $dir | sed -e 's|\.|'"$CURR_PWD"'|'`
     fi
 
-    if [ -d "$dir" ]; then
+    if [ -d "$dir" ] && [ -e "$dir/refs/remotes/origin/master" ]; then
 	export pulltool_dir="$dir"
 	dir=`echo $dir | sed -e 's|/.git||'`
 	cd "$dir"
