@@ -64,8 +64,7 @@ for dir in $DIRS; do
 	perl_get_dir
 	echo "$pulltool_dir:"
 	unset pulltool_dir
-	echo $PWD
-#	git pull
+	git pull
 	echo
     fi
 done
