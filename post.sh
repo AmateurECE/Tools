@@ -15,28 +15,37 @@
 RED='\033[0;31m'    # Set color to red
 NC='\033[0m'	    # Set to no color
 
+if [[ "$1" = "" ]]; then
+    echo "No arguments given. Aborting."
+    exit
+fi
+
 echo -e "${RED}STATUS:${NC}"
-ret=`./statustool.sh $1`
+ret=`/Users/ethantwardy/Git/Tools/statustool.sh $1`
 if [ "$ret" == "" ]; then
     echo None.
 else
     echo "$ret"
 fi
 
+echo
 echo -e "${RED}UNSTAGED COMMITS:${NC}"
-ret=`./pushtool.sh $1`
+ret=`/Users/ethantwardy/Git/Tools/pushtool.sh $1`
 if [ "$ret" == "" ]; then
     echo None.
 else
     echo "$ret"
 fi
 
+echo
 echo "I am about to pull updates from remote repositories."
 echo "Would you like me to continue? [y/N]"
 read ans
 
 if [ "$ans" == "y" ]; then
-    ./pulltool.sh $1
+    /Users/ethantwardy/Git/Tools/pulltool.sh $1
 fi
 
 echo "Check complete."
+
+################################################################################
