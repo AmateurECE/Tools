@@ -14,6 +14,8 @@
 ;; VARIABLE DECLARATIONS
 ;;;
 
+;; Initial mode setup
+
 (defvar matlab-mode-hook nil)
 
 (defvar matlab-mode-map
@@ -22,17 +24,36 @@
     map)
   "Key map for MATLAB Major mode")
 
+;; Set the file extension that triggers this mode.
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.m\\'" . matlab-mode))
 
+;; Create the initial set of highlighted keywords
+;; Reserved keywords in matlab:
+;; break    case    catch   dbcont  else	elseif
+;; end	    for	    global  if	    otherwise	persistent
+;; return   switch  try	    while   function
+
 (defconst matlab-font-lock-keywords-1
   (list 
-   '("\\<\\(break\\|ca\\(?:se\\|tch\\)\\|dbcont\\|e\\(?:lse\\(?:if\\)?\\|nd\\)\\|for\\|global\\|if\\|otherwise\\|persistent\\|return\\|switch\\|try\\|while\\)\\>" . font-lock-builtin-face)
+   '("\\<\\(?:break\\|ca\\(?:se\\|tch\\)\\|dbcont\\|e\\(?:lse\\(?:if\\)?\\|nd\\)\\|f\\(?:or\\|unction\\)\\|global\\|if\\|otherwise\\|persistent\\|return\\|switch\\|try\\|while\\)\\>" . font-lock-builtin-face)
    '("\\('\\w*'\\)" . font-lock-variable-face))
   "Minimal highlighting expressions for MATLAB mode")
 
+;(defconst matlab-font-lock-keywords-2
+;  (append matlab-font-lock-keywords-1))
+
 (defvar matlab-font-lock-keywords matlab-font-lock-keywords-1
   "Default Highlighting for MATLAB Keywords")
+
+; Create the syntax table
+(defvar matlab-mode-syntax-table
+  (let ((st (make-syntax-table)))
+    (modify-syntax-entry ?_ "w" st)
+    (modify-syntax-entry ?% "<" st)
+    (modify-syntax-entry ?\n ">" st)
+    st)
+  "Syntax table for MATLAB Mode")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTIONS
@@ -42,7 +63,7 @@
   "Major-mode for editing MATLAB Code."
   (interactive)
   (kill-all-local-variables)
-;  (set-syntax-table matlab-mode-syntax-table)
+  (set-syntax-table matlab-mode-syntax-table)
 ;  (use-local-map matlab-mode-map))
   (set (make-local-variable 'font-lock-defaults) '(matlab-font-lock-keywords))
 ;  (set (make-local-variable 'indent-line-function) 'matlab-indent-line)
