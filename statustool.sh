@@ -29,12 +29,12 @@
 function perl_get_dir {
 
     export statustool_dir=`perl - <<'EOF'
-    my $dir = $ENV{'statustool_dir'};
-    chomp $dir;
-    chop $dir;
-    my @locs = split("/", $dir);
-    print "$locs[$#locs - 1]";
-    EOF`
+my $dir = $ENV{'statustool_dir'};
+chomp $dir;
+chop $dir;
+my @locs = split("/", $dir);
+print "$locs[$#locs - 1]";
+EOF`
 
     if [[ $statustool_dir = "." ]]; then
 	export statustool_dir="$PWD";

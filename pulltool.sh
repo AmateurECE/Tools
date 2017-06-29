@@ -30,12 +30,12 @@
 function perl_get_dir {
 
     export pulltool_dir=`perl - <<'EOF'
-    my $dir = $ENV{'pulltool_dir'};
-    chomp $dir;
-    chop $dir;
-    my @locs = split("/", $dir);
-    print "$locs[$#locs - 1]";
-    EOF`
+my $dir = $ENV{'pulltool_dir'};
+chomp $dir;
+chop $dir;
+my @locs = split("/", $dir);
+print "$locs[$#locs - 1]";
+EOF`
 
     if [[ $pulltool_dir = "." ]]; then
 	export pulltool_dir="$PWD"
