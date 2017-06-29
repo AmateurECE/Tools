@@ -59,6 +59,61 @@
 ;; FUNCTIONS
 ;;;
 
+;; Function that sets the rules for indentation in MATLAB-mode.
+;;  Rule 1: If we are at the beginning of the buffer, set indent to 0;
+;;  Rule 2: If we are currently at "end" de-indent relative to the prev line.
+;;  Rule 3: If we see an "end" before current line, indent to the "end" line.
+;;  Rule 4: If we see a start line (for, if, while, etc.), increase indentation.
+;;  Rule 5: If none of the above apply, do not indent at all.
+(defun matlab-indent-line ()
+  "Indent the current line as MATLAB code."
+  (interactive)
+  (beginning-of-line)
+
+  (if (bobp)
+      (indent-line-to-0)
+    (let ((not-indented t) cur-indent)
+      (if (looking-at "^[ \t]*end")
+	  (progn
+	    (save-excursion
+	      (forward-line -1)
+	      (setq cur-indent (- (current-indentation) default-tab-width)
+		    )
+	      )
+	    (if (< cur-indent 0)
+		(setq cur-indent 0)
+	      )
+	    )
+	(save-excursion
+	  (while not-indented
+	    (forward-line -1)
+	    (if (looking-at "^[ \t]*end")
+		(progn
+		  (setq cur-indent (current-indentation)
+			)
+		  (setq not-indented nil)
+		  )
+	      (if (looking-at "^[ \t]*\\(?:ca\\(?:se\\|tch\\)\\|else\\(?:if\\)?\\|for\\|if\\|otherwise\\|switch\\|try\\|while\\)")
+		  (progn
+		    (setq cur-indent (current-indentation))
+		    (setq not-indented nil)
+		    )
+		(if (bobp)
+		    (setq not-indented nil)
+		  )
+		)
+	      )
+	    )
+	  )
+	)
+      (if cur-indent
+	  (indent-line-to cur-indent)
+	(indent-line-to-0)
+	)
+      )
+    )
+  )
+
 (defun matlab-mode ()
   "Major-mode for editing MATLAB Code."
   (interactive)
