@@ -12,10 +12,11 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(font-lock-comment-face ((t (:foreground "yellow")))))
+ )
 
 ;;; Load files
-(load-file "~/my_work/Tools/insert-banner.el")
+(load-file "~/misc/Tools/insert-banner.el")
+(load-file "~/misc/Tools/matlab-mode.el")
 
 ;;; Key bindings
 ; Set undo to \C-z
