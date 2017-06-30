@@ -24,19 +24,21 @@
     map)
   "Key map for MATLAB Major mode")
 
-;; Set the file extension that triggers this mode.
-;;;###autoload
-(add-to-list 'auto-mode-alist '("\\.m\\'" . matlab-mode))
-
 ;; Create the initial set of highlighted keywords
 ;; Reserved keywords in matlab:
 ;; break    case    catch   dbcont  else	elseif
 ;; end	    for	    global  if	    otherwise	persistent
 ;; return   switch  try	    while   function
-
 (defconst matlab-font-lock-keywords-1
   (list 
-   '("\\<\\(?:break\\|ca\\(?:se\\|tch\\)\\|dbcont\\|e\\(?:lse\\(?:if\\)?\\|nd\\)\\|f\\(?:or\\|unction\\)\\|global\\|if\\|otherwise\\|persistent\\|return\\|switch\\|try\\|while\\)\\>" . font-lock-builtin-face)
+   `(,(concat "\\<"
+		(regexp-opt '("break" "case" "catch"
+			      "dbcont" "else" "elseif"
+			      "end" "for" "global" "if"
+			      "otherwise" "persistent"
+			      "return" "switch" "try"
+			      "while" "function") t)
+		"\\>") . font-lock-builtin-face)
    '("\\('\\w*'\\)" . font-lock-variable-face))
   "Minimal highlighting expressions for MATLAB mode")
 
@@ -50,6 +52,7 @@
 (defvar matlab-mode-syntax-table
   (let ((st (make-syntax-table)))
     (modify-syntax-entry ?_ "w" st)
+    (modify-syntax-entry ?\' "\"" st)
     (modify-syntax-entry ?% "<" st)
     (modify-syntax-entry ?\n ">" st)
     st)
@@ -59,12 +62,23 @@
 ;; FUNCTIONS
 ;;;
 
-;; Function that sets the rules for indentation in MATLAB-mode.
+;; Indentation rules for MATLAB
 ;;  Rule 1: If we are at the beginning of the buffer, set indent to 0;
 ;;  Rule 2: If we are currently at "end" de-indent relative to the prev line.
 ;;  Rule 3: If we see an "end" before current line, indent to the "end" line.
 ;;  Rule 4: If we see a start line (for, if, while, etc.), increase indentation.
 ;;  Rule 5: If none of the above apply, do not indent at all.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; FUNCTION:	    matlab-indent-line
+;;
+;; DESCRIPTION:	    Creates the indentation scheme for the matlab major mode.
+;;
+;; ARGUMENTS:	    none.
+;;
+;; RETURN:	    void.
+;;
+;; NOTES:	    See above for indentation rules.
+;;;
 (defun matlab-indent-line ()
   "Indent the current line as MATLAB code."
   (interactive)
@@ -77,8 +91,7 @@
 	  (progn
 	    (save-excursion
 	      (forward-line -1)
-	      (setq cur-indent (- (current-indentation) default-tab-width)
-		    )
+	      (setq cur-indent (- (current-indentation) default-tab-width))
 	      )
 	    (if (< cur-indent 0)
 		(setq cur-indent 0)
@@ -89,31 +102,43 @@
 	    (forward-line -1)
 	    (if (looking-at "^[ \t]*end")
 		(progn
-		  (setq cur-indent (current-indentation)
-			)
-		  (setq not-indented nil)
-		  )
-	      (if (looking-at "^[ \t]*\\(?:ca\\(?:se\\|tch\\)\\|else\\(?:if\\)?\\|for\\|if\\|otherwise\\|switch\\|try\\|while\\)")
+		  (setq cur-indent (current-indentation))
+		  (setq not-indented nil))
+	      (if (looking-at `(concat "^[ \t]*"
+				       "\\(?:ca\\(?:se\\|tch\\)"
+				       "\\|else\\(?:if\\)?"
+				       "\\|for"
+				       "\\|if"
+				       "\\|otherwise"
+				       "\\|switch"
+				       "\\|try"
+				       "\\|while\\)"))
 		  (progn
 		    (setq cur-indent (current-indentation))
 		    (setq not-indented nil)
 		    )
 		(if (bobp)
 		    (setq not-indented nil)
-		  )
-		)
-	      )
-	    )
-	  )
-	)
+		  ))))))
       (if cur-indent
 	  (indent-line-to cur-indent)
 	(indent-line-to-0)
-	)
-      )
-    )
+	)))
   )
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; FUNCTION:	    matlab-mode
+;;
+;; DESCRIPTION:	    Entry function for matlab-mode. This function is called
+;;		    upon discovery of a buffer that is named *.m. It sets all of
+;;		    the rules and variables and sets up the environment.
+;;
+;; ARGUMENTS:	    none
+;;
+;; RETURN:	    void.
+;;
+;; NOTES:	    Entry function.
+;;;
 (defun matlab-mode ()
   "Major-mode for editing MATLAB Code."
   (interactive)
@@ -129,6 +154,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; PROCEDURAL STATEMENTS
 ;;;
+
+;; Set the file extension that triggers this mode.
+;;;###autoload
+(add-to-list 'auto-mode-alist '("\\.m\\'" . matlab-mode))
 
 (provide 'matlab-mode)
 
