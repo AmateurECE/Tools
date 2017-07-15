@@ -29,6 +29,9 @@
 ;; break    case    catch   dbcont  else	elseif
 ;; end	    for	    global  if	    otherwise	persistent
 ;; return   switch  try	    while   function
+
+;; Note: This constant does not declare special keywords
+;; that require auxiliary phrases, such as 'function.'
 (defconst matlab-font-lock-keywords-1
   (list 
    `(,(concat "\\<"
@@ -39,11 +42,11 @@
 			      "return" "switch" "try"
 			      "while" "function") t)
 		"\\>") . font-lock-builtin-face)
-   '("\\('\\w*'\\)" . font-lock-variable-face))
+   '("[ \t\n]*\\(\(\\[[:alnum:]_]+\)\\)[ \t]*=" ((match-string 1) . font-lock-variable-name-face))
   "Minimal highlighting expressions for MATLAB mode")
 
-;(defconst matlab-font-lock-keywords-2
-;  (append matlab-font-lock-keywords-1))
+;;(defconst matlab-font-lock-keywords-2
+;;  (append matlab-font-lock-keywords-1))
 
 (defvar matlab-font-lock-keywords matlab-font-lock-keywords-1
   "Default Highlighting for MATLAB Keywords")
