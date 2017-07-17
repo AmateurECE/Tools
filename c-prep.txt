@@ -1,0 +1,28 @@
+################################################################################
+# NAME:		    c-prep.txt
+#
+# AUTHOR:	    Ethan D. Twardy
+#
+# DESCRIPTION:	    A file depicting the necessary operations for the c-prep.sh
+#		    file to perform.
+#
+# CREATED:	    07/16/2017
+#
+# LAST EDITED:	    07/16/2017
+###
+
+* User provides a shell script to run all of the testing -- run this (Located
+    in program-files directory).
+* If a git repo does not exist, add it.
+* If a .gitignore file does not exist, generate it.
+* Move all source code into either a src/ or include/ directory.
+* Generate automake.am
+* Run autotools
+* Copy Doxyfile from program-files directory into the repo.
+* Add doxyfile to .gitignore
+* Run doxygen
+* Run make in latex/ directory
+* Move *.pdf to top leve directory
+* Add latex/ directory to .gitignore
+
+################################################################################
