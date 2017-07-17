@@ -61,7 +61,7 @@ for dir in $DIRS; do
 	dir=`echo $dir | sed 's|/.git||'`
 	cd "$dir"
 	ret=`git status | grep 'Changes\|Untracked'`
-	if [[ $ret == "0" ]]; then
+	if [[ $ret != "" ]]; then
 	    perl_get_dir
 	    echo "$statustool_dir has uncommitted changes!"
 	    unset statustool_dir
