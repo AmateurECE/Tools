@@ -55,16 +55,11 @@ sed -e "s|\.\.|$(dirname $PWD)|"`
 RED='\033[0;31m'    # Set color to red
 NC='\033[0m'	    # Set to no color
 file_dir="$(dirname $0)"
-#if [[ -e "$file_dir/.ignore" ]]; then
-#    export IGNORE_FILE="$file_dir/.ignore"
-#else
-#    echo "No .ignore file found. Checking all repositories"
-#    unset IGNORE_FILE
-#fi
+
 set_ignore_var $0
 if [[ $? != 0 ]]; then
-    echo Nope.
-    exit
+    unset IGNORE_FILE
+    echo No ignore file found. Checking all repositories instead.
 fi
 
 if [[ "$1" = "" ]]; then
