@@ -44,6 +44,34 @@ EOF`
 }
 
 ################################################################################
+# FUNCTION:	    filter_repos
+#
+# DESCRIPTION:	    Return a value dependent on whether or not the repository
+#		    is to be ignored. Returns 0 for the go ahead, nonzero else.
+#
+# ARGUMENTS:	    $1: a filename to check.
+#
+# RETURN:	    0 if the file is not to be ignored, >0 otherwise.
+#
+# NOTES:	    none.
+###
+function filter_repos {
+
+    file=`echo $(dirname $1) | perl -p000e 's/.*\/(.*)$/$1/'`
+    if [[ -e $IGNORE_FILE ]]; then
+	to_ignore=`cat "$IGNORE_FILE" | sed -e '/#.*/d' -e '/^\s*$/d'`
+	for line in $to_ignore; do
+	    ok=`echo $file | grep "$line"`
+	    if [[ $ok == "" ]]; then
+		return 0
+	    else
+		return 1
+	    fi
+	done
+    fi
+}
+
+################################################################################
 # Main
 ###
 
@@ -57,15 +85,20 @@ for dir in $DIRS; do
 	dir=`echo $dir | sed -e 's|\.|'"$CURR_PWD"'|'`
     fi
 
-    if [ -d "$dir" ] && [ -e "$dir/refs/remotes/origin/master" ]; then
-	export pulltool_dir="$dir"
-	dir=`echo $dir | sed -e 's|/.git||'`
-	cd "$dir"
-	perl_get_dir
-	echo "$pulltool_dir:"
-	unset pulltool_dir
-	git pull
-	echo
+    filter_repos $dir
+    if [[ $? == "0" ]]; then
+
+	if [ -d "$dir" ] && [ -e "$dir/refs/remotes/origin/master" ]; then
+	    export pulltool_dir="$dir"
+	    dir=`echo $dir | sed -e 's|/.git||'`
+	    cd "$dir"
+	    perl_get_dir
+	    echo "$pulltool_dir:"
+	    unset pulltool_dir
+	    git pull
+	    echo
+	fi
+    
     fi
 done
 

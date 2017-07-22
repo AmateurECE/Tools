@@ -42,6 +42,34 @@ EOF`
 }
 
 ################################################################################
+# FUNCTION:	    filter_repos
+#
+# DESCRIPTION:	    Return a value dependent on whether or not the repository
+#		    is to be ignored. Returns 0 for the go ahead, nonzero else.
+#
+# ARGUMENTS:	    $1: a filename to check.
+#
+# RETURN:	    0 if the file is not to be ignored, >0 otherwise.
+#
+# NOTES:	    none.
+###
+function filter_repos {
+
+    file=`echo $(dirname $1) | perl -p000e 's/.*\/(.*)$/$1/'`
+    if [[ -e $IGNORE_FILE ]]; then
+	to_ignore=`cat "$IGNORE_FILE" | sed -e '/#.*/d' -e '/^\s*$/d'`
+	for line in $to_ignore; do
+	    ok=`echo $file | grep "$line"`
+	    if [[ $ok == "" ]]; then
+		return 0
+	    else
+		return 1
+	    fi
+	done
+    fi
+}
+
+################################################################################
 # Main
 ###
 
@@ -57,14 +85,17 @@ for dir in $DIRS; do
     fi
     
     if [ -d "$dir" ]; then
-	export statustool_dir="$dir"
-	dir=`echo $dir | sed 's|/.git||'`
-	cd "$dir"
-	ret=`git status | grep 'Changes\|Untracked'`
-	if [[ $ret != "" ]]; then
-	    perl_get_dir
-	    echo "$statustool_dir has uncommitted changes!"
-	    unset statustool_dir
+	filter_repos $dir
+	if [[ $? == "0" ]]; then
+	    export statustool_dir="$dir"
+	    dir=`echo $dir | sed 's|/.git||'`
+	    cd "$dir"
+	    ret=`git status | grep 'Changes\|Untracked'`
+	    if [[ $ret != "" ]]; then
+		perl_get_dir
+		echo "$statustool_dir has uncommitted changes!"
+		unset statustool_dir
+	    fi
 	fi
     fi
 

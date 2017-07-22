@@ -1,0 +1,14 @@
+################################################################################
+# NAME:		    .ignore
+#
+# AUTHOR:	    Ethan D. Twardy
+#
+# DESCRIPTION:	    Repositories that do not need to be updated are named here.
+#		    This file is used by the shell scripts.
+#
+# CREATED:	    07/21/2017
+#
+# LAST EDITED:	    07/21/2017
+###
+
+21st-Century-Examples
