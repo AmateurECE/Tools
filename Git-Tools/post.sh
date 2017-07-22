@@ -43,6 +43,9 @@ sed -e "s|\.\.|$(dirname $PWD)|"`
     if [[ -e "$PWD/$this_dir/.ignore" ]]; then
 	export IGNORE_FILE="$PWD/$this_dir/.ignore"
 	return 0
+    elif [[ -e "$this_dir/.ignore" ]]; then
+	export IGNORE_FILE="$this_dir/.ignore"
+	return 0
     else
 	return 1
     fi
