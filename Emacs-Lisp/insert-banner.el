@@ -29,14 +29,17 @@
 ;;
 ;; NOTES:	    
 ;;;
-(defun insert-file-banner (name)
+(defun insert-file-banner ()
   "Insert a banner at the top of a file"
-  (interactive "sFilename: \n")
+  (interactive)
   (setq nl nil)
   (setq sym nil)
   (setq stt nil)
   (setq date (shell-command-to-string "date +%m/%d/%Y"))
-
+  (setq name (match-string 0 buffer-file-name))
+  (string-match "/\\([^/]*\\)$" buffer-file-name)
+  (setq name (match-string 1 buffer-file-name))
+  
 (unless (cond ((eq major-mode 'c-mode)
 	       (progn
 		 (setq nl " *")
