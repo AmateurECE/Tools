@@ -12,9 +12,76 @@
 ;; LAST EDITED:	    06/16/2017
 ;;;
 
+;; ====== NOTE: ======
+;; I think that good documentation is very important. If you have any
+;; recommendations for my documentation style, please don't hesitate to let me
+;; know.
+;; ===================
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Function Definitions
 ;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; FUNCTION:	    generic-file-banner
+;;
+;; DESCRIPTION:	    Function for inserting a generic file-banner. This function
+;;		    is called whenever the buffer it is called from is in one
+;;		    of the major-modes that supports this. These modes are:
+;;			* c-mode
+;;			* sh-mode
+;;			* txt-mode
+;;			* perl-mode
+;;			* emacs-lisp-mode
+;;			* asm-mode'
+;;		    ' - Note: These modes are supported by this function, but
+;;		    may have specific implementations for function or section
+;;		    headers.
+;;		    All other supported modes have individual implementations.
+;;
+;; ARGUMENTS:	    nl: (string) -- char printed at new line.
+;;		    sym: (string) -- standard comment char.
+;;		    stt: (string) -- char that starts & ends a comment. Only
+;;			used in c-mode.
+;;
+;; RETURN:	    nil.
+;;
+;; NOTES:	    none.
+;;;
+(defun generic-file-banner (nl sym stt)
+  "File Banner function for many major modes"
+  (interactive)
+
+  (when (not (null stt)) (insert stt))
+  (if (null stt)
+      (setq iter 80)
+    (setq iter 79)
+    )
+  
+  (let (val)
+    (dotimes (num iter val)
+      (insert sym)
+      ))
+
+  (insert "\n" nl)
+  (if (string-equal sym "#")
+      (insert " NAME:		    " name "\n")
+    (insert " NAME:	    " name "\n")
+    )
+  (insert nl "\n" nl)
+  (insert " AUTHOR:	    Ethan D. Twardy\n")
+  (insert nl "\n" nl)
+  (insert " DESCRIPTION:	    \n")
+  (insert nl "\n" nl)
+  (insert " CREATED:	    " date)
+  (insert nl "\n" nl)
+  (insert " LAST EDITED:	    " date)
+  (if (string-equal sym ";")
+      (insert sym sym sym)
+    (insert nl sym sym)
+    )
+  (when (not (null stt)) (insert stt))
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    insert-file-banner
@@ -59,37 +126,8 @@
     (setq nl "#")
     (setq sym "#"))
   )
-  
-  (when (not (null stt)) (insert stt))
-  (if (null stt)
-      (setq iter 80)
-    (setq iter 79)
-    )
-  
-  (let (val)
-    (dotimes (num iter val)
-	(insert sym)
-	))
-
-  (insert "\n" nl)
-(if (string-equal sym "#")
-    (insert " NAME:		    " name "\n")
-  (insert " NAME:	    " name "\n")
-  )
-  (insert nl "\n" nl)
-  (insert " AUTHOR:	    Ethan D. Twardy\n")
-  (insert nl "\n" nl)
-  (insert " DESCRIPTION:	    \n")
-  (insert nl "\n" nl)
-  (insert " CREATED:	    " date)
-  (insert nl "\n" nl)
-  (insert " LAST EDITED:	    " date)
-  (if (string-equal sym ";")
-      (insert sym sym sym)
-    (insert nl sym sym)
-    )
-  (when (not (null stt)) (insert stt))
-  )
+  (generic-file-banner nl sym stt)
+)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    insert-function-header
