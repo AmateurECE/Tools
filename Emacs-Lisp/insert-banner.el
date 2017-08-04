@@ -34,6 +34,8 @@
 ;;			* perl-mode
 ;;			* emacs-lisp-mode
 ;;			* asm-mode'
+;;			* latex-mode'
+;;			* matlab-mode
 ;;		    ' - Note: These modes are supported by this function, but
 ;;		    may have specific implementations for function or section
 ;;		    headers.
@@ -50,7 +52,6 @@
 ;;;
 (defun generic-file-banner (nl sym stt)
   "File Banner function for many major modes"
-  (interactive)
 
   (when (not (null stt)) (insert stt))
   (if (null stt)
@@ -116,45 +117,33 @@
 	(t (generic-file-banner "#" "#" nil)) ;; Default case
 	)
 )
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; FUNCTION:	    insert-function-header
+;; FUNCTION:	    generic-function-header
 ;;
-;; DESCRIPTION:	    This function inserts the headers that are at the beginning
-;;		    of each one of my functions (like here.)
+;; DESCRIPTION:	    Function for inserting a generic function-banner. This
+;;		    function is called whenever the buffer it is called from is
+;;		    one of the major-modes that supports this. These modes are:
+;;			* c-mode
+;;			* sh-mode
+;;			* txt-mode
+;;			* perl-mode
+;;			* emacs-lisp-mode
+;;			* matlab-mode
+;;		    ' - Note: These modes are supported by this function, but
+;;		    may have specific implementations for file or section
+;;		    headers.
+;;		    All other supported modes have individual implementations.
 ;;
-;; ARGUMENTS:	    name: The name of the function.
+;; ARGUMENTS:	    
 ;;
-;; RETURN:	    void.
+;; RETURN:	    
 ;;
 ;; NOTES:	    
 ;;;
-(defun insert-function-header (name)
-  "Insert a header at the top of a function"
-  (interactive "sFunction-Name: \n")
-  (setq nl nil)
-  (setq sym nil)
-  (setq stt nil)
+(defun generic-function-header (nl sym stt)
+  "Inserts the generic function header"
   
-(unless (cond ((eq major-mode 'c-mode)
-	       (progn
-		 (setq nl " *")
-		 (setq sym "*")
-		 (setq stt "/")
-		 )
-	       )
-	      ((or (eq major-mode 'emacs-lisp-mode)
-		   (eq major-mode 'asm-mode))
-	       (progn
-		 (setq nl ";;")
-		 (setq sym ";")
-		 )
-	       )
-	      )
-  (progn
-    (setq nl "#")
-    (setq sym "#"))
-  )
-    
   (when (not (null stt)) (insert stt))
   (if (null stt)
       (setq iter 80)
@@ -175,8 +164,88 @@
       (insert sym sym sym)
     (insert nl sym sym)
     )
-  (when (not (null stt)) (insert stt))
+  (when (not (null stt)) (insert stt))  
   )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; FUNCTION:	    latex-function-header
+;;
+;; DESCRIPTION:	    Inserts a function header for LaTeX.
+;;
+;; ARGUMENTS:	    none.
+;;
+;; RETURN:	    none.
+;;
+;; NOTES:	    none.
+;;;
+(defun latex-function-header ()
+  "Inserts a command header for LaTeX."
+  
+  (let (val)
+    (dotimes (num 80 val)
+      (insert "%")))
+  (insert "% Command:	    " name "\n")
+  (insert "% Function:	    \n")
+  (insert "% Arguments:	    \n")
+  )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; FUNCTION:	    asm-function-header
+;;
+;; DESCRIPTION:	    Insert an assembly subroutine header.
+;;
+;; ARGUMENTS:	    
+;;
+;; RETURN:	    
+;;
+;; NOTES:	    
+;;;
+(defun asm-function-header ()
+  "Insert an Assembly subroutine header"
+
+  (insert "/")
+  (let (val)
+    (dotimes (num 80 val)
+      (insert "*")))
+  (insert "\n *")
+  (insert " SUBROUTINE:	    " name "\n *\n *")
+  (insert " DESCRIPTION:	    \n *\n *")
+  (insert " REGISTER USAGE:  " "\n *\n *")
+  (insert " RETURN:	    \n ***/")
+  )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; FUNCTION:	    insert-function-header
+;;
+;; DESCRIPTION:	    This function inserts the headers that are at the beginning
+;;		    of each one of my functions (like here.)
+;;
+;; ARGUMENTS:	    name: The name of the function.
+;;
+;; RETURN:	    void.
+;;
+;; NOTES:	    
+;;;
+(defun insert-function-header (name)
+  "Insert a header at the top of a function"
+  (interactive "sFunction-Name: \n")
+  (setq nl nil)
+  (setq sym nil)
+  (setq stt nil)
+  
+(cond ((eq major-mode 'c-mode)
+       (generic-function-header " *" "*" "/"))
+      ((eq major-mode 'emacs-lisp-mode)
+       (generic-function-header ";;" ";" nil))
+      ((eq major-mode 'matlab-mode)
+       (generic-function-header "%" "%" nil))
+      ((eq major-mode 'latex-mode)
+       (latex-function-header))
+      ((eq major-mode 'asm-mode)
+       (asm-function-header))
+      (t (generic-function-header "#" "#" nil)) ;; Default case.
+      )
+)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    insert-section-header
