@@ -248,6 +248,40 @@
 )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; FUNCTION:	    generic-section-header
+;;
+;; DESCRIPTION:	    Inserts a generic section-header. This function exists
+;;		    mostly in case I want to change the format for a particular
+;;		    mode in the future. Currently it supports all major modes.
+;;
+;; ARGUMENTS:	    nl: (string) -- char printed at new line.
+;;		    sym: (string) -- standard comment char.
+;;		    stt: (string) -- char that starts & ends a comment. Only
+;;			used in c-mode.
+;;
+;; RETURN:	    none.
+;;
+;; NOTES:	    none.
+;;;
+(defun generic-section-header (nl sym stt)
+  "Insert a generic-section header."
+  (when (not (null stt)) (insert stt))
+  (if (null stt)
+      (setq iter 80)
+    (setq iter 79))
+
+  (let (val)
+    (dotimes (num iter val)
+      (insert sym)))
+
+  (insert "\n" nl " " name "\n")
+  (if (string-equal sym ";")
+      (insert sym sym sym)
+    (insert nl sym sym))
+  (when (not (null stt)) (insert stt))
+)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    insert-section-header
 ;;
 ;; DESCRIPTION:	    This function inserts the headers that separate each part
@@ -263,48 +297,12 @@
 (defun insert-section-header (name)
   "Insert a section header"
   (interactive "sSection-Name: \n")
-  (setq nl nil)
-  (setq sym nil)
-  (setq stt nil)
 
-(unless (cond ((eq major-mode 'c-mode)
-	       (progn
-		 (setq nl " *")
-		 (setq sym "*")
-		 (setq stt "/")
-		 )
-	       )
-	      ((or (eq major-mode 'emacs-lisp-mode)
-		   (eq major-mode 'asm-mode))
-	       (progn
-		 (setq nl ";;")
-		 (setq sym ";")
-		 )
-	       )
-	      )
-  (progn
-    (setq nl "#")
-    (setq sym "#"))
-  )
-      
-  (when (not (null stt)) (insert stt))
-  (if (null stt)
-      (setq iter 80)
-    (setq iter 79)
-    )
-
-  (let (val)
-    (dotimes (num iter val)
-      (insert sym)
-      )
-    )
-
-  (insert "\n" nl " " name "\n")
-  (if (string-equal sym ";")
-      (insert sym sym sym)
-    (insert nl sym sym)
-    )
-  (when (not (null stt)) (insert stt))
-  )
+  (cond ((or (eq major-mode 'c-mode) (eq major-mode 'asm-mode))
+	 (generic-section-header " *" "*" "/"))
+	((eq major-mode 'emacs-lisp-mode)
+	 (generic-section-header ";;" ";" nil))
+	(t (generic-section-header "#" "#" nil))) ;; Default case.
+)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
