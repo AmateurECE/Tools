@@ -107,28 +107,15 @@
   (string-match "/\\([^/]*\\)$" buffer-file-name)
   (setq name (match-string 1 buffer-file-name))
   
-(unless (cond ((eq major-mode 'c-mode)
-	       (progn
-		 (setq nl " *")
-		 (setq sym "*")
-		 (setq stt "/")
-		 )
-	       )
-	      ((or (eq major-mode 'emacs-lisp-mode)
-		   (eq major-mode 'asm-mode))
-	       (progn
-		 (setq nl ";;")
-		 (setq sym ";")
-		 )
-	       )
-	      )
-  (progn
-    (setq nl "#")
-    (setq sym "#"))
-  )
-  (generic-file-banner nl sym stt)
+  (cond ((or (eq major-mode 'c-mode) (eq major-mode 'asm-mode))
+	 (generic-file-banner " *" "*" "/"))
+	((eq major-mode 'emacs-lisp-mode)
+	 (generic-file-banner ";;" ";" nil))
+	((or (eq major-mode 'latex-mode) (eq major-mode 'matlab-mode))
+	 (generic-file-banner "%" "%" nil))
+	(t (generic-file-banner "#" "#" nil)) ;; Default case
+	)
 )
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    insert-function-header
 ;;
