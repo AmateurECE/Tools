@@ -36,6 +36,7 @@
 ;;			* asm-mode'
 ;;			* latex-mode'
 ;;			* matlab-mode
+;;			* python-mode'
 ;;		    ' - Note: These modes are supported by this function, but
 ;;		    may have specific implementations for function or section
 ;;		    headers.
@@ -215,6 +216,34 @@
   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; FUNCTION:	    python-function-header
+;;
+;; DESCRIPTION:	    Inserts a PyDoc Function "header" inside of a function
+;;		    definition.
+;;
+;; ARGUMENTS:	    none.
+;;
+;; RETURN:	    none.
+;;
+;; NOTES:	    none.
+;;;
+(defun python-function-header ()
+  "Inserts a PyDoc function header."
+  ;; Not interactive.
+  (insert "\"\"\"\n")
+  (indent-for-tab-command)
+  (insert "Function:	\n\n")
+  (indent-for-tab-command)
+  (insert "Description:	\n\n")
+  (indent-for-tab-command)
+  (insert "Arguments:	\n\n")
+  (indent-for-tab-command)
+  (insert "Return:	\n")
+  (indent-for-tab-command)
+  (insert "\"\"\"\n")
+  )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    insert-function-header
 ;;
 ;; DESCRIPTION:	    This function inserts the headers that are at the beginning
@@ -243,6 +272,8 @@
        (latex-function-header))
       ((eq major-mode 'asm-mode)
        (asm-function-header))
+      ((eq major-mode 'python-mode)
+       (python-function-header))
       (t (generic-function-header "#" "#" nil)) ;; Default case.
       )
 )
