@@ -302,6 +302,8 @@
 	 (generic-section-header " *" "*" "/"))
 	((eq major-mode 'emacs-lisp-mode)
 	 (generic-section-header ";;" ";" nil))
+	((or (eq major-mode 'latex-mode) (eq major-mode 'matlab-mode))
+	 (generic-section-header "%" "%" nil))
 	(t (generic-section-header "#" "#" nil))) ;; Default case.
 )
 
