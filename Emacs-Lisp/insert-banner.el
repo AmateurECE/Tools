@@ -19,6 +19,35 @@
 ;; ===================
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Variable Definitions
+;;;
+
+(defcustom file-banner-license-notice nil
+  "If this is set to t, insert-file-banner will insert a license notice."
+  :type 'boolean
+  )
+
+(defconst file-copyright-notice
+  "Copyright Date, Ethan D. Twardy"
+  )
+
+(defconst file-license-notice
+  "\
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>."
+  )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Function Definitions
 ;;;
 
@@ -78,11 +107,64 @@
   (insert " CREATED:	    " date)
   (insert nl "\n" nl)
   (insert " LAST EDITED:	    " date)
+  (when (not (eq file-banner-license-notice nil))
+    (progn
+      (insert nl "\n" nl " ")
+      (let ((str file-copyright-notice)
+	    (date (shell-command-to-string "date +%Y")))
+	(setq str (replace-regexp-in-string "Date" date str))
+	(insert (replace-regexp-in-string "\n" "" str) "\n")
+	(insert nl "\n")
+	)
+      (dolist (line (split-string file-license-notice "\n"))
+	(insert nl " " line "\n")
+	)
+      )
+    )
   (if (string-equal sym ";")
       (insert sym sym sym)
     (insert nl sym sym)
     )
   (when (not (null stt)) (insert stt))
+  (goto-char 1)
+  )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; FUNCTION:	    ubt-file-banner
+;;
+;; DESCRIPTION:	    Insert a file banner for the U-Boot scripting language.
+;;
+;; ARGUMENTS:	    nl: (string) -- char printed at new line.
+;;		    sym: (string) -- standard comment char.
+;;		    stt: (string) -- char that starts & ends a comment. Only
+;;			used in c-mode.
+;;
+;; RETURN:	    none.
+;;
+;; NOTES:	    none.
+;;;
+(defun ubt-file-banner (nl sym stt)
+  "Insert a file banner at the top of a U-Boot Script file"
+
+  (setq iter 80)
+  (let (val)
+    (dotimes (num iter val)
+      (insert sym)
+      ))
+
+  (insert "\n" nl)
+  (insert " NAME:		    " name "\n")
+  (insert nl "\n" nl)
+  (insert " AUTHOR:	    Ethan D. Twardy\n")
+  (insert nl "\n" nl)
+  (insert " DESCRIPTION:	    \n")
+  (insert nl "\n" nl)
+  (insert " CREATED:	    " date)
+  (insert nl "\n" nl)
+  (insert " LAST EDITED:	    " date)
+  (insert nl "\n" nl)
+  (insert " DEPENDENCIES:	    \n")
+  (insert nl sym sym)
   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -115,6 +197,8 @@
 	 (generic-file-banner ";;" ";" nil))
 	((or (eq major-mode 'latex-mode) (eq major-mode 'matlab-mode))
 	 (generic-file-banner "%" "%" nil))
+	((eq major-mode 'ubt-mode)
+	 (ubt-file-banner "#" "#" nil))
 	(t (generic-file-banner "#" "#" nil)) ;; Default case
 	)
 )
