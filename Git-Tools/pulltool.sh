@@ -85,7 +85,6 @@ for dir in $DIRS; do
 	dir=`echo $dir | sed -e 's|\.|'"$CURR_PWD"'|'`
     fi
 
-    filter_repos $dir
     if [[ $? == "0" ]]; then
 
 	if [ -d "$dir" ] && [ -e "$dir/refs/remotes/origin/master" ]; then

@@ -60,9 +60,7 @@ function filter_repos {
 	to_ignore=`cat "$IGNORE_FILE" | sed -e '/#.*/d' -e '/^\s*$/d'`
 	for line in $to_ignore; do
 	    ok=`echo $file | grep "$line"`
-	    if [[ $ok == "" ]]; then
-		return 0
-	    else
+	    if [[ $ok != "" ]]; then
 		return 1
 	    fi
 	done

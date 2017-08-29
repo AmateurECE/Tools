@@ -63,8 +63,6 @@ function filter_repos {
 	    ok=`echo $file | grep "$line"`
 	    if [[ $ok == "" ]]; then
 		return 0
-	    else
-		return 1
 	    fi
 	done
     fi
