@@ -1,0 +1,91 @@
+################################################################################
+# NAME:		    useful-emacs.txt
+#
+# AUTHOR:	    Ethan D. Twardy
+#
+# DESCRIPTION:	    This file just contains some useful emacs commands to
+#		    remember.
+#
+# CREATED:	    09/14/2017
+#
+# LAST EDITED:	    09/14/2017
+###
+
+Sharing the Screen With Another Buffer
+**************************************
+
+    * C-x 3 Creates a second buffer adjacent (right side) of the current buffer.
+    * The default size is half the screen, but to make the current buffer
+    slightly larger, use C-x }. Likewise, C-x { makes it smaller.
+    * Use C-x o (oh) to switch to the other window.
+
+Switching Buffers
+*****************
+
+    * C-x b Switches to a different buffer. Typing <RET> simply goes to the
+    default next buffer, which is usually what you want. Otherwise, you can
+    type the name of the buffer (the filename) with auto-<TAB> completion.
+
+Scrolling
+*********
+
+    * C-v scrolls down, and M-v scrolls up. This is done by pages. You can
+    change the variables that control this, but why? If it scrolls too fast,
+    C-u C-v scrolls down a smaller amount.
+
+Jumping Around the Buffer
+*************************
+
+    * C-<SPC> C-<SPC> will activate and deactivate the mark, which puts the mark
+    on the global mark stack.
+    * C-u C-<SPC> will jump to the mark on the top of the stack, remove it, and
+    then place the position before jumping on the top of the stack. This can
+    be used to jump quickly between two positions (buffer-local).
+    * C-x C-<SPC> will pop a mark off the top of the stack and move point to
+    that mark. The mark is not restored. This operates on the global mark stack,
+    so it can be used to jump between buffers.
+    * Hot-Shit-Key-Combo (Set the mark, jump, yank and insert text elsewhere):
+	C-<SPC> C-<SPC> (Put the mark on top of the stack w/o activating it.)
+    	<Move point to text-to-yank>
+	C-<SPC>, [C-e, <move point>,] C-w (Yank text.)
+	[C-z] (This is my key combo for undo. I bound it that way.)
+	C-x C-<SPC> (Pop mark and move to previous mark.)
+	[C-o] (Insert newline at point.)
+	C-y (Insert yanked text.)
+    That's it! You're cool now.
+
+Marking text
+************
+
+    * C-<SPC> Sets the mark and activates the region. Any text between the mark
+    and the point are activated. This is useful for executing commands in region
+    * C-w with marked text yanks it (cuts it). C-y will place the text at point
+    * C-x h Activates the whole buffer.
+
+The Most Useful Command
+***********************
+
+    * C-g to quit. Did you fat-finger a command? That happens. I do it all the
+    time. Then all of a sudden, the point is in the minibuffer and you don't
+    know what happened. C-g to quit out of the current command and head back to
+    where you were. I also use this when I accidentally start typing a command
+    and then change my mind.
+
+Inserting Control Characters
+****************************
+
+    * C-q <Key> Sometimes you just really need to insert a ^M or a <RET> char.
+    If you type C-q and then the key (C-m or whatever), Emacs will insert it
+    verbatim. 
+
+Replacing String
+****************
+
+    * M-C-% Replace a string interactively with another string. This is great.
+    Press 'y' on the selected text to replace, 'n' to skip it.
+    * M-x 'replace-string' That last is great. But sometimes you just need to
+    do it unconditionally. This will instantly replace all instances.
+    * M-x 'replace-regexp' This is good, too. Will interactively replace all
+    strings that match the regexp with the replacement text.
+
+################################################################################
