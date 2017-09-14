@@ -312,19 +312,29 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>."
 ;; NOTES:	    none.
 ;;;
 (defun python-function-header ()
-  "Inserts a PyDoc function header."
+  "Inserts a PyDoc function header in the Google style."
   ;; Not interactive.
   (insert "\"\"\"\n")
   (indent-for-tab-command)
-  (insert "Function:	\n\n")
+  (insert name ":\n")
   (indent-for-tab-command)
-  (insert "Description:	\n\n")
+  (setq currpos (point))
+  (insert "\n\n")
   (indent-for-tab-command)
-  (insert "Arguments:	\n\n")
+  (insert "Args:\n")
   (indent-for-tab-command)
-  (insert "Return:	\n")
+  (insert "\t\n\n")
   (indent-for-tab-command)
-  (insert "\"\"\"\n")
+  (insert "Returns:\n")
+  (indent-for-tab-command)
+  (insert "\t\n\n")
+  (indent-for-tab-command)
+  (insert "Raises:\n")
+  (indent-for-tab-command)
+  (insert "\t\n")
+  (indent-for-tab-command)
+  (insert "\"\"\"")
+  (goto-char currpos)
   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
