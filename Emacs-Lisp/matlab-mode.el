@@ -41,8 +41,15 @@
 			      "otherwise" "persistent"
 			      "return" "switch" "try"
 			      "while" "function") t)
-		"\\>") . font-lock-builtin-face)
-   '("[ \t\n]*\\(\(\\[[:alnum:]_]+\)\\)[ \t]*=" ((match-string 1) . font-lock-variable-name-face))
+		"\\>")
+     . font-lock-keyword-face
+     ;; ,(concat "\\<"
+     ;; 	      "\\([[:alnum:]_]+\\)"
+     ;; 	      "\\>"
+     ;; 	      "\\(?:[[:blank:]]*=[^[=<>]]\\)")
+     ;; . font-lock-variable-face
+		) ;; `(
+   ) ;; list
   "Minimal highlighting expressions for MATLAB mode")
 
 ;;(defconst matlab-font-lock-keywords-2
