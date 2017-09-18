@@ -61,6 +61,28 @@
 (global-unset-key (kbd "C-z"))
 (global-set-key (kbd "C-z") 'undo)
 
+;; Bindings for forward-whitespace
+(global-unset-key (kbd "C-k"))
+(global-set-key (kbd "C-k") 'forward-whitespace)
+(global-unset-key (kbd "C-j"))
+(global-set-key (kbd "C-j") ;; Lamba function that behaves like a mirror of
+		'(lambda()  ;; forward-whitespace.
+		   (interactive)
+		   (cond ((eq (char-before (point)) 10) ;; Newlines
+			  (skip-chars-backward " \n\t"))
+			 ((or (eq (char-before (point)) 9) ;; Tabs
+			      (eq (char-before (point)) 32)) ;; Spaces
+			  (skip-chars-backward " \t"))
+			 (t
+			  (progn
+			    (while (looking-back "[^[:space:]]" (- (point) 1))
+			      (re-search-backward "[^[:space:]]")
+			      )
+			    (skip-chars-backward " \t")))
+			 )
+		   )
+		)
+
 ;; Set key bindings for inserting headers and banners
 (global-unset-key (kbd "C-b"))
 (global-unset-key (kbd "C-b b"))
