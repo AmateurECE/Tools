@@ -52,6 +52,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>."
 ;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; File Banners
+;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    generic-file-banner
 ;;
 ;; DESCRIPTION:	    Function for inserting a generic file-banner. This function
@@ -201,7 +205,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>."
 	 (ubt-file-banner "#" "#" nil))
 	(t (generic-file-banner "#" "#" nil)) ;; Default case
 	)
-)
+  )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Function Header
+;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    generic-function-header
@@ -373,6 +381,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>."
 )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Section Header
+;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    generic-section-header
 ;;
 ;; DESCRIPTION:	    Inserts a generic section-header. This function exists
@@ -431,5 +443,59 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>."
 	 (generic-section-header "%" "%" nil))
 	(t (generic-section-header "#" "#" nil))) ;; Default case.
 )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Class Docs
+;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; FUNCTION:	    python-class-header
+;;
+;; DESCRIPTION:	    Insert a PyDoc class header in the Google style.
+;;
+;; ARGUMENTS:	    name: The name of the class.
+;;
+;; RETURN:	    None.
+;;
+;; NOTES:	    None.
+;;;
+(defun python-class-header (name)
+  "Inset a Google Style Python Class Header."
+  (let ((name name))
+    (insert "\"\"\"" name "\n")
+    (indent-for-tab-command)
+    (setq currpos (point))
+    (insert "\n\n")
+    (indent-for-tab-command)
+    (insert "Attributes:\n")
+    (indent-for-tab-command)
+    (insert "\t\n")
+    (indent-for-tab-command)
+    (insert "\"\"\"")
+    (goto-char currpos)
+    )
+  )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; FUNCTION:	    insert-class-header
+;;
+;; DESCRIPTION:	    Insert a header for a class.
+;;
+;; ARGUMENTS:	    name: The name of the class.
+;;
+;; RETURN:	    None.
+;;
+;; NOTES:	    None.
+;;;
+(defun insert-class-header (name)
+  "Insert a class header"
+  (interactive "sClass Name: \n")
+
+  (cond ((eq major-mode 'python-mode)
+	 (python-class-header name))
+	;; Default case
+	(t (message "The function for this mode has not yet been implemented!"))
+	)
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
