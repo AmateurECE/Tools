@@ -322,9 +322,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>."
 (defun python-function-header ()
   "Inserts a PyDoc function header in the Google style."
   ;; Not interactive.
-  (insert "\"\"\"\n")
-  (indent-for-tab-command)
-  (insert name ":\n")
+  (insert "\"\"\"" name ":\n")
   (indent-for-tab-command)
   (setq currpos (point))
   (insert "\n\n")
