@@ -115,6 +115,8 @@
 (add-to-list 'auto-mode-alist '("\\.dts\\'" . dts-mode))
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.dtsi\\'" . dts-mode))
+;;;###autoload
+(add-to-list 'auto-mode-alist '("\\.its\\'" . dts-mode))
 
 (provide 'dts-mode)
 ;;; dts-mode.el ends here
