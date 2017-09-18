@@ -106,8 +106,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>."
   (insert nl "\n" nl)
   (insert " AUTHOR:	    Ethan D. Twardy\n")
   (insert nl "\n" nl)
-  (insert " DESCRIPTION:	    \n")
-  (insert nl "\n" nl)
+  (insert " DESCRIPTION:	    ")
+  (setq currpos (point))
+  (insert "\n" nl "\n" nl)
   (insert " CREATED:	    " date)
   (insert nl "\n" nl)
   (insert " LAST EDITED:	    " date)
@@ -130,7 +131,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>."
     (insert nl sym sym)
     )
   (when (not (null stt)) (insert stt))
-  (goto-char 1)
+  (goto-char currpos)
   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -161,14 +162,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>."
   (insert nl "\n" nl)
   (insert " AUTHOR:	    Ethan D. Twardy\n")
   (insert nl "\n" nl)
-  (insert " DESCRIPTION:	    \n")
-  (insert nl "\n" nl)
+  (insert " DESCRIPTION:	    ")
+  (setq currpos (point))
+  (insert "\n" nl "\n" nl)
   (insert " CREATED:	    " date)
   (insert nl "\n" nl)
   (insert " LAST EDITED:	    " date)
   (insert nl "\n" nl)
   (insert " DEPENDENCIES:	    \n")
   (insert nl sym sym)
+  (goto-char currpos)
   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -249,7 +252,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>."
     )
   (insert "\n" nl)
   (insert " FUNCTION:	    " name "\n" nl "\n" nl)
-  (insert " DESCRIPTION:	    " "\n" nl "\n" nl)
+  (insert " DESCRIPTION:	    ")
+  (setq currpos (point))
+  (insert "\n" nl "\n" nl)
   (insert " ARGUMENTS:	    " "\n" nl "\n" nl)
   (insert " RETURN:	    " "\n" nl "\n" nl)
   (insert " NOTES:	    \n")
@@ -257,7 +262,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>."
       (insert sym sym sym)
     (insert nl sym sym)
     )
-  (when (not (null stt)) (insert stt))  
+  (when (not (null stt)) (insert stt))
+  (goto-char currpos)
   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -278,8 +284,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>."
     (dotimes (num 80 val)
       (insert "%")))
   (insert "% Command:	    " name "\n")
-  (insert "% Function:	    \n")
+  (insert "% Function:	    ")
+  (setq currpos (point))
+  (insert "\n")
   (insert "% Arguments:	    \n")
+  (goto-char currpos)
   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -302,9 +311,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>."
       (insert "*")))
   (insert "\n *")
   (insert " SUBROUTINE:	    " name "\n *\n *")
-  (insert " DESCRIPTION:	    \n *\n *")
+  (insert " DESCRIPTION:	    ")
+  (setq currpos (point))
+  (insert "\n *\n *")
   (insert " REGISTER USAGE:  " "\n *\n *")
   (insert " RETURN:	    \n ***/")
+  (goto-char currpos)
   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
