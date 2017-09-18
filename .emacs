@@ -50,10 +50,15 @@
   (global-set-key [(f9)] 'gnuplot-make-buffer)
 
 ;;; Load files
-(load-file "~/misc/Tools/Emacs-Lisp/insert-banner.el")
-(load-file "~/cc_tools/uprep/ubt-mode.el")
-;;(load-file "~/misc/Tools/Emacs-Lisp/matlab-mode.el")
-(load-file "/home/etwardy/Downloads/gnuplot.el")
+(if (file-exists-p "~/misc/Tools/Emacs-Lisp/insert-banner.el")
+    (load-file "~/misc/Tools/Emacs-Lisp/insert-banner.el")
+  (load-file "~/Git/Tools/Emacs-Lisp/insert-banner.el"))
+(if (file-exists-p "~/misc/Tools/Emacs-Lisp/ubt-mode.el")
+    (load-file "~/misc/Tools/Emacs-Lisp/ubt-mode.el")
+  (load-file "~/Git/Tools/Emacs-Lisp/ubt-mode.el"))
+;; (if (file-exists-p "~/misc/Tools/Emacs-Lisp/matlab-mode.el")
+;;     (load-file "~/misc/Tools/Emacs-Lisp/matlab-mode.el")
+;;   (load-file "~/Git/Tools/Emacs-Lisp/matlab-mode.el"))
 
 ;;; Key bindings
 ;; Set undo to \C-z
@@ -61,7 +66,7 @@
 (global-unset-key (kbd "C-z"))
 (global-set-key (kbd "C-z") 'undo)
 
-;; Bindings for forward-whitespace
+;; Bindings for forward-whitespace and backward whitespace, etc.
 (global-unset-key (kbd "C-k"))
 (global-set-key (kbd "C-k") 'forward-whitespace)
 (global-unset-key (kbd "C-j"))
