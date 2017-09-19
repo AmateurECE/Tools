@@ -59,9 +59,12 @@
 (if (file-exists-p "~/misc/Tools/Emacs-Lisp/dts-mode.el")
     (load-file "~/misc/Tools/Emacs-Lisp/dts-mode.el")
   (load-file "~/Git/Tools/Emacs-Lisp/dts-mode.el"))
-;; (if (file-exists-p "~/misc/Tools/Emacs-Lisp/matlab-mode.el")
-;;     (load-file "~/misc/Tools/Emacs-Lisp/matlab-mode.el")
-;;   (load-file "~/Git/Tools/Emacs-Lisp/matlab-mode.el"))
+(if (file-exists-p "~/misc/Tools/Emacs-Lisp/restart-emacs.el")
+    (load-file "~/misc/Tools/Emacs-Lisp/restart-emacs.el")
+  (load-file "~/Git/Tools/Emacs-Lisp/restart-emacs.el"))
+(if (file-exists-p "~/misc/Tools/Emacs-Lisp/matlab-mode.el")
+    (load-file "~/misc/Tools/Emacs-Lisp/matlab-mode.el")
+  (load-file "~/Git/Tools/Emacs-Lisp/matlab-mode.el"))
 
 ;;; Key bindings
 ;; Set undo to \C-z
