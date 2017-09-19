@@ -40,7 +40,7 @@
 			      "end" "for" "global" "if"
 			      "otherwise" "persistent"
 			      "return" "switch" "try"
-			      "while" "function")
+			      "while") ;; function fontified in keywords-3
 			    t)
 		"\\>")
      . font-lock-keyword-face)
@@ -55,9 +55,17 @@
 		   "\\(?:[[:blank:]]*=[^<=>]\\)"
 		   )
 	  (1 font-lock-variable-name-face))))
-  "Variable name fonitifiaction")
+  "Variable name fonitifiaction for MATLAB mode")
 
-(defvar matlab-font-lock-keywords matlab-font-lock-keywords-2
+(defconst matlab-font-lock-keywords-3
+  (append matlab-font-lock-keywords-2
+	  (list
+	   `("\\<function\\>" (0 font-lock-keyword-face)
+	     ("x" (1 font-lock-variable-name-face))
+	     )))
+  "Function declaration fontification")
+
+(defvar matlab-font-lock-keywords matlab-font-lock-keywords-3
   "Default Highlighting for MATLAB Keywords")
 
 ; Create the syntax table
