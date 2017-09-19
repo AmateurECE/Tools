@@ -50,9 +50,18 @@
 (defconst matlab-font-lock-keywords-2
   (append matlab-font-lock-keywords-1
 	  (list `(
-		  ,(concat
-		   "\\<\\([[:alnum:]_]+\\)\\>"
-		   "\\(?:[[:blank:]]*=[^<=>]\\)"
+		  ,(concat ;; TODO: Fix this fontification.
+		    ;; "\\("
+		    ;; "\\<\\([[:alnum:]_]+\\)\\>" "\\|"
+		    ;; "\\[\\(\\w+\\(?:,?\\)\\)*\\]"
+		    ;; "\\)"
+		    ;; "\\(?:\\[\\)\\(\\([[:alnum:]_]+\\)\\(?:,\\|\\]\\)\\)+)])"
+		    "\\(?:\\[\\|,\\)\\(?:[[:blank:]]*\\)\\([[:alnum:]_]+\\)"
+		    "\\("
+		    "\\(?:[[:blank:]]*\\]?[[:blank:]]*=[^<=>]\\)"
+		    "\\|"
+		    "\\(?:\\[\\|,\\)\\(?:[[:blank:]]*\\)\\([[:alnum:]_]+\\)"
+		    "\\)"
 		   )
 	  (1 font-lock-variable-name-face))))
   "Variable name fonitifiaction for MATLAB mode")
@@ -60,9 +69,9 @@
 (defconst matlab-font-lock-keywords-3
   (append matlab-font-lock-keywords-2
 	  (list
-	   `("\\<function\\>" (0 font-lock-keyword-face)
-	     ("x" (1 font-lock-variable-name-face))
-	     )))
+	   '("\\<function\\>" (0 font-lock-keyword-face)
+	     ;; (#TODO: More Fontification Goes Here#)
+	      )))
   "Function declaration fontification")
 
 (defvar matlab-font-lock-keywords matlab-font-lock-keywords-3
@@ -146,6 +155,9 @@
 	)))
   )
 
+;; TODO: https://www.lunaryorn.com/posts/advanced-syntactic-fontification
+;; TODO: https://www.lunaryorn.com/posts/search-based-fontification-with-keywords
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    matlab-mode
 ;;
@@ -159,16 +171,17 @@
 ;;
 ;; NOTES:	    Entry function.
 ;;;
-(defun matlab-mode ()
+(define-derived-mode matlab-mode prog-mode "MATLAB" ()
   "Major-mode for editing MATLAB Code."
-  (interactive)
-  (kill-all-local-variables)
   (set-syntax-table matlab-mode-syntax-table)
-;  (use-local-map matlab-mode-map))
-  (set (make-local-variable 'font-lock-defaults) '(matlab-font-lock-keywords))
-;  (set (make-local-variable 'indent-line-function) 'matlab-indent-line)
+  (use-local-map matlab-mode-map)
+
+  ;; Fontification
+  (setq font-lock-defaults '(matlab-font-lock-keywords))
+  (setq-local syntax-propertize-function #'matlab-syntax-propertize-function)
+  
+;;  (set (make-local-variable 'indent-line-function) 'matlab-indent-line)
   (setq major-mode 'matlab-mode)
-  (setq mode-name "MATLAB")
   (run-hooks 'matlab-mode-hook)
 )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
