@@ -40,22 +40,24 @@
 			      "end" "for" "global" "if"
 			      "otherwise" "persistent"
 			      "return" "switch" "try"
-			      "while" "function") t)
+			      "while" "function")
+			    t)
 		"\\>")
-     . font-lock-keyword-face
-     ;; ,(concat "\\<"
-     ;; 	      "\\([[:alnum:]_]+\\)"
-     ;; 	      "\\>"
-     ;; 	      "\\(?:[[:blank:]]*=[^[=<>]]\\)")
-     ;; . font-lock-variable-face
-		) ;; `(
+     . font-lock-keyword-face)
    ) ;; list
   "Minimal highlighting expressions for MATLAB mode")
 
-;;(defconst matlab-font-lock-keywords-2
-;;  (append matlab-font-lock-keywords-1))
+(defconst matlab-font-lock-keywords-2
+  (append matlab-font-lock-keywords-1
+	  (list `(
+		  ,(concat
+		   "\\<\\([[:alnum:]_]+\\)\\>"
+		   "\\(?:[[:blank:]]*=[^<=>]\\)"
+		   )
+	  (1 font-lock-variable-name-face))))
+  "Variable name fonitifiaction")
 
-(defvar matlab-font-lock-keywords matlab-font-lock-keywords-1
+(defvar matlab-font-lock-keywords matlab-font-lock-keywords-2
   "Default Highlighting for MATLAB Keywords")
 
 ; Create the syntax table
