@@ -22,11 +22,11 @@
 
 (defvar ubt-font-lock-preprocessor-directives
   `(
-    ("^[[:blank:]]*\\(@\\<include\\>\\)[[:blank:]]*\\(\\sw+\\)"
+    ("^[[:blank:]]*\\(@\\<include\\>\\)[[:blank:]]*\\([[:graph:]]+\\)"
      (1 font-lock-function-name-face)
      (2 font-lock-variable-name-face nil t))
     (,(concat "\\<\\(printenv\\|sete\\(?:nv\\|xpr\\(?:\\.[blsw]\\)?\\)\\)\\>"
-	      "[[:blank:]]*\\(\\sw+\\)")
+	      "[[:blank:]]*\\([[:graph:]]+\\)")
      (2 font-lock-variable-name-face))
     ("\\(itest\\(?:\\.[blsw]\\)?\\)" . font-lock-preprocessor-face)
     ("\\<run\\>" . font-lock-preprocessor-face)
