@@ -10,27 +10,29 @@
 ;; LAST EDITED:	    06/28/2017
 ;;;
 
+(require 'rx)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; MACRO DEFINITIONS
 ;;;
+(eval-and-compile
+  (defconst matlab-rx-constituents
+    `((word-symbol	    . ,(rx (any word ?_)))
+      (comparison-operator  . ,(rx (or "==" ">=" "<=" "~=" "<" ">")))
+      (assignment-operator    . ,(rx (and (or ?=)
+					  (not (any ?> ?< ?= ?~)))
+					  ))
+      ;; (...)
+      ))
 
-(defconst matlab-rx-constituents
-  "Custom constituents for `rx' macro"
-  `((word-symbol	    . ,(rx (any word ?_)))
-    ;; (...)
-    ))
-
-(defmacro matlab-rx (&rest regexps)
-  "Custom `rx' macro for use in MATLAB mode"
-  (let ((rx-constituents (append matlab-rx-constituents rx-constituents)))
-    (cond ((null regexps)
-	   (error "No regexp"))
-	  ((cdr regexps)
-	   (rx-to-string `(and ,@regexps) t))
-	  (t
-	   (rx-to-string (car regexps) t))))))
-
-  )
+  (defmacro matlab-rx (&rest regexps)
+    (let ((rx-constituents (append matlab-rx-constituents rx-constituents)))
+      (cond ((null regexps)
+	     (error "No regexp"))
+	    ((cdr regexps)
+	     (rx-to-string `(and ,@regexps) t))
+	    (t
+	     (rx-to-string (car regexps) t))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; VARIABLE DECLARATIONS
@@ -42,7 +44,6 @@
 
 (defvar matlab-mode-map
   (let ((map (make-keymap)))
-    (define-key map (kbd "C-j") 'newline-and-indent)
     map)
   "Key map for MATLAB Major mode")
 
@@ -54,6 +55,7 @@
 
 ;; Note: This constant does not declare special keywords
 ;; that require auxiliary phrases, such as 'function.'
+(eval-and-compile
 (defvar matlab-font-lock-keywords 
    `((,(concat "\\<"
 		(regexp-opt '("break" "case" "catch"
@@ -63,31 +65,32 @@
 			      "return" "switch" "try"
 			      "while") ;; function fontified in keywords-3
 			    t)
-		"\\>"))
+		"\\>")
+      . font-lock-keyword-face)
      ;; Assignments of the form a = b
-     (,(rx (;; TODO: Insert macro here
-	    )))
-     ;; (...)
+     (,(matlab-rx (group (+ word)) (* space)
+		  (? ?\( (* (not (any ?\)))) ?\)) (* space)
+		  assignment-operator)
+      (1 font-lock-variable-name-face nil nil))
      )
-  "Minimal highlighting expressions for MATLAB mode")
+  "Minimal highlighting expressions for MATLAB mode"))
 
 (defconst matlab-font-lock-keywords-2
-  (append matlab-font-lock-keywords-1
-	  (list `(
-		  ,(concat ;; TODO: Fix this fontification.
-		    ;; "\\("
-		    ;; "\\<\\([[:alnum:]_]+\\)\\>" "\\|"
-		    ;; "\\[\\(\\w+\\(?:,?\\)\\)*\\]"
-		    ;; "\\)"
-		    ;; "\\(?:\\[\\)\\(\\([[:alnum:]_]+\\)\\(?:,\\|\\]\\)\\)+)])"
-		    "\\(?:\\[\\|,\\)\\(?:[[:blank:]]*\\)\\([[:alnum:]_]+\\)"
-		    "\\("
-		    "\\(?:[[:blank:]]*\\]?[[:blank:]]*=[^<=>]\\)"
-		    "\\|"
-		    "\\(?:\\[\\|,\\)\\(?:[[:blank:]]*\\)\\([[:alnum:]_]+\\)"
-		    "\\)"
-		   )
-	  (1 font-lock-variable-name-face))))
+  (list `(
+	  ,(concat ;; TODO: Fix this fontification.
+	    ;; "\\("
+	    ;; "\\<\\([[:alnum:]_]+\\)\\>" "\\|"
+	    ;; "\\[\\(\\w+\\(?:,?\\)\\)*\\]"
+	    ;; "\\)"
+	    ;; "\\(?:\\[\\)\\(\\([[:alnum:]_]+\\)\\(?:,\\|\\]\\)\\)+)])"
+	    "\\(?:\\[\\|,\\)\\(?:[[:blank:]]*\\)\\([[:alnum:]_]+\\)"
+	    "\\("
+	    "\\(?:[[:blank:]]*\\]?[[:blank:]]*=[^<=>]\\)"
+	    "\\|"
+	    "\\(?:\\[\\|,\\)\\(?:[[:blank:]]*\\)\\([[:alnum:]_]+\\)"
+	    "\\)"
+	    )
+	  (1 font-lock-variable-name-face)))
   "Variable name fonitifiaction for MATLAB mode")
 
 (defconst matlab-font-lock-keywords-3
@@ -98,8 +101,8 @@
 	      )))
   "Function declaration fontification")
 
-(defvar matlab-font-lock-keywords matlab-font-lock-keywords-3
-  "Default Highlighting for MATLAB Keywords")
+;; (defvar matlab-font-lock-keywords matlab-font-lock-keywords-3
+;;   "Default Highlighting for MATLAB Keywords")
 
 ; Create the syntax table
 (defvar matlab-mode-syntax-table
@@ -201,8 +204,10 @@
   (use-local-map matlab-mode-map)
 
   ;; Fontification
-  (setq font-lock-defaults '(matlab-font-lock-keywords))
-  (setq-local syntax-propertize-function #'matlab-syntax-propertize-function)
+  (set (make-local-variable 'font-lock-defaults)
+       '(matlab-font-lock-keywords
+	 nil nil nil))
+  ;; (setq-local syntax-propertize-function #'matlab-syntax-propertize-function)
   
 ;;  (set (make-local-variable 'indent-line-function) 'matlab-indent-line)
   (setq major-mode 'matlab-mode)
