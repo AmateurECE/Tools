@@ -65,6 +65,10 @@
 (if (file-exists-p "~/misc/Tools/Emacs-Lisp/matlab-mode.el")
     (load-file "~/misc/Tools/Emacs-Lisp/matlab-mode.el")
   (load-file "~/Git/Tools/Emacs-Lisp/matlab-mode.el"))
+;; TODO: For Debuggin the Python 'Test' Mode
+(if (file-exists-p "~/misc/Tools/Emacs-Lisp/python.el")
+    (load-file "~/misc/Tools/Emacs-Lisp/python.el")
+  (load-file "~/Git/Tools/Emacs-Lisp/python.el"))
 
 ;;; Key bindings
 ;; Set undo to \C-z

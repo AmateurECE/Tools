@@ -11,6 +11,28 @@
 ;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; MACRO DEFINITIONS
+;;;
+
+(defconst matlab-rx-constituents
+  "Custom constituents for `rx' macro"
+  `((word-symbol	    . ,(rx (any word ?_)))
+    ;; (...)
+    ))
+
+(defmacro matlab-rx (&rest regexps)
+  "Custom `rx' macro for use in MATLAB mode"
+  (let ((rx-constituents (append matlab-rx-constituents rx-constituents)))
+    (cond ((null regexps)
+	   (error "No regexp"))
+	  ((cdr regexps)
+	   (rx-to-string `(and ,@regexps) t))
+	  (t
+	   (rx-to-string (car regexps) t))))))
+
+  )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; VARIABLE DECLARATIONS
 ;;;
 
@@ -32,9 +54,8 @@
 
 ;; Note: This constant does not declare special keywords
 ;; that require auxiliary phrases, such as 'function.'
-(defconst matlab-font-lock-keywords-1
-  (list 
-   `(,(concat "\\<"
+(defvar matlab-font-lock-keywords 
+   `((,(concat "\\<"
 		(regexp-opt '("break" "case" "catch"
 			      "dbcont" "else" "elseif"
 			      "end" "for" "global" "if"
@@ -42,9 +63,12 @@
 			      "return" "switch" "try"
 			      "while") ;; function fontified in keywords-3
 			    t)
-		"\\>")
-     . font-lock-keyword-face)
-   ) ;; list
+		"\\>"))
+     ;; Assignments of the form a = b
+     (,(rx (;; TODO: Insert macro here
+	    )))
+     ;; (...)
+     )
   "Minimal highlighting expressions for MATLAB mode")
 
 (defconst matlab-font-lock-keywords-2
