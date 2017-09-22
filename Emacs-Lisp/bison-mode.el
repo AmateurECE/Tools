@@ -1,3 +1,4 @@
+
 ;;; bison-mode.el --- Major mode for editing bison, yacc and lex files.
 
 ;; Copyright (C) 1998 Eric Beuscher
@@ -109,39 +110,39 @@
 
 ;; *************** user-definable vars ***************
 
-(defvar bison-rule-separator-column 8
+(defcustom bison-rule-separator-column 8
   "column for rule and production separators \"|\" and \";\"")
-(defvar bison-rule-enumeration-column 16
+(defcustom bison-rule-enumeration-column 16
   "column for beginning enumeration of a production's rules")
-(defvar bison-decl-type-column 8
+(defcustom bison-decl-type-column 8
   "columnn in which tokens' and states' types should be when declared")
-(defvar bison-decl-token-column 24
+(defcustom bison-decl-token-column 0
   "column in which tokens and states are listed when declared,
 as with %token, %type, ...")
 
 
-(defvar bison-all-electricity-off nil
+(defcustom bison-all-electricity-off nil
   "non-nil means all electric keys will be disabled,
 nil means that a bison-electric-* key will be on or off based on the individual
 key's electric variable")
 
 ;;; i know lisp has the dual name spaces, but i find it more aesthetically
 ;;; pleasing to not take advantage of that
-(defvar bison-electric-colon-v t
+(defcustom bison-electric-colon-v t
   "non-nil means use an electric colon")
-(defvar bison-electric-pipe-v t
+(defcustom bison-electric-pipe-v t
   "non-nil means use an electric pipe")
-(defvar bison-electric-open-brace-v t
+(defcustom bison-electric-open-brace-v t
   "non-nil means use an electric open-brace")
-(defvar bison-electric-close-brace-v t
+(defcustom bison-electric-close-brace-v t
   "non-nil means use an electric close-brace")
-(defvar bison-electric-semicolon-v t
+(defcustom bison-electric-semicolon-v t
   "non-nil means use an electric semicolon")
-(defvar bison-electric-percent-v t
+(defcustom bison-electric-percent-v t
   "non-nil means use an electric percent")
-(defvar bison-electric-less-than-v t
+(defcustom bison-electric-less-than-v t
   "non-nil means use an electric less-than")
-(defvar bison-electric-greater-than-v t
+(defcustom bison-electric-greater-than-v t
   "non-nil means use an electric greater-than")
 
 
@@ -205,7 +206,7 @@ and \(point\)"
 
   ;; try to set the indentation correctly
   (setq c-basic-offset 4)
-
+  ;; (setq c-syntactic-indentation) ;; So that c-indent-line knows how to indent
   (c-set-offset 'knr-argdecl-intro 0)
   
   ;; remove auto and hungry anything
@@ -223,11 +224,10 @@ and \(point\)"
   (define-key bison-mode-map "%" 'bison-electric-percent)
   (define-key bison-mode-map "<" 'bison-electric-less-than)
   (define-key bison-mode-map ">" 'bison-electric-greater-than)
-
-  (define-key bison-mode-map [tab] 'bison-indent-line)
   
-  (make-local-variable 'indent-line-function)
-  (setq indent-line-function 'bison-indent-new-line)
+  (set (make-local-variable 'indent-line-function) #'new-indent-function)
+  (define-key bison-mode-map [tab] 'indent-line-function)
+
   (make-local-variable 'comment-start)
   (make-local-variable 'comment-end)
   (setq comment-start "/*"
@@ -584,8 +584,7 @@ assumes indenting a new line, i.e. at column 0
 	 )
     (let* ((section (bison--section-p))
 	   (c-sexp (bison--within-braced-c-expression-p section))
-	   (ws-line (line-of-whitespace-p))
-	   )
+	   (ws-line (line-of-whitespace-p)))
       (cond
        ;; if you are a line of whitespace, let indent-new-line take care of it
        (ws-line
@@ -898,6 +897,35 @@ declaration section, then indent to bison-decl-token-column."
 			(progn
 			  (just-no-space)
 			  (indent-to-column bison-decl-token-column)))))))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Code Added by Ethan D. Twardy
+;;;
+
+(defun new-delimiter-on-line ()
+  "Determine if there is a delimiter on the line."
+  (save-excursion
+    (beginning-of-line)
+    (let ((re (regexp-opt '(bison--c-section-decls-opener
+		       bison--c-section-decls-closer
+		       bison--grammar-rules-section-delimiter) t)))
+      (while ((re-search-forward re t))))))
+    
+
+(defun new-indent-function (&optional opts)
+  "Indent line based on whether we're in C syntax or Yacc syntax."
+  (interactive)
+  (save-excursion 
+    (let ((section (bison--section-p))
+	  indent-fn)
+      (cond
+       ((new-delimiter-on-line) )
+       ((or (eq section bison--bison-decls-section)
+	    (eq section bison--grammar-rules-section))
+	(progn
+	  (bison-indent-line)))
+       (t (progn
+	    (c-indent-line)))))))
 
 ;;;###autoload
 (define-derived-mode jison-mode bison-mode
