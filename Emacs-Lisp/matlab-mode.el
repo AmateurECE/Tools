@@ -7,7 +7,7 @@
 ;;
 ;; CREATED:	    06/28/2017
 ;;
-;; LAST EDITED:	    06/28/2017
+;; LAST EDITED:	    09/21/2017
 ;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -23,17 +23,25 @@
 (eval-and-compile
   (defconst matlab-rx-constituents
     `((word-symbol	    . ,(rx (any word ?_)))
+
       (comparison-operator  . ,(rx (or "==" ">=" "<=" "~=" "<" ">")))
+
       (assignment-operator  . ,(rx (and (or ?=)
 					  (not (any ?> ?< ?= ?~)))
 					  ))
-      (matlab-keywords	    . ,(regexp-opt '(
+
+      (matlab-keywords	    . ,(regexp-opt '(;; Keywords in MATLAB
 					     "break" "case" "catch"
 					     "dbcont" "else" "elseif"
 					     "end" "for" "global" "if"
 					     "otherwise" "persistent"
 					     "return" "switch" "try"
 					     "while" "function") t))
+
+      (begin-block	    . ,(regexp-opt '(;; Keywords that being a block
+					     "switch" "try" "while"
+					     "case" "catch" "if"
+					     "elseif" "else" "for") t))
       "Custom `rx' constituents for matlab-rx macro"))
 
   (defmacro matlab-rx (&rest regexps)
@@ -53,6 +61,7 @@
 	    matlab-keywords
 	    symbol-end)
        . font-lock-keyword-face)
+
       ;; Assignments (of the form a = b; a(i) = b)
       (,(matlab-rx (group (+ word)) (* space)
 		   (? ?\( (* (not (any ?\)))) ?\)) (* space)
@@ -74,6 +83,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; INDENTATION
 ;;;
+
+(defvar matlab-current-indentation 0
+  "Current column of indentation in MATLAB")
+
+(defcustom matlab-default-tab-width 4
+  "Default tab stop width in MATLAB mode")
 
 ;; Indentation rules for MATLAB
 ;;  Rule 1: If we are at the beginning of the buffer, set indent to 0;
@@ -97,46 +112,38 @@
   (interactive)
   (beginning-of-line)
 
-  (if (bobp)
-      (indent-line-to-0)
-    (let ((not-indented t) cur-indent)
-      (if (looking-at "^[ \t]*end")
+  (if (bobp) ;; Rule 1
+      ;; (progn
+      ;; 	(indent-line-to-0)
+      (setq current-indendation 0) ;; )
+    (let ((endre (rx (* blank) "end"))
+	  (not-indented t)
+	  cur-indent)
+      (if (looking-at endre) ;; Rule 2
 	  (progn
 	    (save-excursion
 	      (forward-line -1)
-	      (setq cur-indent (- (current-indentation) default-tab-width))
-	      )
+	      (setq cur-indent (- matlab-current-indentation
+				  matlab-default-tab-width)))
 	    (if (< cur-indent 0)
-		(setq cur-indent 0)
-	      )
-	    )
+		(setq cur-indent 0)))
 	(save-excursion
 	  (while not-indented
 	    (forward-line -1)
-	    (if (looking-at "^[ \t]*end")
+	    (if (looking-at endre) ;; Rule 3
 		(progn
-		  (setq cur-indent (current-indentation))
+		  (setq cur-indent matlab-current-indentation)
 		  (setq not-indented nil))
-	      (if (looking-at `(concat "^[ \t]*"
-				       "\\(?:ca\\(?:se\\|tch\\)"
-				       "\\|else\\(?:if\\)?"
-				       "\\|for"
-				       "\\|if"
-				       "\\|otherwise"
-				       "\\|switch"
-				       "\\|try"
-				       "\\|while\\)"))
+	      (if (looking-at (matlab-rx begin-block)) ;; Rule 4
 		  (progn
-		    (setq cur-indent (current-indentation))
-		    (setq not-indented nil)
-		    )
-		(if (bobp)
-		    (setq not-indented nil)
-		  ))))))
+		    (setq cur-indent (+ matlab-current-indentation
+					matlab-default-tab-width))
+		    (setq not-indented nil))
+		(if (bobp) ;; Rule 5
+		    (setq not-indented nil)))))))
       (if cur-indent
-	  (indent-line-to cur-indent)
-	(indent-line-to-0)
-	))))
+	  (indent-to cur-indent)
+	(indent-to 0)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; MODE SETUP
@@ -173,14 +180,11 @@
 	 nil nil nil))
   
   ;; Indentation
-  ;; (...)
+  (set (make-local-variable 'indent-line-function) #'matlab-indent-line)
   
   (setq major-mode 'matlab-mode)
   (run-hooks 'matlab-mode-hook)
 )
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; PROCEDURAL STATEMENTS
-;;;
 
 ;; Set the file extension that triggers this mode.
 ;;;###autoload
