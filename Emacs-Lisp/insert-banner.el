@@ -208,6 +208,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>."
 	 (ubt-file-banner "#" "#" nil))
 	((eq major-mode 'dts-mode)
 	 (generic-file-banner " *" "*" "/"))
+	((eq major-mode 'bison-mode)
+	 (generic-file-banner " *" "*" "/"))
 	(t (generic-file-banner "#" "#" nil)) ;; Default case
 	)
   )
