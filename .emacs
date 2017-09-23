@@ -50,25 +50,23 @@
   (global-set-key [(f9)] 'gnuplot-make-buffer)
 
 ;;; Load files
-(if (file-exists-p "~/misc/Tools/Emacs-Lisp/insert-banner.el")
-    (load-file "~/misc/Tools/Emacs-Lisp/insert-banner.el")
-  (load-file "~/Git/Tools/Emacs-Lisp/insert-banner.el"))
-(if (file-exists-p "~/misc/Tools/Emacs-Lisp/ubt-mode.el")
-    (load-file "~/misc/Tools/Emacs-Lisp/ubt-mode.el")
-  (load-file "~/Git/Tools/Emacs-Lisp/ubt-mode.el"))
-(if (file-exists-p "~/misc/Tools/Emacs-Lisp/dts-mode.el")
-    (load-file "~/misc/Tools/Emacs-Lisp/dts-mode.el")
-  (load-file "~/Git/Tools/Emacs-Lisp/dts-mode.el"))
-(if (file-exists-p "~/misc/Tools/Emacs-Lisp/restart-emacs.el")
-    (load-file "~/misc/Tools/Emacs-Lisp/restart-emacs.el")
-  (load-file "~/Git/Tools/Emacs-Lisp/restart-emacs.el"))
-(if (file-exists-p "~/misc/Tools/Emacs-Lisp/matlab-mode.el")
-    (load-file "~/misc/Tools/Emacs-Lisp/matlab-mode.el")
-  (load-file "~/Git/Tools/Emacs-Lisp/matlab-mode.el"))
-;; TODO: For Debuggin the Python 'Test' Mode
-(if (file-exists-p "~/misc/Tools/Emacs-Lisp/python.el")
-    (load-file "~/misc/Tools/Emacs-Lisp/python.el")
-  (load-file "~/Git/Tools/Emacs-Lisp/python.el"))
+(let ((lisp-dir (if (file-exists-p "~/misc/Tools/Emacs-Lisp/")
+		    "~/misc/Tools/Emacs-Lisp/"
+		  (if (file-exists-p "~/Git/Tools/Emacs-Lisp/")
+		      "~/Git/Tools/Emacs-Lisp/"
+		    (error (concat "User's Emacs-Lisp directory"
+				   "could not be found"))))))
+  (load-file (concat lisp-dir "insert-banner.el"))
+  (load-file (concat lisp-dir "ubt-mode.el"))
+  (load-file (concat lisp-dir "dts-mode.el"))
+  (load-file (concat lisp-dir "restart-emacs.el"))
+  (load-file (concat lisp-dir "matlab-mode.el"))
+  (load-file (concat lisp-dir "python.el")) ;; This is temporary.
+  (load-file (concat lisp-dir "bison-mode.el"))
+  t)
+
+;; Turn on error-catching.
+(setq debug-on-error t)
 
 ;;; Key bindings
 ;; Set undo to \C-z
