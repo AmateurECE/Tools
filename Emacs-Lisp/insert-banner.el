@@ -24,12 +24,14 @@
 
 (defcustom file-banner-license-notice nil
   "If this is set to t, insert-file-banner will insert a license notice."
-  :type 'boolean
-  )
+  :type 'boolean)
+
+(defcustom insert-banner-indent-column 20
+  "The column number to indent all fields to by default."
+  :type 'integer)
 
 (defconst file-copyright-notice
-  "Copyright Date, Ethan D. Twardy"
-  )
+  "Copyright Date, Ethan D. Twardy")
 
 (defconst file-license-notice
   "\
@@ -44,12 +46,24 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>."
-  )
+along with this program.  If not, see <http://www.gnu.org/licenses/>.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Function Definitions
 ;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Utilities
+;;;
+
+(defun insert-and-tab (field &rest strings)
+  (insert field)
+  (indent-to-column insert-banner-indent-column)
+  (while strings
+    (insert (car strings))
+    (setq strings (cdr strings)))
+  "Insert `field' into the current buffer, indent to column
+`insert-banner-insert-column', and then insert `strings'.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; File Banners
@@ -90,49 +104,34 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>."
   (when (not (null stt)) (insert stt))
   (if (null stt)
       (setq iter 80)
-    (setq iter 79)
-    )
+    (setq iter 79))
   
   (let (val)
     (dotimes (num iter val)
-      (insert sym)
-      ))
+      (insert sym)))
 
   (insert "\n" nl)
-  (if (string-equal sym "#")
-      (insert " NAME:		    " name "\n")
-    (insert " NAME:	    " name "\n")
-    )
-  (insert nl "\n" nl)
-  (insert " AUTHOR:	    Ethan D. Twardy\n")
-  (insert nl "\n" nl)
-  (insert " DESCRIPTION:	    ")
-  (setq currpos (point))
-  (insert "\n" nl "\n" nl)
-  (insert " CREATED:	    " date)
-  (insert nl "\n" nl)
-  (insert " LAST EDITED:	    " date)
-  (when (not (eq file-banner-license-notice nil))
-    (progn
-      (insert nl "\n" nl " ")
-      (let ((str file-copyright-notice)
-	    (date (shell-command-to-string "date +%Y")))
-	(setq str (replace-regexp-in-string "Date" date str))
-	(insert (replace-regexp-in-string "\n" "" str) "\n")
-	(insert nl "\n")
-	)
-      (dolist (line (split-string file-license-notice "\n"))
-	(insert nl " " line "\n")
-	)
-      )
-    )
-  (if (string-equal sym ";")
-      (insert sym sym sym)
-    (insert nl sym sym)
-    )
-  (when (not (null stt)) (insert stt))
-  (goto-char currpos)
-  )
+  (insert-and-tab " NAME:" name "\n" nl "\n" nl)
+  (insert-and-tab " AUTHOR:" "Ethan D. Twardy\n" nl "\n" nl)
+  (insert-and-tab " DESCRIPTION:")
+  (save-excursion
+    (insert "\n" nl "\n" nl)
+    (insert-and-tab " CREATED:" date nl "\n" nl)
+    (insert-and-tab " LAST EDITED:" date)
+    (when (not (eq file-banner-license-notice nil))
+      (progn
+	(insert nl "\n" nl " ")
+	(let ((str file-copyright-notice)
+	      (date (shell-command-to-string "date +%Y")))
+	  (setq str (replace-regexp-in-string "Date" date str))
+	  (insert (replace-regexp-in-string "\n" "" str) "\n")
+	  (insert nl "\n"))
+	(dolist (line (split-string file-license-notice "\n"))
+	  (insert nl " " line "\n"))))
+    (if (string-equal sym ";")
+	(insert sym sym sym)
+      (insert nl sym sym))
+    (when (not (null stt)) (insert stt))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    ubt-file-banner
@@ -154,25 +153,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>."
   (setq iter 80)
   (let (val)
     (dotimes (num iter val)
-      (insert sym)
-      ))
+      (insert sym)))
 
   (insert "\n" nl)
-  (insert " NAME:		    " name "\n")
-  (insert nl "\n" nl)
-  (insert " AUTHOR:	    Ethan D. Twardy\n")
-  (insert nl "\n" nl)
-  (insert " DESCRIPTION:	    ")
-  (setq currpos (point))
-  (insert "\n" nl "\n" nl)
-  (insert " CREATED:	    " date)
-  (insert nl "\n" nl)
-  (insert " LAST EDITED:	    " date)
-  (insert nl "\n" nl)
-  (insert " DEPENDENCIES:	    \n")
-  (insert nl sym sym)
-  (goto-char currpos)
-  )
+  (insert-and-tab " NAME:" name "\n" nl "\n" nl)
+  (insert-and-tab " AUTHOR:" "Ethan D. Twardy\n" nl "\n" nl)
+  (insert " DESCRIPTION:")
+  (indent-to-column 20)
+  (save-excursion
+    (insert "\n" nl "\n" nl)
+    (insert " CREATED:	    " date)
+    (insert nl "\n" nl)
+    (insert " LAST EDITED:	    " date)
+    (insert nl "\n" nl)
+    (insert " DEPENDENCIES:	    \n")
+    (insert nl sym sym)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    insert-file-banner
@@ -210,9 +205,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>."
 	 (generic-file-banner " *" "*" "/"))
 	((eq major-mode 'bison-mode)
 	 (generic-file-banner " *" "*" "/"))
-	(t (generic-file-banner "#" "#" nil)) ;; Default case
-	)
-  )
+	(t (generic-file-banner "#" "#" nil)))) ;; Default case
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Function Header
@@ -247,28 +240,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>."
   (when (not (null stt)) (insert stt))
   (if (null stt)
       (setq iter 80)
-    (setq iter 79)
-    )
+    (setq iter 79))
   (let (val)
     (dotimes (num iter val)
-      (insert sym)
-      )
-    )
+      (insert sym)))
   (insert "\n" nl)
-  (insert " FUNCTION:	    " name "\n" nl "\n" nl)
-  (insert " DESCRIPTION:	    ")
-  (setq currpos (point))
-  (insert "\n" nl "\n" nl)
-  (insert " ARGUMENTS:	    " "\n" nl "\n" nl)
-  (insert " RETURN:	    " "\n" nl "\n" nl)
-  (insert " NOTES:	    \n")
-  (if (string-equal sym ";")
-      (insert sym sym sym)
-    (insert nl sym sym)
-    )
-  (when (not (null stt)) (insert stt))
-  (goto-char currpos)
-  )
+  (insert-and-tab " FUNCTION:" name "\n" nl "\n" nl)
+  (insert-and-tab " DESCRIPTION:")
+  (save-excursion
+    (insert "\n" nl "\n" nl)
+    (insert-and-tab " ARGUMENTS:" "\n" nl "\n" nl)
+    (insert-and-tab " RETURN:" "\n" nl "\n" nl)
+    (insert-and-tab " NOTES:" "\n")
+    (if (string-equal sym ";")
+	(insert sym sym sym)
+      (insert nl sym sym))
+    (when (not (null stt)) (insert stt))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    latex-function-header
@@ -311,17 +298,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>."
 
   (insert "/")
   (let (val)
-    (dotimes (num 80 val)
+    (dotimes (num 79 val)
       (insert "*")))
   (insert "\n *")
-  (insert " SUBROUTINE:	    " name "\n *\n *")
-  (insert " DESCRIPTION:	    ")
-  (setq currpos (point))
-  (insert "\n *\n *")
-  (insert " REGISTER USAGE:  " "\n *\n *")
-  (insert " RETURN:	    \n ***/")
-  (goto-char currpos)
-  )
+  (insert-and-tab " SUBROUTINE:" name "\n *\n *")
+  (insert-and-tab " DESCRIPTION:")
+  (save-excursion
+    (insert "\n *\n *")
+    (insert-and-tab " REGISTER USAGE:" "\n *\n *")
+    (insert-and-tab " RETURN:" "\n ***/")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    python-function-header
