@@ -193,7 +193,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.")
   (string-match "/\\([^/]*\\)$" buffer-file-name)
   (setq name (match-string 1 buffer-file-name))
   
-  (cond ((or (eq major-mode 'c-mode) (eq major-mode 'asm-mode))
+  (cond ((or (eq major-mode 'c-mode)
+	     (eq major-mode 'asm-mode)
+	     (eq major-mode 'dts-mode)
+	     (eq major-mode 'bison-mode)
+	     (eq major-mode 'yacc-mode))
 	 (generic-file-banner " *" "*" "/"))
 	((eq major-mode 'emacs-lisp-mode)
 	 (generic-file-banner ";;" ";" nil))
@@ -201,10 +205,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.")
 	 (generic-file-banner "%" "%" nil))
 	((eq major-mode 'ubt-mode)
 	 (ubt-file-banner "#" "#" nil))
-	((eq major-mode 'dts-mode)
-	 (generic-file-banner " *" "*" "/"))
-	((eq major-mode 'bison-mode)
-	 (generic-file-banner " *" "*" "/"))
 	(t (generic-file-banner "#" "#" nil)))) ;; Default case
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
