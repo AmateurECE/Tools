@@ -43,8 +43,7 @@
 ;; PROCEDURAL STATEMENTS
 ;;;
 
-;; I'm not sure exactly how this works, but it makes Emacs open ubt-mode.el
-;; when a buffer that matches '\.ubt' is created.
+;; Add file extension to auto-mode-alist so that we're recognized.
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.ubt\\|\\.src\\'" . ubt-mode))
 
