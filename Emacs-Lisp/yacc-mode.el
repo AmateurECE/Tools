@@ -1,5 +1,5 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-0;115;0c;; NAME:	    yacc-mode.el
+;; NAME:	    yacc-mode.el
 ;;
 ;; AUTHOR:	    Ethan D. Twardy
 ;;
@@ -16,15 +16,30 @@
     "Special delimiters added by the Yacc parser.")
 
   (defvar yacc-token-declarators-re
-    (regexp-opt '("%union" "%token" "%type" "%option"
-		  "%left" "%right" "%nonassoc" "%code") t)
+    (regexp-opt '("%union" "%token" "%type" "%option" "%start"
+		  "%left" "%right" "%nonassoc" "%code")
+		t)
     "Token declarators for Yacc scripts.")
 
   (defvar yacc-font-lock-extra-keywords
     `((,yacc-token-declarators-re . font-lock-keyword-face)
-      (,yacc-special-delimiters-re . font-lock-preprocessor-face)
-      (,(rx line-start (* space) (+ word) ?:) . font-lock-constant-face))
+      (,yacc-special-delimiters-re . font-lock-preprocessor-face))
+      ;; (,(rx line-start (* space) (+ word) ?:) . font-lock-constant-face)
+      ;; ((lambda(limit) (let ((section (yacc-section-p)))
+      ;; 		    (cond
+      ;; 		     ((or (eq section 'yacc-pre-grammar)
+      ;; 			  (eq section 'yacc-grammar))
+      ;; 		      (message "This is some stuff")
+      ;; 		      (re-search-forward
+      ;; 		       (rx (group (* space) (+ word) (*space)) ?:)
+      ;; 		       limit 'keep-point)
+      ;; 		      t)
+      ;; 		     (t t))))
+      ;;  (0 font-lock-constant-face)))
     "Extra keywords defined by the Yacc grammar."))
+
+(defvar yacc-current-indentation-level 0
+  "Variable containing the current indentation level in the yacc mode.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Utilities
@@ -53,7 +68,7 @@ Returns 'yacc-post-grammar if point is after the %% %% Yacc Grammar section."
 	  (progn
 	    (let ((eob (save-excursion (end-of-buffer) (point))))
 	      (goto-char (+ (point) 3))
-	      ;; 'keep-point is a throwaway value which causes re-search...
+	      ;; 'keep-point is a throwaway value which causes re-search
 	      ;; to leave point at the boundary of the region.
 	      (re-search-forward "%%" eob 'keep-point)
 	      (if (eobp)				
