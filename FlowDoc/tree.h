@@ -28,6 +28,8 @@
  * INCLUDES
  ***/
 
+#include "hash.h"
+
 /*******************************************************************************
  * TYPE DEFINITIONS
  ***/
@@ -56,9 +58,9 @@ typedef struct _nary_node {
 typedef struct {
 
   _nary_node * root;
+  hash_t * hash;
   void * (*compare)(const void * data1, const void * data2);
   void (*destroy)(void * data);
-  /* TODO: Hash pointer here */
 
 } nary_tree_t;
 

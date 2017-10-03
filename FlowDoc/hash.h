@@ -32,6 +32,7 @@ typedef struct {
   int (*h1)(const void * key);
   int (*h2)(const void * key);
   void * (*compare)(const void * q, const void * r);
+  void (*destroy)(void * q);
   bucket_t ** buckets;
 
 } hash_t;
@@ -47,7 +48,9 @@ typedef struct {
  * API FUNCTION PROTOTYPES
  ***/
 
-hash_t * hash_create(size_t capacity);
+hash_t * hash_create(void * (*compare)(const void *, const void *),
+		     void (*destroy)(void *),
+		     size_t capacity);
 int hash_insert(hash_t * hash, void * key, void * data);
 void * hash_get(hash_t * hash, void * key);
 int hash_remove(hash_t * hash, void * key);
