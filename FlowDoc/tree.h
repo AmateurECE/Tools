@@ -68,11 +68,12 @@ typedef struct {
  * API FUNCTION PROTOTYPES
  ***/
 
-nary_tree_t * nary_tree_create(void * (*compare)(const void *, const void *),
-			       void (*destroy)(void * data));
-int nary_tree_insert(nary_tree_t * tree, nary_tree_t * node);
-int nary_tree_remove(nary_tree_t * tree, nary_tree_t * node);
-void nary_tree_destroy(nary_tree_t * tree);
+extern nary_tree_t * nary_tree_create(void * (*compare)(const void *,
+							const void *),
+				      void (*destroy)(void * data));
+extern int nary_tree_insert(nary_tree_t * tree, nary_tree_t * node);
+extern int nary_tree_remove(nary_tree_t * tree, nary_tree_t * node);
+extern void nary_tree_destroy(nary_tree_t * tree);
 
 #endif /* __ET_TREE_H__ */
 
