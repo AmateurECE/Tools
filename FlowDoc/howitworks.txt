@@ -1,0 +1,30 @@
+################################################################################
+# NAME:		    howitworks.txt
+#
+# AUTHOR:	    Ethan D. Twardy
+#
+# DESCRIPTION:	    Just like the title.
+#
+# CREATED:	    10/05/2017
+#
+# LAST EDITED:	    10/05/2017
+###
+
+1. Takes a configuration file. This file will contain information about the
+    language in the following manner:
+
+    	    * The root of the recursion: i.e what the main function looks like:
+		is it in the global scope? is it just like the function decls,
+		but with a particular name?
+	    * The syntax for the ordinary function declaration. Will this be a
+		regex?
+	    * Limit of recursion - the height of the tree
+	    * The file to start and/or a directory to search.
+
+2. If the file containing the main is not specified, begin searching the
+    directory for the main function.
+
+3. If main is not found, exit with an error. If main is found, allocate tree and
+    hash struct. Begin a breadth first search
+
+################################################################################

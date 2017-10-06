@@ -58,9 +58,8 @@ typedef struct _nary_node {
 typedef struct {
 
   _nary_node * root;
-  hash_t * hash;
-  void * (*compare)(const void * data1, const void * data2);
-  void (*destroy)(void * data);
+  void * (*compare)(void *, void *)
+  void (*destroy)(void *);
 
 } nary_tree_t;
 
@@ -68,8 +67,7 @@ typedef struct {
  * API FUNCTION PROTOTYPES
  ***/
 
-extern nary_tree_t * nary_tree_create(void * (*compare)(const void *,
-							const void *),
+extern nary_tree_t * nary_tree_create(void * (*compare)(void *, void *),
 				      void (*destroy)(void * data));
 extern int nary_tree_insert(nary_tree_t * tree, nary_tree_t * node);
 extern int nary_tree_remove(nary_tree_t * tree, nary_tree_t * node);
