@@ -1,5 +1,5 @@
 /*******************************************************************************
- * NAME:	    arg-parse.h
+ * NAME:	    main-parse.h
  *
  * AUTHOR:	    Ethan D. Twardy
  *
@@ -11,8 +11,8 @@
  * LAST EDITED:	    10/02/2017
  ***/
 
-#ifndef __ARG_PARSE_H__
-#define __ARG_PARSE_H__
+#ifndef __MAIN_PARSE_H__
+#define __MAIN_PARSE_H__
 
 /*******************************************************************************
  * INCLUDES
@@ -24,7 +24,6 @@
  * TYPE DEFINITONS
  ***/
 
-/* Example struct */
 struct parser_info {
   char * infile;
   char * outfile;
@@ -41,7 +40,9 @@ struct parser_info {
  ***/
 
 extern struct parser_info clargs; /* The data parsed from the command line */
+extern char * yyin_filename; /* Name of the current parsed file */
+extern bool parsing_error;
 
-#endif /* __ARG_PARSE_H__ */
+#endif /* __MAIN_PARSE_H__ */
 
 /******************************************************************************/

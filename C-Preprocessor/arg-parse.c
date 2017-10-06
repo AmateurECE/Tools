@@ -1,5 +1,5 @@
 /*******************************************************************************
- * NAME:	    arg-parse.c
+ * NAME:	    main-parse.c
  *
  * AUTHOR:	    Ethan D. Twardy
  *
@@ -13,8 +13,8 @@
 
 /*
  * TODO: manpages?
- * TODO: Add call to mkimage.
- * TODO: -E switch, which performs only preprocessing.
+ * TODO: @if (<condition>) token.
+ * TODO: -D flag
  */
 
 /*******************************************************************************
@@ -26,9 +26,14 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <errno.h>
+#include <ctype.h>
+#include <stdint.h>
 
 #include "grammar.tab.h"
-#include "arg-parse.h"
+#include "main-parse.h"
+#include "define.h"
+#include "error.h"
 
 /*******************************************************************************
  * MACRO DEFINITIONS
@@ -37,13 +42,24 @@
 /* #define DEBUG */
 
 /*******************************************************************************
+ * EXTERNAL REFERENCES
+ ***/
+
+/* flex does not export a header file, so we must use external refs to get at
+ * its symbols. */
+extern FILE * yyin;
+extern FILE * yyout;
+extern int yyparse();
+extern int yylex_destroy(void);
+
+/*******************************************************************************
  * STATIC FUNCTION PROTOTYPES
  ***/
 
-static inline void error_exit(char * s);
 static int try_get_clargs(int argc, char *** argv);
 static void add_include(char * directory);
 static void add_warning(char * warning);
+static void add_define(char * define);
 #ifdef DEBUG
 static void print_clargs(); /* For debugging, mostly. */
 #endif
@@ -54,7 +70,11 @@ static void destroy_clargs();
  * GLOBAL VARIABLES
  ***/
 
-struct parser_info clargs = (struct parser_info){ .todo_warnings = true };
+struct parser_info clargs = (struct parser_info){
+  .todo_warnings = true,    /* Default: Warn on /TODO/ */
+};
+char * yyin_filename;
+bool parsing_error = false;
 
 /*******************************************************************************
  * MAIN
@@ -62,46 +82,44 @@ struct parser_info clargs = (struct parser_info){ .todo_warnings = true };
 
 int main(int argc, char * argv[])
 {
-  if (argc < 2)
-    error_exit("No arguments given.");
+  StopIf(argc < 2, 1, "Fatal Error: No input given.\n");
 
   int left = 0;
+  /* Calling the function twice allows us to have one argument that doesn't
+   * take a switch--the input file. */
   if ((left = try_get_clargs(argc, &argv)) > 0) {
     argv += (argc - left);
-    clargs.infile = strdup(*argv);
+    clargs.infile = *argv;
     left = try_get_clargs(left, &argv);
   }
 
-  if (left > 0) {
-    fprintf(stderr, "Error when parsing command line arguments: %s\n",
-	    argv[argc - left - 1]);
-    exit(1);
+  StopIf(left > 0, 2,
+	 "Fatal error: Could not parse command line arguments \"%s\"\n",
+	 argv[argc - left - 1]);
+  StopIf(clargs.infile == NULL, 11,
+	 "Fatal error: Could not determine input file from command line"
+	 " arguments.\n");
+
+  yyin = fopen(clargs.infile, "r");
+  StopIf(yyin == NULL, 3, "Fatal error: Could not open input file.\n");
+  yyin_filename = clargs.infile;
+
+  if (clargs.outfile) {
+    yyout = fopen(clargs.outfile, "w");
+    StopIf(yyout == NULL, 4,
+	   "Fatal error: Could not open output file.\n");
   }
 
-  print_clargs();
+  yyparse();
+  yylex_destroy();
   destroy_clargs();
+
+  return (int)parsing_error;
 }
 
 /*******************************************************************************
  * STATIC FUNCTIONS
  ***/
-
-/*******************************************************************************
- * FUNCTION:	    error_exit
- *
- * DESCRIPTION:	    Prints a message to STDERR, then exits with a status of 1.
- *
- * ARGUMENTS:	    s: (char *) -- the string to print to STDERR.
- *
- * RETURN:	    void. No Return.
- *
- * NOTES:	    none.
- ***/
-static inline void error_exit(char * s)
-{
-  fprintf(stderr, "%s\n", s);
-  exit(1);
-}
 
 /*******************************************************************************
  * FUNCTION:	    try_get_clargs
@@ -126,16 +144,23 @@ static int try_get_clargs(int argc, char *** args)
       switch (**argv) {
       case 'o':
 	next_arg(&argc, &argv);
-	clargs.outfile = strdup(*argv);
+	clargs.outfile = *argv;
 	goto NXTARG;
       case 'I':
 	next_arg(&argc, &argv);
-	add_include(*argv); /* *++argv */
+	add_include(*argv);
 	goto NXTARG;
       case 'W':
 	next_arg(&argc, &argv);
 	add_warning(*argv);
 	goto NXTARG;
+      case 'D':
+	next_arg(&argc, &argv);
+	add_define(*argv);
+	goto NXTARG;
+      default:
+	StopIf(1, 5, "Fatal error: Unknown command line switch: \"%c\"\n",
+	       **argv);
       }
     }
   NXTARG:
@@ -146,7 +171,7 @@ static int try_get_clargs(int argc, char *** args)
 }
 
 /*******************************************************************************
- * FUNCTION:	    add_include
+ * FUNCTION:	    add_includes
  *
  * DESCRIPTION:	    Add a directory name to the end of the member 'includedirs'
  *		    in the static info struct.
@@ -190,19 +215,92 @@ static void add_include(char * directory)
  ***/
 static void add_warning(char * warning)
 {
-  if (warning == NULL)
-    return;
+  StopIf(warning == NULL, 6, "Fatal error: -W switch takes an argument.\n");
 
   if (!strcmp(warning, "no-TODO")) {
     clargs.todo_warnings = false;
   } else {
-    char * errorstr = NULL;
-    if (asprintf(&errorstr,
-		 "Unknown command line argument \"-W%s\"", warning) >= 0)
-      error_exit("Error when copying string");
-    else
-      error_exit(errorstr);
+    StopIf(1, 7, "Fatal error: Unknown command line argument \"W%s\"", warning);
   }
+}
+
+/*******************************************************************************
+ * FUNCTION:	    add_define
+ *
+ * DESCRIPTION:	    This function adds a -D flag argument to the clargs struct.
+ *		    These arguments come in the form of either:
+ *
+ *			-D ?[[:word:]]+(?:=[[:word:]]+)
+ *
+ *		    Where the space and suffix is optional. The first word is a
+ *		    name, the name of a define'd token. This is optionally
+ *		    followed by a '=' and another sequence of non-space chars
+ *		    to be used as the value for the define'd token. This
+ *		    functions similarly to the #define token in C, except it
+ *		    cannot be used to perform text substitutions outside the
+ *		    context of other preprocessor directives.
+ *
+ * ARGUMENTS:	    define: (char *) -- the argument to the -D flag.
+ *
+ * RETURN:	    void.
+ *
+ * NOTES:	    none.
+ ***/
+static void add_define(char * define)
+{
+  StopIf(define == NULL, 12, "Fatal error: -D switch takes an argument.\n");
+  char * c = strchr(define, '=');
+  size_t size;
+  int num;
+
+  if (c == NULL) { /* Case of -D<VAR> */
+    goto do_null;
+  } else {
+    *(c++) = '\0';
+    char * nul = strchr(c, '\0');
+    if (nul == NULL)
+      goto error_exit;
+    size = (uintptr_t)nul - (uintptr_t)c;
+    if (size == 0) /* Happens in the case of -D<VAR>= */
+      goto do_null;
+
+    if (isxdigit(*c)) {
+      int dodigit = 1;
+      for (int i = 1; i < size; i++) {
+	if (i == 1 && c[1] == 'x') /* Case of -D <VAR>=0x... */
+	  continue;
+	if (!isxdigit(c[i])) {
+	  dodigit = 0;
+	  break;
+	}
+      }
+
+      if (dodigit) { /* If we have a hex string */
+	errno = 0;
+	num = strtoul(c, NULL, 16);
+	if (errno & (EINVAL | ERANGE))
+	  goto error_exit;
+	goto do_int;
+      } else { /* if (dodigit) {... */
+	goto do_string;
+      }
+    } else { /* if (isxdigit(*c)) {... */
+      goto do_string;
+    }
+  }
+
+ do_null:
+  if (define_insert(define, NULL, 0, OTHER_T)) goto error_exit;
+  return;
+ do_string:
+  if(define_insert(define, c, size, STR_T)) goto error_exit;
+  return;
+ do_int:
+  if (define_insert(define, &num, sizeof(int), INT_T)) goto error_exit;
+  return;
+
+ error_exit:
+  StopIf(1, 19, "Fatal error when parsing -D switch.\n");
 }
 
 /*******************************************************************************
@@ -227,6 +325,7 @@ static void print_clargs()
     printf("\t%s\n", clargs.includedirs[i]);
   printf("Number of included directories: %d\n", (int)clargs.numdirs);
   printf("TODO Warnings: %s\n", clargs.todo_warnings ? "true" : "false");
+  define_print(stdout);
 }
 #endif
 
@@ -266,10 +365,10 @@ static void next_arg(int * pArgc, char *** pArgv)
  ***/
 static void destroy_clargs()
 {
-  free(clargs.infile);
-  free(clargs.outfile);
+  free(clargs.includedirs);
 
-  /* ... */
+  if (define_hash != NULL)
+    define_destroy();
 }
 
 /******************************************************************************/
