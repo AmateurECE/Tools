@@ -345,8 +345,7 @@ static size_t next_pof2(size_t number)
   number |= number >> 4;
   number |= number >> 8;
   number |= number >> 16;
-  number++;
-  return number;
+  return ++number;
 }
 
 /******************************************************************************/

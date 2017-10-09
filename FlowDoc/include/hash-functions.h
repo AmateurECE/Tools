@@ -20,12 +20,8 @@
  * API FUNCTION PROTOTYPES
  ***/
 
-/**
- * \brief This function computes the hash of the pointer value
- * \param data The pointer to use as a starting value.
- * \return int The hashed value.
- */
-extern int hash_double(const void * data);
+extern size_t str_hash1(char * string, size_t len);
+extern size_t str_hash2(char * string);
 
 #endif /* __ET_HASH_FUNCTIONS_H__ */
 
