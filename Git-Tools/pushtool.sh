@@ -85,7 +85,7 @@ for dir in $DIRS; do
 		if [ $REMOTE != $LOCAL ]; then
 		    export pushtool_dir="$dir"
 		    perl_get_dir
-		    echo "$pushtool_dir needs a commit!"
+		    echo "$pushtool_dir has unpushed commits!"
 		    unset pushtool_dir
 		fi
 	    fi
