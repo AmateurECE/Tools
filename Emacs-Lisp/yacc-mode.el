@@ -17,7 +17,7 @@
 
   (defvar yacc-token-declarators-re
     (regexp-opt '("%union" "%token" "%type" "%option" "%start"
-		  "%left" "%right" "%nonassoc" "%code")
+		  "%left" "%right" "%nonassoc" "%code" "%empty")
 		t)
     "Token declarators for Yacc scripts.")
 
