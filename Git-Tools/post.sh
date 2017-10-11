@@ -79,7 +79,7 @@ else
 fi
 
 echo
-echo -e "${RED}UNSTAGED COMMITS:${NC}"
+echo -e "${RED}UNPUSHED COMMITS:${NC}"
 ret=`$file_dir/pushtool.sh $1`
 if [ "$ret" == "" ]; then
     echo None.
