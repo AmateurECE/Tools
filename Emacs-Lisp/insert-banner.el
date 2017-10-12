@@ -22,13 +22,18 @@
 ;; Variable Definitions
 ;;;
 
+(defgroup banner-comments nil
+  "Group for the custom attributes that apply to insert-banner.el")
+;; TODO: Add the BSD, MIT, and public domain license statements, too.
 (defcustom file-banner-license-notice nil
   "If this is set to t, insert-file-banner will insert a license notice."
-  :type 'boolean)
+  :type 'boolean
+  :group 'banner-comments)
 
 (defcustom insert-banner-indent-column 20
   "The column number to indent all fields to by default."
-  :type 'integer)
+  :type 'integer
+  :group 'banner-comments)
 
 (defconst file-copyright-notice
   "Copyright Date, Ethan D. Twardy")
