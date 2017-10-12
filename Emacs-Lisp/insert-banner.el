@@ -192,7 +192,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.")
   (setq name (match-string 0 buffer-file-name))
   (string-match "/\\([^/]*\\)$" buffer-file-name)
   (setq name (match-string 1 buffer-file-name))
-  
   (cond ((or (eq major-mode 'c-mode)
 	     (eq major-mode 'asm-mode)
 	     (eq major-mode 'dts-mode)
@@ -236,7 +235,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.")
 ;;;
 (defun generic-function-header (nl sym stt)
   "Inserts the generic function header"
-  
   (when (not (null stt)) (insert stt))
   (if (null stt)
       (setq iter 80)
@@ -279,8 +277,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.")
   (setq currpos (point))
   (insert "\n")
   (insert "% Arguments:	    \n")
-  (goto-char currpos)
-  )
+  (goto-char currpos))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    asm-function-header
@@ -341,8 +338,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.")
   (insert "\t\n")
   (indent-for-tab-command)
   (insert "\"\"\"")
-  (goto-char currpos)
-  )
+  (goto-char currpos))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    insert-function-header
@@ -377,9 +373,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.")
        (asm-function-header))
       ((eq major-mode 'python-mode)
        (python-function-header))
-      (t (generic-function-header "#" "#" nil)) ;; Default case.
-      )
-)
+      (t (generic-function-header "#" "#" nil)))) ;; Default case.
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Section Header
@@ -416,8 +410,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.")
   (if (string-equal sym ";")
       (insert sym sym sym)
     (insert nl sym sym))
-  (when (not (null stt)) (insert stt))
-)
+  (when (not (null stt)) (insert stt)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    insert-section-header
@@ -447,8 +440,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.")
 	((or (eq major-mode 'latex-mode)
 	     (eq major-mode 'matlab-mode))
 	 (generic-section-header "%" "%" nil))
-	(t (generic-section-header "#" "#" nil))) ;; Default case.
-)
+	(t (generic-section-header "#" "#" nil)))) ;; Default case.
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Class Docs
@@ -478,9 +470,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.")
     (insert "\t\n")
     (indent-for-tab-command)
     (insert "\"\"\"")
-    (goto-char currpos)
-    )
-  )
+    (goto-char currpos)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    insert-class-header
@@ -500,8 +490,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.")
   (cond ((eq major-mode 'python-mode)
 	 (python-class-header name))
 	;; Default case
-	(t (message "The function for this mode has not yet been implemented!"))
-	)
-  )
+	(t
+	 (message "The function for this mode has not yet been implemented!"))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
