@@ -76,7 +76,14 @@
       (,(matlab-rx (group (+ word)) (* space)
 		   (? ?\( (* (not (any ?\)))) ?\)) (* space)
 		   assignment-operator)
-       (1 font-lock-variable-name-face nil nil)))
+       (1 font-lock-variable-name-face nil nil)
+       (matlab-fontify-comment-block
+	(1 font-lock-comment-face))
+       (matlab-find-block-comments
+	(1 font-lock-comment-face prepend) ; commented out
+	(2 'underline prepend)
+	(3 'underline prepend);the comment parts
+	     )))
     "Minimal highlighting expressions for MATLAB mode"))
 
 ; Create the syntax table
@@ -84,11 +91,50 @@
   (let ((st (make-syntax-table)))
     (modify-syntax-entry ?_ "w" st)
     (modify-syntax-entry ?\' "\"" st)
-    (modify-syntax-entry ?% "< . 123" st)
-    (modify-syntax-entry ?} ". 4b" st)
-    (modify-syntax-entry ?\n "> b" st)
+    (modify-syntax-entry ?% "<" st)
+    (modify-syntax-entry ?\n ">" st)
+    (modify-syntax-entry ? ">" st)
     st)
   "Syntax table for MATLAB Mode")
+
+(defun matlab-find-block-comments (limit)
+    "Find code that is commented out with %{ until %}.
+Argument LIMIT is the maximum distance to search."
+    (if (and (< (point) limit)
+	     (re-search-forward "%{" limit t))
+	(let ((b1 (match-beginning 0))
+	      (e1 (match-end 0))
+	      (b2 nil) (e2 nil)
+	      (b3 nil) (e3 nil))
+	  (goto-char b1)
+	  (forward-char -1)
+	  (when (not (matlab-cursor-in-comment))
+	    (setq b2 (re-search-forward "%}" limit t))
+	    (when b2
+	      (setq b2 (match-beginning 0)
+		    e2 (match-end 0))
+	      (set-match-data
+	       (list b1 e2  ; full match
+		     b1 e2  ; the full comment
+		     b1 e1  ; the block start
+		     b2 e2  ; the block end
+		     ))
+	      t
+	          )))))
+
+(defun matlab-fontify-comment-block (lim)
+  "Returns the position of any block comments to be fontified."
+  (save-excursion
+    (let ((lim (if lim lim (point-max)))
+	  beg end)
+      (setq beg (re-search-forward "%{" limit t))
+      (if (not (= beg (point)))
+	  (progn
+	    (goto-char beg)
+	    (if (re-search-forward "%}" limit 'kp)
+		`(beg ,(point))
+	      nil))
+	nil))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; INDENTATION
