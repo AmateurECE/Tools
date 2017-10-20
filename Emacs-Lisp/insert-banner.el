@@ -35,6 +35,12 @@
   :type 'integer
   :group 'banner-comments)
 
+(defcustom file-copyright-license nil
+  "The license that the programmer wishes to use."
+  :type 'symbol
+  :options '(gpl-2 bsd mit public-domain)
+  :group 'banner-comments)
+
 (defconst file-copyright-notice
   "Copyright Date, Ethan D. Twardy")
 
@@ -165,6 +171,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.")
   (insert-and-tab " AUTHOR:" "Ethan D. Twardy\n" nl "\n" nl)
   (insert " DESCRIPTION:")
   (indent-to-column 20)
+  ;; TODO: Implement the license here.
   (save-excursion
     (insert "\n" nl "\n" nl)
     (insert " CREATED:	    " date)
@@ -173,6 +180,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.")
     (insert nl "\n" nl)
     (insert " DEPENDENCIES:	    \n")
     (insert nl sym sym)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; FUNCTION:	    fortran-file-banner
+;;
+;; DESCRIPTION:	    This function inserts a banner according to fortran style.
+;;
+;; ARGUMENTS:	    sym: C or !, according to the fortran version.
+;;
+;; RETURN:	    nil.
+;;
+;; NOTES:	    TODO: Implement the license here.
+;;;
+(defun fortran-file-banner (sym)
+  "Insert a function banner in the FORTRAN style."
+  (insert sym "\n" sym)
+  (insert-and-tab " NAME:" name "\n" sym "\n" sym " DESCRIPTION:")
+  (indent-to-column 20)
+  (save-excursion
+    (insert "\n" sym "\n" sym)
+    (insert-and-tab " CREATED:" date sym "\n" sym)
+    (insert-and-tab " LAST EDITED:" date sym "\n")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    insert-file-banner
@@ -209,6 +237,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.")
 	 (generic-file-banner "%" "%" nil))
 	((eq major-mode 'ubt-mode)
 	 (ubt-file-banner "#" "#" nil))
+	((eq major-mode 'f90-mode)
+	 (fortran-file-banner "!"))
+	((eq major-mode 'fortran-mode)
+	 (fortran-file-banner "C"))
 	(t (generic-file-banner "#" "#" nil)))) ;; Default case
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
