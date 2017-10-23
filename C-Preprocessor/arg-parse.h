@@ -1,18 +1,20 @@
 /*******************************************************************************
- * NAME:	    main-parse.h
+ * NAME:	    arg-parse.h
  *
  * AUTHOR:	    Ethan D. Twardy
  *
- * DESCRIPTION:	    This file contains the declaration of a few symbols useful
- *		    in other files.
+ * DESCRIPTION:	    This file is part of the argument parser/main() routine
+ *		    found in arg-parse.c. This header contains the declaration
+ *		    of the argument struct, so that its members may be used in
+ *		    other translation units.
  *
  * CREATED:	    10/02/2017
  *
- * LAST EDITED:	    10/02/2017
+ * LAST EDITED:	    10/23/2017
  ***/
 
-#ifndef __MAIN_PARSE_H__
-#define __MAIN_PARSE_H__
+#ifndef __ARG_PARSE_H__
+#define __ARG_PARSE_H__
 
 /*******************************************************************************
  * INCLUDES
@@ -43,6 +45,6 @@ extern struct parser_info clargs; /* The data parsed from the command line */
 extern char * yyin_filename; /* Name of the current parsed file */
 extern bool parsing_error;
 
-#endif /* __MAIN_PARSE_H__ */
+#endif /* __ARG_PARSE_H__ */
 
 /******************************************************************************/

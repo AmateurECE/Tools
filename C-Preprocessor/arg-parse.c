@@ -1,20 +1,28 @@
 /*******************************************************************************
- * NAME:	    main-parse.c
+ * NAME:	    arg-parse.c
  *
  * AUTHOR:	    Ethan D. Twardy
  *
- * DESCRIPTION:	    C source file containing the main function for the parser
- *		    in lex.yy.c or like.
+ * DESCRIPTION:	    This file contains the source code for a main() routine/
+ *		    argument parser that I built for a U-Boot script
+ *		    preprocessor. It fully supports command line argument
+ *		    parsing. Spaces between switches and switch arguments are
+ *		    optional. Switches may have arguments or be boolean. In
+ *		    addition, up to one argument may be passed without requiring
+ *		    a switch. It is by no means a 'minimal example.' I'm sure
+ *		    that soon in the future I will trim it so that it doesn't
+ *		    contain any source which it doesn't need.
  *
  * CREATED:	    09/25/2017
  *
- * LAST EDITED:	    09/25/2017
+ * LAST EDITED:	    10/23/2017
  ***/
 
 /*
  * TODO: manpages?
- * TODO: @if (<condition>) token.
- * TODO: -D flag
+ * TODO: We can't support nesting of @if(...) statements until we implement a
+ *	stack for the global variable oldyyout.
+ * TODO: Remove the temp files after you finish. That's kinda gross.
  */
 
 /*******************************************************************************
@@ -49,6 +57,9 @@
  * its symbols. */
 extern FILE * yyin;
 extern FILE * yyout;
+#if (YYDEBUG)
+extern int yydebug;
+#endif
 extern int yyparse();
 extern int yylex_destroy(void);
 
@@ -100,19 +111,32 @@ int main(int argc, char * argv[])
 	 "Fatal error: Could not determine input file from command line"
 	 " arguments.\n");
 
-  yyin = fopen(clargs.infile, "r");
-  StopIf(yyin == NULL, 3, "Fatal error: Could not open input file.\n");
-  yyin_filename = clargs.infile;
+  FILE * tempfp1 = fopen(clargs.infile, "r");
+  StopIf(tempfp1 == NULL, 3, "Fatal error: Could not open input file.\n");
+  yyin = tempfp1;
+  yyin_filename = strdup(clargs.infile);
 
+  FILE * tempfp2 = NULL;
   if (clargs.outfile) {
-    yyout = fopen(clargs.outfile, "w");
-    StopIf(yyout == NULL, 4,
+    tempfp2 = fopen(clargs.outfile, "w");
+    StopIf(tempfp2 == NULL, 4,
 	   "Fatal error: Could not open output file.\n");
+    yyout = tempfp2;
   }
+
+#if (YYDEBUG)
+  yydebug = 1;
+#endif
 
   yyparse();
   yylex_destroy();
+#ifdef DEBUG
+  print_clargs();
+#endif
   destroy_clargs();
+  fclose(tempfp1);
+  if (tempfp2 != NULL && clargs.outfile)
+    fclose(tempfp2);
 
   return (int)parsing_error;
 }
