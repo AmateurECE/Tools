@@ -22,14 +22,30 @@ alias svn='svn --no-auth-cache'
 alias t='python ~/t/t.py --task-dir ~/Git/Tools/tasks/ --list tasks'
 alias b='python ~/t/t.py --task-dir . --list bugs --delete-if-empty'
 
-function b-update {
-    BUGS=`awk -F'TODO:? ' '/(# |\/* )TODO:? /{ print FILENAME": "$2 }'\
- \`find -type f\``
-    IFS="
-"
-    for f in $BUGS; do
-	b $f
+function b {
+    GIT="."
+    while [[ ! -e "$GIT/.git" ]] && [[ `ls $GIT` != `ls /` ]]; do
+	GIT="$GIT/.."
     done
+
+    if [[ ! -e "$GIT/.git" ]]; then
+	echo >&2 "fatal: Not a git repository (or any of the parent " \
+		 "directories): .git"
+	return 1
+    fi
+    
+    T="--task-dir . --list bugs --delete-if-empty"
+    if [[ $1 == "update" ]]; then
+	BUGS=`awk -F'TODO:? ' '/(# |\/* )TODO:? /{print FILENAME": "$2}' \`find $GIT\``
+	IFS=$(echo -e "\n\b")
+	for f in $BUGS; do
+	    eval python ~/Git/not-mine/t/t.py "$T \"$f\""
+	done
+    elif [[ $1 == "" ]]; then
+	eval python ~/Git/not-mine/t/t.py $T
+    else
+	echo >&2 "fatal: command not understood"
+    fi
 }
 
 ################################################################################
