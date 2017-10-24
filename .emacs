@@ -25,7 +25,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- ;;'(font-lock-comment-face ((t (:foreground "red"))))
  )
 
 ;; Configure for MELPA
@@ -69,7 +68,7 @@
 ;; Turn on error-catching.
 (setq debug-on-error t)
 
-;; .bash_aliases does not enter into sh-mode for whatever reason
+;; For whatever reason, .bash_aliases isn't part of the alist on my work machine
 (add-to-list 'auto-mode-alist '("\\.bash_aliases" . sh-mode))
 
 ;;; Key bindings
@@ -85,20 +84,16 @@
 (global-set-key (kbd "C-j") ;; Lamba function that behaves like a mirror of
 		'(lambda()  ;; forward-whitespace.
 		   (interactive)
-		   (cond ((eq (char-before (point)) 10) ;; Newlines
-			  (skip-chars-backward " \n\t"))
-			 ((or (eq (char-before (point)) 9) ;; Tabs
-			      (eq (char-before (point)) 32)) ;; Spaces
-			  (skip-chars-backward " \t"))
-			 (t
-			  (progn
-			    (while (looking-back "[^[:space:]]" (- (point) 1))
-			      (re-search-backward "[^[:space:]]")
-			      )
-			    (skip-chars-backward " \t")))
-			 )
-		   )
-		)
+		   (cond
+		    ((eq (char-before (point)) ?\n)
+		     (skip-chars-backward " \n\t"))
+		    ((or (eq (char-before (point)) ?\t)
+			 (eq (char-before (point)) ?\s))
+		     (skip-chars-backward " \t"))
+		    (t (progn
+			 (while (looking-back "[^[:space:]]" (- (point) 1))
+			   (re-search-backward "[^[:space:]]"))
+			 (skip-chars-backward " \t"))))))
 
 ;; Set key bindings for inserting headers and banners
 (global-unset-key (kbd "C-b"))
