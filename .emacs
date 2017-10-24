@@ -69,6 +69,9 @@
 ;; Turn on error-catching.
 (setq debug-on-error t)
 
+;; .bash_aliases does not enter into sh-mode for whatever reason
+(add-to-list 'auto-mode-alist '("\\.bash_aliases" . sh-mode))
+
 ;;; Key bindings
 ;; Set undo to \C-z
 (global-unset-key (kbd "C-/"))
