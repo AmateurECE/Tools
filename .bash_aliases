@@ -20,7 +20,6 @@ alias repo-check='/Users/ethantwardy/Git/Tools/Git-Tools/post.sh'
 alias screen='screen -c /Users/ethantwardy/.screenrc'
 alias svn='svn --no-auth-cache'
 alias t='python ~/t/t.py --task-dir ~/Git/Tools/tasks/ --list tasks'
-alias b='python ~/t/t.py --task-dir . --list bugs --delete-if-empty'
 
 function b {
     GIT="."
@@ -36,7 +35,8 @@ function b {
     
     T="--task-dir . --list bugs --delete-if-empty"
     if [[ $1 == "update" ]]; then
-	BUGS=`awk -F'TODO:? ' '/(# |\/* )TODO:? /{print FILENAME": "$2}' \`find $GIT\``
+	LIST=`find $GIT -type f`
+	BUGS=`awk -F'TODO:? ' '/(# |\/* )TODO:? /{print FILENAME": "$2}' $LIST`
 	IFS=$(echo -e "\n\b")
 	for f in $BUGS; do
 	    eval python ~/Git/not-mine/t/t.py "$T \"$f\""
