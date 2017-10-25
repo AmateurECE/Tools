@@ -61,6 +61,7 @@
   (load-file (concat lisp-dir "restart-emacs.el"))
   (load-file (concat lisp-dir "matlab-mode.el"))
   (load-file (concat lisp-dir "yacc-mode.el"))
+  (load-file (concat lisp-dir "line-wrap.el"))
   ;; (load-file (concat lisp-dir "python.el")) ;; This is temporary.
   ;; (load-file (concat lisp-dir "bison-mode.el"))
   t)
