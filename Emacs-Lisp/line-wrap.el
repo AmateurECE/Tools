@@ -84,10 +84,10 @@ number `line-wrap-column-number'."
 	;; If we need to delimit the line, initialize the delimiter.
       	(if line-wrap-delimit-next-line
       	    (progn
-      	      (setq cell (line-wrap-delimiter))
+      	      (setq cell (funcall line-wrap-delimiter))
       	      (setq string (car cell))
       	      (setq length (cdr cell))
-      	      (if (cdr length)
+      	      (if (cdr '(length))
       		  (error "%s%s%s%s"
       			 "The list returned by the hook in line-wrap-delimiter "
       			 "must return a cons cell pair of the form (string . "
@@ -211,7 +211,7 @@ prettier."
 (defun line-wrap-default-delimiter-hook ()
   "Returns a cons cell of the form (string . length) to determine how to delimit
 newlines placed into the buffer."
-  (?\ . 1))
+  '("\\" . 1))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    line-wrap-default-indentation-hook
