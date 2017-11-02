@@ -23,7 +23,8 @@ alias emacs='/usr/bin/emacs24 -nw'
 alias repo-check='$MY_GIT/Tools/Git-Tools/post.sh'
 alias screen='screen -c ~/.screenrc'
 alias svn='svn --no-auth-cache'
-alias t='python ~/t/t.py --task-dir $MY_GIT/Tools/tasks/ --list tasks'
+alias t="python $MY_GIT/not-mine/t/t.py --task-dir $MY_GIT/Tools/tasks/ \
+--list tasks"
 
 function b {
     GIT="."
@@ -42,7 +43,7 @@ function b {
 	if [ -e $PWD/bugs ]; then
 	    rm -f $PWD/bugs
 	fi
-	LIST=`find $GIT -type f`
+	LIST=`find $GIT -type f | grep -v '.git/'`
 	BUGS=`awk -F'TODO:? ' '/(# |\/* )TODO:? /{print FILENAME": "$2}' $LIST`
 	IFS=$(echo -e "\n\b")
 	for f in $BUGS; do
