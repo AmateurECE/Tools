@@ -17,7 +17,9 @@
 ;; recommendations for my documentation style, please don't hesitate to let me
 ;; know.
 ;; ===================
-
+;; TODO: Write function to modify last edited time in file banners
+;;  This will probably come in the form of a function that gets called before
+;;  save-buffer (rebind C-x C-s)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Variable Definitions
 ;;;
