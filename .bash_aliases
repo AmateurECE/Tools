@@ -3,7 +3,11 @@
 #
 # AUTHOR:	    Ethan D. Twardy
 #
-# DESCRIPTION:	    This is just some useful stuff.
+# DESCRIPTION:	    This is just some useful stuff. You may notice some
+#		    references to $MY_GIT in this file. MY-GIT contains the path
+#		    of the directory containing all of my git repos, so that I
+#		    can just run this file as a shell script from my actual
+#		    .bash_aliases file in both my home and work machines.
 #
 # CREATED:	    10/23/2017
 #
@@ -16,10 +20,10 @@ alias mv='mv -i'
 alias rm='rm -i'
 alias python='python3'
 alias emacs='/usr/bin/emacs24 -nw'
-alias repo-check='/Users/ethantwardy/Git/Tools/Git-Tools/post.sh'
-alias screen='screen -c /Users/ethantwardy/.screenrc'
+alias repo-check='$MY_GIT/Tools/Git-Tools/post.sh'
+alias screen='screen -c ~/.screenrc'
 alias svn='svn --no-auth-cache'
-alias t='python ~/t/t.py --task-dir ~/Git/Tools/tasks/ --list tasks'
+alias t='python ~/t/t.py --task-dir $MY_GIT/Tools/tasks/ --list tasks'
 
 function b {
     GIT="."
@@ -39,10 +43,10 @@ function b {
 	BUGS=`awk -F'TODO:? ' '/(# |\/* )TODO:? /{print FILENAME": "$2}' $LIST`
 	IFS=$(echo -e "\n\b")
 	for f in $BUGS; do
-	    eval python ~/Git/not-mine/t/t.py "$T \"$f\""
+	    eval python $MY_GIT/not-mine/t/t.py "$T \"$f\""
 	done
     elif [[ $1 == "" ]]; then
-	eval python ~/Git/not-mine/t/t.py $T
+	eval python $MY_GIT/not-mine/t/t.py $T
     else
 	echo >&2 "fatal: command not understood"
     fi
