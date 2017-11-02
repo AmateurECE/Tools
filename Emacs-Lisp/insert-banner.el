@@ -131,6 +131,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.")
   "Insert `field' into the current buffer, indent to column
 `insert-banner-insert-column', and then insert `strings'.")
 
+(defun get-file-banner-license ()
+  "Returns the license notice, as a string."
+  (cond
+   ((eq file-copyright-license 'file-gpl-3-license)
+    file-gpl-3-license)
+   ((eq file-copyright-license 'file-bsd-4-license)
+    file-bsd-4-license)
+   ((eq file-copyright-license 'file-mit-license)
+    file-mit-license)
+   (t nil)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; File Banners
 ;;;
@@ -184,16 +195,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.")
     (insert "\n" nl "\n" nl)
     (insert-and-tab " CREATED:" date nl "\n" nl)
     (insert-and-tab " LAST EDITED:" date)
-    (when (not (eq file-banner-license-notice nil))
-      (progn
-	(insert nl "\n" nl " ")
-	(let ((str file-copyright-notice)
-	      (date (shell-command-to-string "date +%Y")))
-	  (setq str (replace-regexp-in-string "Date" date str))
-	  (insert (replace-regexp-in-string "\n" "" str) "\n")
-	  (insert nl "\n"))
-	(dolist (line (split-string file-license-notice "\n"))
-	  (insert nl " " line "\n"))))
+    (if  file-banner-license-notice
+	(progn
+	  (insert nl "\n" nl " ")
+	  (let ((notice (get-file-banner-license))
+		(cpydate file-copyright-notice)
+		(date (shell-command-to-string "date +%Y")))
+	    (if (null notice)
+		(error "Must select a license to use."))
+	    (setq cpydate (replace-regexp-in-string "Date" date cpydate))
+	    (insert (replace-regexp-in-string "\n" "" cpydate) "\n")
+	    (insert nl "\n")
+	    (dolist (line (split-string notice "\n"))
+	      (insert nl " " line "\n")))))
     (if (string-equal sym ";")
 	(insert sym sym sym)
       (insert nl sym sym))
@@ -242,9 +256,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.")
 ;;
 ;; ARGUMENTS:	    sym: C or !, according to the fortran version.
 ;;
-;; RETURN:	    nil.
+;; RETURN:	    none.
 ;;
-;; NOTES:	    TODO: Implement the license here.
+;; NOTES:	    none.
 ;;;
 (defun fortran-file-banner (sym)
   "Insert a function banner in the FORTRAN style."
@@ -254,7 +268,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.")
   (save-excursion
     (insert "\n" sym "\n" sym)
     (insert-and-tab " CREATED:" date sym "\n" sym)
-    (insert-and-tab " LAST EDITED:" date sym "\n")))
+    (insert-and-tab " LAST EDITED:" date sym "\n")
+    (if  file-banner-license-notice
+	(progn
+	  (insert sym "\n" sym " ")
+	  (let ((notice (get-file-banner-license))
+		(cpydate file-copyright-notice)
+		(date (shell-command-to-string "date +%Y")))
+	    (if (null notice)
+		(error "Must select a license to use."))
+	    (setq cpydate (replace-regexp-in-string "Date" date cpydate))
+	    (insert (replace-regexp-in-string "\n" "" cpydate) "\n")
+	    (insert sym "\n")
+	    (dolist (line (split-string notice "\n"))
+	      (insert sym " " line "\n"))
+	    (insert sym "\n"))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    insert-file-banner
@@ -279,23 +307,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.")
   (setq name (match-string 0 buffer-file-name))
   (string-match "/\\([^/]*\\)$" buffer-file-name)
   (setq name (match-string 1 buffer-file-name))
-  (cond ((or (eq major-mode 'c-mode)
-	     (eq major-mode 'asm-mode)
-	     (eq major-mode 'dts-mode)
-	     (eq major-mode 'bison-mode)
-	     (eq major-mode 'yacc-mode))
-	 (generic-file-banner " *" "*" "/"))
-	((eq major-mode 'emacs-lisp-mode)
-	 (generic-file-banner ";;" ";" nil))
-	((or (eq major-mode 'latex-mode) (eq major-mode 'matlab-mode))
-	 (generic-file-banner "%" "%" nil))
-	((eq major-mode 'ubt-mode)
-	 (ubt-file-banner "#" "#" nil))
-	((eq major-mode 'f90-mode)
-	 (fortran-file-banner "!"))
-	((eq major-mode 'fortran-mode)
-	 (fortran-file-banner "C"))
-	(t (generic-file-banner "#" "#" nil)))) ;; Default case
+  (cond
+   ((or (eq major-mode 'c-mode)
+	(eq major-mode 'asm-mode)
+	(eq major-mode 'dts-mode)
+	(eq major-mode 'bison-mode)
+	(eq major-mode 'yacc-mode))
+    (generic-file-banner " *" "*" "/"))
+   ((eq major-mode 'emacs-lisp-mode)
+    (generic-file-banner ";;" ";" nil))
+   ((or (eq major-mode 'latex-mode) (eq major-mode 'matlab-mode))
+    (generic-file-banner "%" "%" nil))
+   ((eq major-mode 'ubt-mode)
+    (ubt-file-banner "#" "#" nil))
+   ((eq major-mode 'f90-mode)
+    (fortran-file-banner "!"))
+   ((eq major-mode 'fortran-mode)
+    (fortran-file-banner "C"))
+   (t (generic-file-banner "#" "#" nil)))) ;; Default case
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Function Header
@@ -450,22 +479,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.")
   (setq nl nil)
   (setq sym nil)
   (setq stt nil)
-  
-  (cond ((or (eq major-mode 'c-mode)
-	     (eq major-mode 'bison-mode)
-	     (eq major-mode 'yacc-mode))
-       (generic-function-header " *" "*" "/"))
-      ((eq major-mode 'emacs-lisp-mode)
-       (generic-function-header ";;" ";" nil))
-      ((eq major-mode 'matlab-mode)
-       (generic-function-header "%" "%" nil))
-      ((eq major-mode 'latex-mode)
-       (latex-function-header))
-      ((eq major-mode 'asm-mode)
-       (asm-function-header))
-      ((eq major-mode 'python-mode)
-       (python-function-header))
-      (t (generic-function-header "#" "#" nil)))) ;; Default case.
+  (cond
+   ((or (eq major-mode 'c-mode)
+	(eq major-mode 'bison-mode)
+	(eq major-mode 'yacc-mode))
+    (generic-function-header " *" "*" "/"))
+   ((eq major-mode 'emacs-lisp-mode)
+    (generic-function-header ";;" ";" nil))
+   ((eq major-mode 'matlab-mode)
+    (generic-function-header "%" "%" nil))
+   ((eq major-mode 'latex-mode)
+    (latex-function-header))
+   ((eq major-mode 'asm-mode)
+    (asm-function-header))
+   ((eq major-mode 'python-mode)
+    (python-function-header))
+   ;; Default case
+   (t (generic-function-header "#" "#" nil))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Section Header
@@ -521,18 +551,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.")
   "Insert a section header"
   (interactive "sSection-Name: \n")
 
-  (cond ((or (eq major-mode 'c-mode)
-	     (eq major-mode 'asm-mode)
-	     (eq major-mode 'dts-mode)
-	     (eq major-mode 'bison-mode)
-	     (eq major-mode 'yacc-mode))
-	 (generic-section-header " *" "*" "/"))
-	((eq major-mode 'emacs-lisp-mode)
-	 (generic-section-header ";;" ";" nil))
-	((or (eq major-mode 'latex-mode)
-	     (eq major-mode 'matlab-mode))
-	 (generic-section-header "%" "%" nil))
-	(t (generic-section-header "#" "#" nil)))) ;; Default case.
+  (cond
+   ((or (eq major-mode 'c-mode)
+	(eq major-mode 'asm-mode)
+	(eq major-mode 'dts-mode)
+	(eq major-mode 'bison-mode)
+	(eq major-mode 'yacc-mode))
+    (generic-section-header " *" "*" "/"))
+   ((eq major-mode 'emacs-lisp-mode)
+    (generic-section-header ";;" ";" nil))
+   ((or (eq major-mode 'latex-mode)
+	(eq major-mode 'matlab-mode))
+    (generic-section-header "%" "%" nil))
+   ;; Default case
+   (t (generic-section-header "#" "#" nil))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Class Docs
