@@ -3,27 +3,18 @@
  *
  * AUTHOR:	    Ethan D. Twardy
  *
- * DESCRIPTION:	    This file contains the source code for a main() routine/
- *		    argument parser that I built for a U-Boot script
- *		    preprocessor. It fully supports command line argument
- *		    parsing. Spaces between switches and switch arguments are
- *		    optional. Switches may have arguments or be boolean. In
- *		    addition, up to one argument may be passed without requiring
- *		    a switch. It is by no means a 'minimal example.' I'm sure
- *		    that soon in the future I will trim it so that it doesn't
- *		    contain any source which it doesn't need.
+ * DESCRIPTION:	    This file contains most of the source code for an argument
+ *		    parser that I built for a U-Boot script preprocessor. It
+ *		    fully supports command line argument parsing. Spaces
+ *		    between switches and switch arguments are optional. Switches
+ *		    may have arguments or be boolean. In addition, up to one
+ *		    argument may be passed without requiring a switch. It is by
+ *		    no means a 'minimal example.'
  *
  * CREATED:	    09/25/2017
  *
- * LAST EDITED:	    10/23/2017
+ * LAST EDITED:	    11/02/2017
  ***/
-
-/*
- * TODO: manpages?
- * TODO: We can't support nesting of @if(...) statements until we implement a
- *	stack for the global variable oldyyout.
- * TODO: Remove the temp files after you finish. That's kinda gross.
- */
 
 /*******************************************************************************
  * INCLUDES
@@ -38,30 +29,14 @@
 #include <ctype.h>
 #include <stdint.h>
 
-#include "grammar.tab.h"
-#include "main-parse.h"
-#include "define.h"
+#include "arg-parse.h"
 #include "error.h"
 
 /*******************************************************************************
  * MACRO DEFINITIONS
  ***/
 
-/* #define DEBUG */
-
-/*******************************************************************************
- * EXTERNAL REFERENCES
- ***/
-
-/* flex does not export a header file, so we must use external refs to get at
- * its symbols. */
-extern FILE * yyin;
-extern FILE * yyout;
-#if (YYDEBUG)
-extern int yydebug;
-#endif
-extern int yyparse();
-extern int yylex_destroy(void);
+#define DEBUG
 
 /*******************************************************************************
  * STATIC FUNCTION PROTOTYPES
@@ -70,7 +45,6 @@ extern int yylex_destroy(void);
 static int try_get_clargs(int argc, char *** argv);
 static void add_include(char * directory);
 static void add_warning(char * warning);
-static void add_define(char * define);
 #ifdef DEBUG
 static void print_clargs(); /* For debugging, mostly. */
 #endif
@@ -84,8 +58,7 @@ static void destroy_clargs();
 struct parser_info clargs = (struct parser_info){
   .todo_warnings = true,    /* Default: Warn on /TODO/ */
 };
-char * yyin_filename;
-bool parsing_error = false;
+int parsing_error = 0;
 
 /*******************************************************************************
  * MAIN
@@ -111,34 +84,14 @@ int main(int argc, char * argv[])
 	 "Fatal error: Could not determine input file from command line"
 	 " arguments.\n");
 
-  FILE * tempfp1 = fopen(clargs.infile, "r");
-  StopIf(tempfp1 == NULL, 3, "Fatal error: Could not open input file.\n");
-  yyin = tempfp1;
-  yyin_filename = strdup(clargs.infile);
+  /* Do ya thang */
 
-  FILE * tempfp2 = NULL;
-  if (clargs.outfile) {
-    tempfp2 = fopen(clargs.outfile, "w");
-    StopIf(tempfp2 == NULL, 4,
-	   "Fatal error: Could not open output file.\n");
-    yyout = tempfp2;
-  }
-
-#if (YYDEBUG)
-  yydebug = 1;
-#endif
-
-  yyparse();
-  yylex_destroy();
 #ifdef DEBUG
   print_clargs();
 #endif
   destroy_clargs();
-  fclose(tempfp1);
-  if (tempfp2 != NULL && clargs.outfile)
-    fclose(tempfp2);
 
-  return (int)parsing_error;
+  return parsing_error;
 }
 
 /*******************************************************************************
@@ -177,10 +130,6 @@ static int try_get_clargs(int argc, char *** args)
       case 'W':
 	next_arg(&argc, &argv);
 	add_warning(*argv);
-	goto NXTARG;
-      case 'D':
-	next_arg(&argc, &argv);
-	add_define(*argv);
 	goto NXTARG;
       default:
 	StopIf(1, 5, "Fatal error: Unknown command line switch: \"%c\"\n",
@@ -249,85 +198,6 @@ static void add_warning(char * warning)
 }
 
 /*******************************************************************************
- * FUNCTION:	    add_define
- *
- * DESCRIPTION:	    This function adds a -D flag argument to the clargs struct.
- *		    These arguments come in the form of either:
- *
- *			-D ?[[:word:]]+(?:=[[:word:]]+)
- *
- *		    Where the space and suffix is optional. The first word is a
- *		    name, the name of a define'd token. This is optionally
- *		    followed by a '=' and another sequence of non-space chars
- *		    to be used as the value for the define'd token. This
- *		    functions similarly to the #define token in C, except it
- *		    cannot be used to perform text substitutions outside the
- *		    context of other preprocessor directives.
- *
- * ARGUMENTS:	    define: (char *) -- the argument to the -D flag.
- *
- * RETURN:	    void.
- *
- * NOTES:	    none.
- ***/
-static void add_define(char * define)
-{
-  StopIf(define == NULL, 12, "Fatal error: -D switch takes an argument.\n");
-  char * c = strchr(define, '=');
-  size_t size;
-  int num;
-
-  if (c == NULL) { /* Case of -D<VAR> */
-    goto do_null;
-  } else {
-    *(c++) = '\0';
-    char * nul = strchr(c, '\0');
-    if (nul == NULL)
-      goto error_exit;
-    size = (uintptr_t)nul - (uintptr_t)c;
-    if (size == 0) /* Happens in the case of -D<VAR>= */
-      goto do_null;
-
-    if (isxdigit(*c)) {
-      int dodigit = 1;
-      for (int i = 1; i < size; i++) {
-	if (i == 1 && c[1] == 'x') /* Case of -D <VAR>=0x... */
-	  continue;
-	if (!isxdigit(c[i])) {
-	  dodigit = 0;
-	  break;
-	}
-      }
-
-      if (dodigit) { /* If we have a hex string */
-	errno = 0;
-	num = strtoul(c, NULL, 16);
-	if (errno & (EINVAL | ERANGE))
-	  goto error_exit;
-	goto do_int;
-      } else { /* if (dodigit) {... */
-	goto do_string;
-      }
-    } else { /* if (isxdigit(*c)) {... */
-      goto do_string;
-    }
-  }
-
- do_null:
-  if (define_insert(define, NULL, 0, OTHER_T)) goto error_exit;
-  return;
- do_string:
-  if(define_insert(define, c, size, STR_T)) goto error_exit;
-  return;
- do_int:
-  if (define_insert(define, &num, sizeof(int), INT_T)) goto error_exit;
-  return;
-
- error_exit:
-  StopIf(1, 19, "Fatal error when parsing -D switch.\n");
-}
-
-/*******************************************************************************
  * FUNCTION:	    print_clargs
  *
  * DESCRIPTION:	    Prints out the struct 'clargs' in a pretty way. Mostly for
@@ -349,7 +219,6 @@ static void print_clargs()
     printf("\t%s\n", clargs.includedirs[i]);
   printf("Number of included directories: %d\n", (int)clargs.numdirs);
   printf("TODO Warnings: %s\n", clargs.todo_warnings ? "true" : "false");
-  define_print(stdout);
 }
 #endif
 
@@ -390,9 +259,6 @@ static void next_arg(int * pArgc, char *** pArgv)
 static void destroy_clargs()
 {
   free(clargs.includedirs);
-
-  if (define_hash != NULL)
-    define_destroy();
 }
 
 /******************************************************************************/
