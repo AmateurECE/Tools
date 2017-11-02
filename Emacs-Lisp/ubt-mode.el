@@ -21,18 +21,32 @@
   '("include" "define" "if" "ifdef" "ifndef"))
 
 (defvar ubt-font-lock-preprocessor-directives
-  `(("^[[:blank:]]*\\(@\\<include\\>\\)[[:blank:]]*\\([[:graph:]]+\\)"
+  `(;; @include -> function face
+    ("^[[:blank:]]*\\(@\\<include\\>\\)[[:blank:]]*\\([[:graph:]]+\\)"
      (1 font-lock-function-name-face)
      (2 font-lock-variable-name-face nil t))
-    (,(concat "\\<\\(printenv\\|sete\\(?:nv\\|xpr\\(?:\\.[blsw]\\)?\\)\\)\\>"
-	      "[[:blank:]]*\\([[:graph:]]+\\)")
+    ;; vars in env commands -> var name face
+    (,(concat
+       "\\<"
+       (regexp-opt '("env ask" "env ask.bkup" "env default" "env default -f"
+		     "env delete" "env delete -f" "env edit" "env print"
+		     "env print.bkup" "env print -a" "env print.bkup -a"
+		     "env set" "env set -f" "env set.bkup" "env set.bkup -f"
+		     "setenv" "setexpr" "setexpr.b" "setexpr.l" "setexpr.w")
+		   t)
+       "\\>"
+       "[[:blank:]]*\\([[:graph:]]+\\)")
      (2 font-lock-variable-name-face))
+    ;; @include directives -> function face
     ("^[[:blank:]]*\\(@\\<define\\>\\)[[:blank:]]*\\([[:alnum:]_]+\\)"
      (1 font-lock-function-name-face)
      (2 font-lock-variable-name-face nil t))
+    ;; @if & family diretives -> function face
     (,(regexp-opt '("@if" "@ifdef" "@ifndef" "@else" "@endif") t)
      . font-lock-function-name-face)
+    ;; itest -> preprocessor face (same as sh-mode test)
     ("\\(itest\\(?:\\.[blsw]\\)?\\)" . font-lock-preprocessor-face)
+    ;; run -> builtin face
     ("\\<run\\>" . font-lock-preprocessor-face)))
 
 (define-derived-mode ubt-mode sh-mode "U-Boot Script"
