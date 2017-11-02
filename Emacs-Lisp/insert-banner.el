@@ -304,7 +304,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.")
   (setq sym nil)
   (setq stt nil)
   (setq date (shell-command-to-string "date +%m/%d/%Y"))
-  (setq name (match-string 0 buffer-file-name))
+  (setq name buffer-file-name)
   (string-match "/\\([^/]*\\)$" buffer-file-name)
   (setq name (match-string 1 buffer-file-name))
   (cond
