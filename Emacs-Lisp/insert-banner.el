@@ -211,7 +211,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.")
 ;;
 ;; RETURN:	    none.
 ;;
-;; NOTES:	    none.
+;; NOTES:	    ubt-file-banner does not support license banners.
 ;;;
 (defun ubt-file-banner (nl sym stt)
   "Insert a file banner at the top of a U-Boot Script file"
@@ -226,7 +226,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.")
   (insert-and-tab " AUTHOR:" "Ethan D. Twardy\n" nl "\n" nl)
   (insert " DESCRIPTION:")
   (indent-to-column 20)
-  ;; TODO: Implement the license here.
   (save-excursion
     (insert "\n" nl "\n" nl)
     (insert " CREATED:	    " date)
@@ -319,11 +318,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.")
 ;;		    headers.
 ;;		    All other supported modes have individual implementations.
 ;;
-;; ARGUMENTS:	    
+;; ARGUMENTS:	    nl, sym, stt: An arbitrary arrangement of characters that
+;;			marginally resemble the comment character for the lang.
 ;;
-;; RETURN:	    
+;; RETURN:	    None.
 ;;
-;; NOTES:	    
+;; NOTES:	    None.
 ;;;
 (defun generic-function-header (nl sym stt)
   "Inserts the generic function header"
@@ -376,11 +376,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.")
 ;;
 ;; DESCRIPTION:	    Insert an assembly subroutine header.
 ;;
-;; ARGUMENTS:	    
+;; ARGUMENTS:	    none.
 ;;
-;; RETURN:	    
+;; RETURN:	    none.
 ;;
-;; NOTES:	    
+;; NOTES:	    none.
 ;;;
 (defun asm-function-header ()
   "Insert an Assembly subroutine header"
@@ -442,7 +442,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.")
 ;;
 ;; RETURN:	    void.
 ;;
-;; NOTES:	    
+;; NOTES:	    none.
 ;;;
 (defun insert-function-header (name)
   "Insert a header at the top of a function"
@@ -578,11 +578,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.")
 (defun insert-class-header (name)
   "Insert a class header"
   (interactive "sClass Name: \n")
-
-  (cond ((eq major-mode 'python-mode)
-	 (python-class-header name))
-	;; Default case
-	(t
-	 (message "The function for this mode has not yet been implemented!"))))
+  (cond
+   ((eq major-mode 'python-mode)
+    (python-class-header name))
+   ;; Default case
+   (t
+    (message "Support for this mode has not been implemented"))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
