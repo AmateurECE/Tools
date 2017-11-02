@@ -10,7 +10,7 @@
 ;; LAST EDITED:	    09/21/2017
 ;;;
 
-;; TODO: Indentation needs special behavior for lines that continue with '...'
+;; TODO: Fix indentation for lines that continue with '...'
 ;;	    This doesn't work inside of a ['"] delimited string.
 ;; TODO: Create a face for code section titles? %%...%%
 ;;	    (Regular comment face...but BOLDER)

@@ -131,7 +131,7 @@ prettier."
 	(if (not (= (point) bol))
 	    (progn
 	      ;; If we need to delimit, do so now.
-	      ;; TODO: This is broken, for some reason.
+	      ;; TODO: Line delimiting is broken
 	      (if line-wrap-delimit-next-line
 		  (save-excursion
 		    (skip-chars-backward " \t")

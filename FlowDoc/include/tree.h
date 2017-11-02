@@ -41,7 +41,9 @@ typedef struct _nary_node {
 
 } nary_node_t;
 
-/* TODO: Maybe keep track of all of the nodes that reference the function? */
+/* TODO: Record all nodes which reference the function?
+ *  -- Something to consider doing in the hash.
+ */
 
 /**
  * \brief N-Ary Tree Struct.
@@ -53,7 +55,7 @@ typedef struct {
 
   _nary_node * root;
   void * (*compare)(void *, void *)
-  void (*destroy)(void *);
+    void (*destroy)(void *);
 
 } nary_tree_t;
 
