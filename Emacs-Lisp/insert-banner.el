@@ -24,7 +24,7 @@
 
 (defgroup banner-comments nil
   "Group for the custom attributes that apply to insert-banner.el")
-;; TODO: Add the BSD, MIT, and public domain license statements, too.
+
 (defcustom file-banner-license-notice nil
   "If this is set to t, insert-file-banner will insert a license notice."
   :type 'boolean
@@ -42,8 +42,9 @@ file-lgpl-3-license\t\tThe GNU Lesser GPL, version 3.0+
 file-bsd-4-license\t\tThe BSD 4-Clause license
 file-mit-license\t\tThe MIT License"
   :type 'hook
-  :options '(file-gpl-3-license file-lgpl-3-license
-				file-bsd-4-license file-mit-license)
+  :options '(file-gpl-3-license
+	     file-bsd-4-license
+	     file-mit-license)
   :group 'banner-comments)
 
 (defconst file-copyright-notice
@@ -111,21 +112,6 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.")
-
-(defconst file-gpl-3-license-notice
-  "\
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
