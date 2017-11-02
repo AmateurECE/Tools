@@ -32,7 +32,7 @@
 		     "env edit" "env print" "env print.bkup" "env print -a"
 		     "env print.bkup -a" "env set" "env set -f" "env set.bkup"
 		     "env set.bkup -f" "setenv" "setexpr" "setexpr.b"
-		     "setexpr.l" "setexpr.w")
+		     "setexpr.l" "setexpr.w" "askenv")
 		   t)
        "\\>"
        "[[:blank:]]*\\([[:graph:]]+\\)")
