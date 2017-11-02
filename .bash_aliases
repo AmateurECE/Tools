@@ -39,6 +39,9 @@ function b {
     
     T="--task-dir . --list bugs --delete-if-empty"
     if [[ $1 == "update" ]]; then
+	if [ -e $PWD/bugs ]; then
+	    rm -f $PWD/bugs
+	fi
 	LIST=`find $GIT -type f`
 	BUGS=`awk -F'TODO:? ' '/(# |\/* )TODO:? /{print FILENAME": "$2}' $LIST`
 	IFS=$(echo -e "\n\b")
