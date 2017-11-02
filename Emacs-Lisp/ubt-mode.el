@@ -28,11 +28,11 @@
     ;; vars in env commands -> var name face
     (,(concat
        "\\<"
-       (regexp-opt '("env ask" "env ask.bkup" "env default" "env default -f"
-		     "env delete" "env delete -f" "env edit" "env print"
-		     "env print.bkup" "env print -a" "env print.bkup -a"
-		     "env set" "env set -f" "env set.bkup" "env set.bkup -f"
-		     "setenv" "setexpr" "setexpr.b" "setexpr.l" "setexpr.w")
+       (regexp-opt '("env ask" "env ask.bkup" "env delete" "env delete -f"
+		     "env edit" "env print" "env print.bkup" "env print -a"
+		     "env print.bkup -a" "env set" "env set -f" "env set.bkup"
+		     "env set.bkup -f" "setenv" "setexpr" "setexpr.b"
+		     "setexpr.l" "setexpr.w")
 		   t)
        "\\>"
        "[[:blank:]]*\\([[:graph:]]+\\)")
