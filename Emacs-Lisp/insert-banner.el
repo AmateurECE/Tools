@@ -9,7 +9,7 @@
 ;;
 ;; CREATED:	    06/16/2017
 ;;
-;; LAST EDITED:	    06/16/2017
+;; LAST EDITED:	    11/03/2017
 ;;;
 
 ;; ====== NOTE: ======
@@ -17,9 +17,7 @@
 ;; recommendations for my documentation style, please don't hesitate to let me
 ;; know.
 ;; ===================
-;; TODO: Write function to modify last edited on save.
-;;  This will probably come in the form of a function that gets called before
-;;  save-buffer (rebind C-x C-s)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Variable Definitions
 ;;;
@@ -124,15 +122,38 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.")
 ;; Utilities
 ;;;
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; FUNCTION:	    insert-and-tab
+;;
+;; DESCRIPTION:	    Insert 'field' then tab, and then insert 'strings'.
+;;
+;; ARGUMENTS:	    field: The string to be printed at the beginning of the line
+;;		    strings: The rest of the strings to be printed.
+;;
+;; RETURN:	    none.
+;;
+;; NOTES:	    none.
+;;;
 (defun insert-and-tab (field &rest strings)
+  "Insert `field' into the current buffer, indent to column
+`insert-banner-insert-column', and then insert `strings'."
   (insert field)
   (indent-to-column insert-banner-indent-column)
   (while strings
     (insert (car strings))
-    (setq strings (cdr strings)))
-  "Insert `field' into the current buffer, indent to column
-`insert-banner-insert-column', and then insert `strings'.")
+    (setq strings (cdr strings))))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; FUNCTION:	    get-file-banner-license
+;;
+;; DESCRIPTION:	    Returns the license, as a string.
+;;
+;; ARGUMENTS:	    none.
+;;
+;; RETURN:	    none.
+;;
+;; NOTES:	    none.
+;;;
 (defun get-file-banner-license ()
   "Returns the license notice, as a string."
   (cond
@@ -143,6 +164,69 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.")
    ((eq file-copyright-license 'file-mit-license)
     file-mit-license)
    (t nil)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; FUNCTION:	    end-of-comment
+;;
+;; DESCRIPTION:	    This function returns a relatively accurate (but not exact)
+;;		    position for the end of the current comment, or nil if point
+;;		    is not currently in a comment.
+;;
+;; ARGUMENTS:	    none.
+;;
+;; RETURN:	    relative end of comment position, or nil if (point) is not
+;;		    in a comment.
+;;
+;; NOTES:	    none.
+;;;
+(defun end-of-comment ()
+  "This function returns a relatively accurate (but not exact) position for the
+end of the current comment, or nil if point is not currently in a comment."
+  (save-excursion
+    (let ((face (remq nil `(,(get-char-property (point) 'read-face-name)
+			    ,(get-char-property (point) 'face)
+			    ,(plist-get (text-properties-at (point)) 'face))))
+	  (p (point)))
+      (while (or (memq 'font-lock-comment-face face)
+		 (memq 'font-lock-comment-delimiter-face face))
+	(setq face (remq nil
+			 `(,(get-char-property (point) 'read-face-name)
+			   ,(get-char-property (point) 'face)
+			   ,(plist-get (text-properties-at (point)) 'face))))
+	(forward-line))
+      (if (eq p (point))
+	  nil
+	(point)))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; FUNCTION:	    update-last-edited-date
+;;
+;; DESCRIPTION:	    If the file was written by me, and corresponds to my
+;;		    commenting style, then update the last edited date to be
+;;		    today (Called before save-buffer).
+;;
+;; ARGUMENTS:	    none.
+;;
+;; RETURN:	    none.
+;;
+;; NOTES:	    Uses save excursion, but we'll have to see how moving point
+;;		    affects the position of the buffer.
+;;;
+(defun update-last-edited-date ()
+  "Update the last edited date, if the file was written by me."
+  (save-excursion
+    (let ((inhibit-redisplay t)
+	  eos c)
+      (beginning-of-buffer)
+      (setq eos (end-of-comment))
+      (when (re-search-forward "Ethan D. Twardy" eos 'keep-point)
+	(re-search-forward "LAST EDITED:" eos 'keep-point)
+	(forward-whitespace 1)
+	(setq c (char-after (point)))
+	(when (and (<= c ?9) (>= c ?0))
+	  (while (not (eq (setq c (char-after (point))) ?\n))
+	    (delete-char 1))
+	  (insert (shell-command-to-string "echo -n $(date +%m/%d/%Y)")))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; File Banners
