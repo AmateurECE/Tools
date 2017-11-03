@@ -3,16 +3,25 @@
 ;;
 ;; AUTHOR:	    Ethan D. Twardy
 ;;
-;; DESCRIPTION:	    A Major mode for editing MATLAB code in emacs. That's right.
+;; DESCRIPTION:	    This was my attempt at developing a matlab major mode for
+;;		    emacs. It was working, too, until I discovered matlab.el,
+;;		    which is actually provided by Mathworks. Theirs has more
+;;		    sugar than mine, but they both have about the same syntactic
+;;		    functionality. However, since their programmers were paid to
+;;		    do it, I can only assume their is more sturdy. Thus, I'll be
+;;		    changing to use theirs until further notice, but I'll keep
+;;		    this file around for reference for the time being. I'll be
+;;		    changing all of the 'TODO' statmenets to 'NODO' so that they
+;;		    do not clutter up my space.
 ;;
 ;; CREATED:	    06/28/2017
 ;;
-;; LAST EDITED:	    09/21/2017
+;; LAST EDITED:	    11/03/2017
 ;;;
 
-;; TODO: Fix indentation for lines that continue with '...'
+;; NODO: Fix indentation for lines that continue with '...'
 ;;	    This doesn't work inside of a ['"] delimited string.
-;; TODO: Create a face for code section titles? %%...%%
+;; NODO: Create a face for code section titles? %%...%%
 ;;	    (Regular comment face...but BOLDER)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

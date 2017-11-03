@@ -3,11 +3,15 @@
 ;;
 ;; AUTHOR:	    Ethan D. Twardy
 ;;
-;; DESCRIPTION:	    This is just a simple derived mode for editing Yacc/Lex.
+;; DESCRIPTION:	    Let's be honest, this code sucks, and I really have no
+;;		    intention of using yacc or lex again. Not yet. Maybe some
+;;		    day I'll revive it. Until then, I'm changing all of the
+;;		    'TODO' statements to 'NODO' statements, so that they don't
+;;		    clutter up my bug list.
 ;;
 ;; CREATED:	    09/25/2017
 ;;
-;; LAST EDITED:	    09/25/2017
+;; LAST EDITED:	    11/03/2017
 ;;;
 
 (eval-when-compile
@@ -52,7 +56,7 @@ Returns 'yacc-c if point is in the %{ %} C-Declaration section.
 Returns 'yacc-pre-grammar if point is before the %% %% Yacc Grammar section.
 Returns 'yacc-grammar if point is in the %% %% Yacc Grammar section.
 Returns 'yacc-post-grammar if point is after the %% %% Yacc Grammar section."
-  ;; TODO: Employ point-to-register here
+  ;; NODO: Employ point-to-register here
   ;;	-- save-excursion is not enough here. The position of the buffer is
   ;;	changed during the call if the buffer is not wide enough. Fix this
   ;;	by employing point-to-register and jump-to-register. Make sure to
@@ -97,7 +101,7 @@ Returns 'yacc-post-grammar if point is after the %% %% Yacc Grammar section."
 Used to fontify the special delimiters %{, %}, and %% with
 `font-lock-preprocessor-face' and to associate them with the whitespace syntax
 class so that they are not adversely affected by indentation functions."
-  ;; TODO: Fontify char class aliases in 'yacc-pre-grammar section
+  ;; NODO: Fontify char class aliases in 'yacc-pre-grammar section
   (eval
    `(syntax-propertize-rules
      (,yacc-special-delimiters-re (0 " ")))))
@@ -127,7 +131,7 @@ or yacc-indent-region according to the position of the region."
 
 (defun yacc-indent-line ()
   "Indents a line of code according to yacc-mode."
-  ;; TODO: Fix indentation offset in yacc-grammar section
+  ;; NODO: Fix indentation offset in yacc-grammar section
   ;;	-- When indenting in yacc-grammar section, if there is an open bracket
   ;;	on the previous line, indent to c-basic-offset + (column of bracket).
   (interactive)
@@ -145,7 +149,7 @@ or yacc-indent-region according to the position of the region."
 	(save-excursion
 	  (previous-line)
 	  (beginning-of-line)
-	  ;; TODO: Find a better way to determine indentation level.
+	  ;; NODO: Find a better way to determine indentation level.
 	  (while (and (re-search-forward "{" eos 'keep-point)
 		      (re-search-forward "}" eos 'keep-point)))
 	  (if (looking-at "{")
