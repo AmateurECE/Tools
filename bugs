@@ -1,12 +1,6 @@
-./Emacs-Lisp/yacc-mode.el: Find a better way to determine indentation level. | id:170972f675660c60d747230263b00b246ced0351
 ./Git-Tools/index-main.c: */ | id:24f043e80fdbf2aef2751ff1fce1c67989bdeb31
 ./Git-Tools/index-test.c: Return -1 if it's not a valid index file. */ | id:3ce6a10abbc3cf548c7f255c99e4920b9e3ae907
-./Emacs-Lisp/insert-banner.el: Write function to modify last edited on save. | id:42e7b0954ce75bdcc10573ae0ea09961f7d50c4c
-./Emacs-Lisp/matlab-mode.el: Create a face for code section titles? %%...%% | id:8766fe7fe8888b626896f3bbe13c6a8f9429ac78
-./Emacs-Lisp/yacc-mode.el: Employ point-to-register here | id:8a201a9333590607d37d311fb51a4acc699b00b5
-./Emacs-Lisp/yacc-mode.el: Fontify char class aliases in 'yacc-pre-grammar section | id:8a6fdd08d8494f463ddad3f9f38033511918ef39
-./Emacs-Lisp/matlab-mode.el: Fix indentation for lines that continue with '...' | id:8ac6ecd77c547580f1444ffec1892379041b07d5
+./Emacs-Lisp/matlab.el: - ask user to reindent the fcn now? | id:8d5963fe6fd62030df4a143bbbd052fe0ab645fb
 ./FlowDoc/include/tree.h: Record all nodes which reference the function? | id:9a4730e20783bed364a41af959dbe09322215897
 ./FlowDoc/src/hash.c: Make the hash dynamically sizeable. */ | id:b2e9d21a70c14a93395567527af233bf3e2933dc
 ./Emacs-Lisp/line-wrap.el: Line delimiting is broken | id:ec1e506462e5f94085fb087874c51b82270ee3f9
-./Emacs-Lisp/yacc-mode.el: Fix indentation offset in yacc-grammar section | id:f0a070165b492e852f9df9707204b2162c65daf4
