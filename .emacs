@@ -7,7 +7,7 @@
 ;;
 ;; CREATED:	    09/15/2017
 ;;
-;; LAST EDITED:	    09/15/2017
+;; LAST EDITED:	    11/03/2017
 ;;;
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -59,7 +59,7 @@
   (load-file (concat lisp-dir "ubt-mode.el"))
   (load-file (concat lisp-dir "dts-mode.el"))
   (load-file (concat lisp-dir "restart-emacs.el"))
-  (load-file (concat lisp-dir "matlab-mode.el"))
+  (load-file (concat lisp-dir "matlab.el"))
   (load-file (concat lisp-dir "yacc-mode.el"))
   (load-file (concat lisp-dir "line-wrap.el"))
   ;; (load-file (concat lisp-dir "python.el")) ;; This is temporary.
@@ -106,5 +106,10 @@
 (global-set-key (kbd "C-b h") 'insert-section-header)
 (global-unset-key (kbd "C-b c"))
 (global-set-key (kbd "C-b c") 'insert-class-header)
+(global-unset-key (kbd "C-x C-s"))
+(global-set-key (kbd "C-x C-s") '(lambda ()
+				   (interactive)
+				   (update-last-edited-date) ;; insert-banner.el
+				   (save-buffer)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
