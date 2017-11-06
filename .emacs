@@ -7,7 +7,7 @@
 ;;
 ;; CREATED:	    09/15/2017
 ;;
-;; LAST EDITED:	    11/03/2017
+;; LAST EDITED:	    11/06/2017
 ;;;
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -49,12 +49,15 @@
   (global-set-key [(f9)] 'gnuplot-make-buffer)
 
 ;;; Load files
-(let ((lisp-dir (if (file-exists-p "~/misc/Tools/Emacs-Lisp/")
-		    "~/misc/Tools/Emacs-Lisp/"
-		  (if (file-exists-p "~/Git/Tools/Emacs-Lisp/")
-		      "~/Git/Tools/Emacs-Lisp/"
-		    (error (concat "User's Emacs-Lisp directory"
-				   "could not be found"))))))
+(let ((lisp-dir (cond
+		 ((file-exists-p "~/misc/Tools/Emacs-Lisp")
+		  "~/misc/Tools/Emacs-Lisp/")
+		 ((file-exists-p "~/Git/Tools/Emacs-Lisp")
+		  "~/Git/Tools/Emacs-Lisp/")
+		 ((file-exists-p "~/Documents/Tools/Emacs-Lisp")
+		  "~/Documents/Tools/Emacs-Lisp/")
+		 (t
+		  (error "User's Emacs-Lisp directory could not be found.")))))
   (load-file (concat lisp-dir "insert-banner.el"))
   (load-file (concat lisp-dir "ubt-mode.el"))
   (load-file (concat lisp-dir "dts-mode.el"))
@@ -62,15 +65,14 @@
   (load-file (concat lisp-dir "matlab.el"))
   (load-file (concat lisp-dir "yacc-mode.el"))
   (load-file (concat lisp-dir "line-wrap.el"))
-  ;; (load-file (concat lisp-dir "python.el")) ;; This is temporary.
-  ;; (load-file (concat lisp-dir "bison-mode.el"))
   t)
 
 ;; Turn on error-catching.
 (setq debug-on-error t)
 
-;; For whatever reason, .bash_aliases isn't part of the alist on my work machine
+;; alist additions
 (add-to-list 'auto-mode-alist '("\\.bash_aliases" . sh-mode))
+(add-to-list 'auto-mode-alist '("\\.md" . html-mode))
 
 ;;; Key bindings
 ;; Set undo to \C-z
