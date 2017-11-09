@@ -1,7 +1,13 @@
+Create an emacs mode for 'recipe' markdown | id:171bc73c309803a7123c0bb4c1549557d07b0c40
 Get window cover before snow | id:19ea9fd3c821b4067113f094b7507ae394d226fa
 Write the makefile to create a venv for the Banweb crawler | id:2d041075a23b8b41d10d0bb5706e232c06269717
 Figure out what that one song is. | id:31f8835f60ee55fc39f68e80c87096cd62b49d3b
+Create a 'recipe' markdown format/generator | id:454e1e704fbfc74324303ba844e8ec1b5b3e3d0f
 Write the thing to tell Mary I'm leaving. Don't forget the mailing address! | id:517cdda8a3e8980706f92bcdfc02c1033943bb06
 Research creating NFAs in C with fork() and OpenMP | id:5c3941d866f38c439704b4a903bb78aa6faa5ce9
+Research hardware log algorithm. | id:775ba414e9444090804180c34deb011bf8219920
+Research a number base like in projects.tex | id:8caeee1a072a5243e125d2890805365739f985ef
 Write a checkout list for Mary | id:9ae79eab9084dd52b89e43a1575b41cb4cda01d2
+Add an algorithms repo | id:b50255c8ba853ca9b89d7b86cfbdf683ae2c6fa7
+Add O(1) mod-ten algorithm to algorepo. | id:cf7c2d7097264f15b86507fd21cf859a47eab5cf
 Research using linear programming to optimize parallel computing | id:f0077c2712345e929c5d22d81b1b3135f8a9c59c
