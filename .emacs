@@ -7,7 +7,7 @@
 ;;
 ;; CREATED:	    09/15/2017
 ;;
-;; LAST EDITED:	    11/06/2017
+;; LAST EDITED:	    11/09/2017
 ;;;
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -65,6 +65,7 @@
   (load-file (concat lisp-dir "matlab.el"))
   (load-file (concat lisp-dir "yacc-mode.el"))
   (load-file (concat lisp-dir "line-wrap.el"))
+  (load-file (concat lisp-dir "spice-mode.el"))
   t)
 
 ;; Turn on error-catching.
