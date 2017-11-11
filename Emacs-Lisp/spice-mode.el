@@ -144,6 +144,23 @@
 ;; at the following address:  geert_vanderplas@email.com. If I find the
 ;; time, I can take a look at the problem
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; CHANGES INTRODUCED BY ETHAN D. TWARDY
+;;;
+
+;; 11/11/2017
+;; **********
+;;     - Comment out assignment of buffer local variables `paragraph-start' and
+;; 	`paragraph-separate' -- This allows functions like forward-paragraph to
+;; 	function normally, but it may affect other functionality of spice-mode.
+;;     - Change highlighting in comments and doc strings to use `' as
+;; 	delimiters, instead of ''. This is to make it follow emacs-lisp-mode.
+;;     - Change doc-string delimiters to use font-lock-string-face. This was a
+;; 	personal choice. I just think it looks a little more uniform.
+;;     - Change spice-model-name-face to use "cyan" as a color, instead of
+;; 	"Red3." This, on a lot of systems, shared the same color as
+;; 	font-lock-comment-face, which became confusing on the eyes.
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defconst spice-version "1.2.25 (03 Jan 2007)"
@@ -1224,7 +1241,7 @@ NOTE: Activate the new setting in a spice buffer by re-fontifying it (menu
 (defface spice-model-name-face
   '((((class grayscale) (background light)) (:foreground "LightGray"))
     (((class grayscale) (background dark)) (:foreground "DimGray"))
-    (((class color) (background light)) (:foreground "Red3"))
+    (((class color) (background light)) (:foreground "cyan"))
     (((class color) (background dark)) (:foreground "LightSteelBlue"))
     (t (:bold t)))
   "Spice mode face used to highlight models."
@@ -1848,7 +1865,8 @@ when modifying an xinstance line though, hard to tell."
 				 (spice-standard-p 'draccdl)
 				 (spice-standard-p 'layla)) "$")
 		       (when (spice-standard-p 'eldo) "!")
-		       "]*") 0 font-lock-comment-face)
+		       "]*")
+	       0 font-lock-comment-face)
 	 (list (concat "^\\.\\(" (regexp-opt spice-output-keywords)
 		       "\\)\\s-*" spice-line-break "\\s-+\\("
 		       (regexp-opt spice-output-types) "\\)\\>")
@@ -1867,7 +1885,7 @@ when modifying an xinstance line though, hard to tell."
 				 (spice-standard-p 'layla)) "$")
 		       (when (spice-standard-p 'eldo) "!")
 		       "]\\)\\(.*\\)$")
-	       (list 1 font-lock-comment-face)
+	       (list 1 spice-doc-face)
 	       (list 2 spice-doc-face 'append) ;; needs at least 'append or 'keep
 	       )
 	 (list (concat "\\<\\([*"
@@ -1877,7 +1895,7 @@ when modifying an xinstance line though, hard to tell."
 		       (when (spice-standard-p 'eldo) "!")
 		       "]\\)")
 	       ;; elisp mode like quotes, for extra clarity
-	       (list "['\"]\\([^'\"]+\\)['\"]" nil nil
+	       (list "[\`\"]\\([^'\"]+\\)['\"]" nil nil
 		     (list 1 spice-constant-face 'prepend)))))
 
   ;; subcircuit instance names of x instances and model names of mos,bip&diode
@@ -8591,10 +8609,13 @@ Key bindings for other parts in the file:
     ;; all buffer local
     ;; (set (make-local-variable 'paragraph-start) "^[!$*]-.*$")
     ;; (set (make-local-variable 'paragraph-separate) "^[!$*]-.*$")
-    (set (make-local-variable 'paragraph-start)
-	 "\\([a-z\\.].*\\([\n][+].*\\)*\\|[$]...+\\|[!]...+\\|[ \t\f]*$\\|\\*...+\\|.*\\s-[$!].*$\\)")
+    ;; (set (make-local-variable 'paragraph-start)
+    ;; 	 (concat "\\([a-z\\.].*\\([\n][+].*\\)*"
+    ;; 		 "\\|[$]...+\\|[!]...+\\|[ \t\f]*$"
+    ;; 		 "\\|\\*...+\\|.*\\s-[$!].*$\\)"))
     ;; (set (make-local-variable 'paragraph-separate) "[a-z$!*]")
-    (set (make-local-variable 'paragraph-separate) "\\([ \t\f]*\\|.*\\s-[$!].*\\)$")
+    ;; (set (make-local-variable 'paragraph-separate)
+    ;; 	 "\\([ \t\f]*\\|.*\\s-[$!].*\\)$")
     (set (make-local-variable 'adaptive-fill-regexp) nil)
     (set (make-local-variable 'adaptive-fill-function) 'spice-fill-context-prefix)
     (set (make-local-variable 'adaptive-fill-first-line-regexp) "[*$!+]\\s-+")
