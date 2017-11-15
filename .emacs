@@ -7,7 +7,7 @@
 ;;
 ;; CREATED:	    09/15/2017
 ;;
-;; LAST EDITED:	    11/09/2017
+;; LAST EDITED:	    11/14/2017
 ;;;
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -46,7 +46,7 @@
 (setq auto-mode-alist
       (append '(("\\.gp$" . gnuplot-mode))
 	      auto-mode-alist))
-  (global-set-key [(f9)] 'gnuplot-make-buffer)
+(global-set-key [(f9)] 'gnuplot-make-buffer)
 
 ;;; Load files
 (let ((lisp-dir (cond
@@ -58,14 +58,17 @@
 		  "~/Documents/Tools/Emacs-Lisp/")
 		 (t
 		  (error "User's Emacs-Lisp directory could not be found.")))))
-  (load-file (concat lisp-dir "insert-banner.el"))
-  (load-file (concat lisp-dir "ubt-mode.el"))
-  (load-file (concat lisp-dir "dts-mode.el"))
   (load-file (concat lisp-dir "restart-emacs.el"))
-  (load-file (concat lisp-dir "matlab.el"))
-  (load-file (concat lisp-dir "yacc-mode.el"))
+  (load-file (concat lisp-dir "insert-banner.el"))
   (load-file (concat lisp-dir "line-wrap.el"))
-  (load-file (concat lisp-dir "spice-mode.el"))
+  ;; The point is to uncomment these if I find I'll be using them for extended
+  ;; periods of time. This keeps emacs free to do other things on startup.
+  ;; (load-file (concat lisp-dir "ubt-mode.el"))
+  ;; (load-file (concat lisp-dir "dts-mode.el"))
+  ;; (load-file (concat lisp-dir "matlab.el"))
+  ;; (load-file (concat lisp-dir "yacc-mode.el"))
+  ;; (load-file (concat lisp-dir "spice-mode.el"))
+  (load-file (concat lisp-dir "markdown-mode.el"))
   t)
 
 ;; Turn on error-catching.
@@ -73,7 +76,6 @@
 
 ;; alist additions
 (add-to-list 'auto-mode-alist '("\\.bash_aliases" . sh-mode))
-(add-to-list 'auto-mode-alist '("\\.md" . html-mode))
 
 ;;; Key bindings
 ;; Set undo to \C-z
@@ -110,9 +112,10 @@
 (global-unset-key (kbd "C-b c"))
 (global-set-key (kbd "C-b c") 'insert-class-header)
 (global-unset-key (kbd "C-x C-s"))
-(global-set-key (kbd "C-x C-s") '(lambda ()
-				   (interactive)
-				   (update-last-edited-date) ;; insert-banner.el
-				   (save-buffer)))
+(global-set-key (kbd "C-x C-s")
+		'(lambda ()
+		   (interactive)
+		   (update-last-edited-date) ;; insert-banner.el
+		   (save-buffer)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
