@@ -7,7 +7,7 @@
 ;;
 ;; CREATED:	    09/15/2017
 ;;
-;; LAST EDITED:	    11/14/2017
+;; LAST EDITED:	    11/17/2017
 ;;;
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -63,7 +63,7 @@
   (load-file (concat lisp-dir "line-wrap.el"))
   ;; The point is to uncomment these if I find I'll be using them for extended
   ;; periods of time. This keeps emacs free to do other things on startup.
-  ;; (load-file (concat lisp-dir "ubt-mode.el"))
+  (load-file (concat lisp-dir "ubt-mode.el"))
   ;; (load-file (concat lisp-dir "dts-mode.el"))
   ;; (load-file (concat lisp-dir "matlab.el"))
   ;; (load-file (concat lisp-dir "yacc-mode.el"))
