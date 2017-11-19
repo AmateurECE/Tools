@@ -11,7 +11,7 @@
 #
 # CREATED:	    10/23/2017
 #
-# LAST EDITED:	    10/23/2017
+# LAST EDITED:	    11/19/2017
 ###
 
 alias ls='ls -A'
@@ -19,12 +19,13 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -i'
 alias python='python3'
-alias emacs='/usr/bin/emacs24 -nw'
 alias repo-check='$MY_GIT/Tools/Git-Tools/post.sh'
 alias screen='screen -c ~/.screenrc'
 alias svn='svn --no-auth-cache'
 alias t="python $MY_GIT/not-mine/t/t.py --task-dir $MY_GIT/Tools/tasks/ \
 --list tasks"
+alias p="python $MY_GIT/not-mine/t/t.py --task-dir $MY_GIT/Tools/tasks/ \
+--list projects"
 
 function b {
     GIT="."
