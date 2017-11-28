@@ -1,6 +1,9 @@
 ./Git-Tools/index-main.c: */ | id:24f043e80fdbf2aef2751ff1fce1c67989bdeb31
 ./Git-Tools/index-test.c: Return -1 if it's not a valid index file. */ | id:3ce6a10abbc3cf548c7f255c99e4920b9e3ae907
-./Emacs-Lisp/matlab.el: - ask user to reindent the fcn now? | id:8d5963fe6fd62030df4a143bbbd052fe0ab645fb
+./rewards/include/tasks.h: tasks.h */ | id:436bfa3c1d596835b3d54894de27d90c809b2c89
+./rewards/src/tasks.c: Implement tasks.c here */ | id:57eff402d80b04ee42da449b2c9a75150e3017bf
 ./FlowDoc/include/tree.h: Record all nodes which reference the function? | id:9a4730e20783bed364a41af959dbe09322215897
+./rewards/Makefile: Makefile | id:9d3b79ff28b76d636d94462f65b108df48220005
+./rewards/src/tasks.c: Interactive shell-mode */ | id:b078e825c20aeb2aa30f2ea266399c0ad5a66dd6
 ./FlowDoc/src/hash.c: Make the hash dynamically sizeable. */ | id:b2e9d21a70c14a93395567527af233bf3e2933dc
 ./Emacs-Lisp/line-wrap.el: Line delimiting is broken | id:ec1e506462e5f94085fb087874c51b82270ee3f9
