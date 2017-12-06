@@ -5,6 +5,7 @@ Write the makefile to create a venv for the Banweb crawler | id:2d041075a23b8b41
 Create a 'recipe' markdown format/generator | id:454e1e704fbfc74324303ba844e8ec1b5b3e3d0f
 Research creating NFAs in C with fork() and OpenMP | id:5c3941d866f38c439704b4a903bb78aa6faa5ce9
 Research hardware log algorithm. | id:775ba414e9444090804180c34deb011bf8219920
+AES Encryption for my stuff | id:80d12d7c3cd34c928bdbc42bc8aeb39406243bc1
 Research a number base like in projects.tex | id:8caeee1a072a5243e125d2890805365739f985ef
 Consider designing a compact cluster that uses mezzanine compute modules | id:97bc942152ac14b1f1f1c75bbde225a5841c5559
 Add an algorithms repo | id:b50255c8ba853ca9b89d7b86cfbdf683ae2c6fa7
