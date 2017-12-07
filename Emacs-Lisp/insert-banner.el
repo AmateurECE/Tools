@@ -9,7 +9,7 @@
 ;;
 ;; CREATED:	    06/16/2017
 ;;
-;; LAST EDITED:	    11/03/2017
+;; LAST EDITED:	    12/07/2017
 ;;;
 
 ;; ====== NOTE: ======
@@ -381,7 +381,7 @@ end of the current comment, or nil if point is not currently in a comment."
 ;;
 ;; RETURN:	    void.
 ;;
-;; NOTES:	    
+;; NOTES:	    TODO: insert-file-banner doesn't work for C++
 ;;;
 (defun insert-file-banner ()
   "Insert a banner at the top of a file"
