@@ -5,5 +5,6 @@
 ./rewards/Makefile: Makefile | id:9d3b79ff28b76d636d94462f65b108df48220005
 ./rewards/src/tasks.c: Interactive shell-mode */ | id:b078e825c20aeb2aa30f2ea266399c0ad5a66dd6
 ./FlowDoc/src/hash.c: Make the hash dynamically sizeable. */ | id:b2e9d21a70c14a93395567527af233bf3e2933dc
+./Emacs-Lisp/insert-banner.el: Create end-of-file marker | id:c0aa2f3d685b48bed7baaa00990f923d29d9344d
 ./Emacs-Lisp/insert-banner.el: insert-file-banner doesn't work for C++ | id:eb7a368951574aa06180224a73cd2dd9f2d7a003
 ./Emacs-Lisp/line-wrap.el: Line delimiting is broken | id:ec1e506462e5f94085fb087874c51b82270ee3f9
