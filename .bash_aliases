@@ -11,7 +11,7 @@
 #
 # CREATED:	    10/23/2017
 #
-# LAST EDITED:	    11/19/2017
+# LAST EDITED:	    12/13/2017
 ###
 
 alias ls='ls -A'
@@ -26,6 +26,16 @@ alias t="python $MY_GIT/not-mine/t/t.py --task-dir $MY_GIT/Tools/tasks/ \
 --list tasks"
 alias p="python $MY_GIT/not-mine/t/t.py --task-dir $MY_GIT/Tools/tasks/ \
 --list projects"
+
+function latex-template {
+    GITHUB='https://raw.githubusercontent.com'
+    curl -s "$GITHUB/AmateurECE/Tools/master/LaTeX/template.tex" > template.tex
+    if [ $? = "0" ]; then
+	echo Done!
+    else
+	echo Something went wrong!
+    fi
+}
 
 function b {
     GIT="."

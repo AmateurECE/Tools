@@ -1,0 +1,45 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% NAME:             template.tex
+%
+% AUTHOR:           Ethan D. Twardy
+%
+% DESCRIPTION:      A LaTeX Template file, which contains most of the
+%                   formatting that I want.
+%
+% CREATED:          12/13/2017
+%
+% LAST EDITED:      12/13/2017
+%%%
+
+\documentclass[12pt]{article}
+\pagestyle{empty} % Prevent style conflicts with `fancy'
+\usepackage[margin=1in]{geometry} % Pretty much just to set the margins
+\usepackage{fancyhdr} % Header & Footer
+\usepackage{setspace} % Spacing.
+
+% Header
+% pdflatex will probably complain about \headheight.
+%% \setlength{\headheight}{28pt}
+\pagestyle{fancy}
+\fancyhf{}
+% Header
+%% \rhead{Ethan D.Twardy}
+%% \lhead{\LaTeX Template}
+
+% This may come in handy.
+%% \setlength{\emergencystretch}{15pt}
+\setlength{\parskip}{10pt}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+\doublespacing
+
+% An example of using a table to do a signature line...or something.
+Don't forget that the line break command has an optional argument: \\[5pt]
+\begin{tabular}{@{}p{2in}p{3in}@{}}
+  Signature: & \hrulefill
+\end{tabular}
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
