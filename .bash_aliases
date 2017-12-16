@@ -11,7 +11,7 @@
 #
 # CREATED:	    10/23/2017
 #
-# LAST EDITED:	    12/13/2017
+# LAST EDITED:	    12/16/2017
 ###
 
 alias ls='ls -A'
@@ -37,6 +37,7 @@ function latex-template {
     fi
 }
 
+# TODO: Update b to except certain files (maybe a .bignore file?)
 function b {
     GIT="."
     while [[ ! -e "$GIT/.git" ]] && [[ `ls $GIT` != `ls /` ]]; do
