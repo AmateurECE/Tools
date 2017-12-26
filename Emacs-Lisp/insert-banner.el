@@ -9,7 +9,7 @@
 ;;
 ;; CREATED:	    06/16/2017
 ;;
-;; LAST EDITED:	    12/12/2017
+;; LAST EDITED:	    12/26/2017
 ;;;
 
 ;; ====== NOTE: ======
@@ -383,6 +383,7 @@ end of the current comment, or nil if point is not currently in a comment."
 ;;
 ;; NOTES:	    TODO: insert-file-banner doesn't work for C++
 ;;		    TODO: Create end-of-file marker
+;;		    TODO: Fix it to 80 chars. Right now, We're at 81.
 ;;;
 (defun insert-file-banner ()
   "Insert a banner at the top of a file"

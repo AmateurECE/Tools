@@ -11,10 +11,11 @@
 #
 # CREATED:	    10/23/2017
 #
-# LAST EDITED:	    12/16/2017
+# LAST EDITED:	    12/23/2017
 ###
 
 alias ls='ls -A'
+alias ll='ls -lA'
 alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -i'

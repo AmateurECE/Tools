@@ -5,14 +5,18 @@
 #
 # DESCRIPTION:	    Repositories that do not need to be updated are named here.
 #		    This file is used by the shell scripts.
+#		    NOTE: To add files to this list, insert them as they appear
+#		    in the output. For example, to ignore status updates from
+#		    a repository in a directory named 'linux-stable', do not
+#		    use the file path, use simply the name 'linux-stable'.
 #
 # CREATED:	    07/21/2017
 #
-# LAST EDITED:	    07/21/2017
+# LAST EDITED:	    12/26/2017
 ###
 
 21st-Century-Examples
-mutrace
 emacs
+linux-stable
 
 ################################################################################
