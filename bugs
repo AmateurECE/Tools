@@ -1,4 +1,3 @@
-./.bash_aliases: Update b to except certain files (maybe a .bignore file?) | id:8ff1943fcd03fa4163bec8659cad12a976a801a6
 ./Emacs-Lisp/insert-banner.el: Create end-of-file marker | id:c0aa2f3d685b48bed7baaa00990f923d29d9344d
 ./Emacs-Lisp/insert-banner.el: insert-file-banner doesn't work for C++ | id:eb7a368951574aa06180224a73cd2dd9f2d7a003
 ./Emacs-Lisp/line-wrap.el: Line delimiting is broken | id:ec1e506462e5f94085fb087874c51b82270ee3f9

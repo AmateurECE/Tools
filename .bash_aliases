@@ -50,7 +50,6 @@ function join-by {
     IFS=$SAVE
 }
 
-# TODO: Update b to except certain files (maybe a .bignore file?)
 function b {
     GIT="."
     while [[ ! -e "$GIT/.git" ]] && [[ `ls $GIT` != `ls /` ]]; do
