@@ -1,14 +1,13 @@
-################################################################################
+###############################################################################
 # NAME:		    .bash_aliases
 #
 # AUTHOR:	    Ethan D. Twardy
 #
 # DESCRIPTION:	    This is just some useful stuff. You may notice some
-#		    references to $MY_GIT in this file. MY-GIT contains the path
-#		    of the directory containing all of my git repos, so that I
-#		    can just run this file as a shell script from my actual
-#		    .bash_aliases file in both my home and work machines.
-#		    TODO: Fit lines to 79 chars.
+#		    references to $MY_GIT in this file. MY-GIT contains the
+#		    path of the directory containing all of my git repos, so
+#		    that I can just run this file as a shell script from my
+#		    actual .bash_aliases file on all of my machines.
 #
 # CREATED:	    10/23/2017
 #
@@ -70,4 +69,4 @@ function b {
     fi
 }
 
-################################################################################
+###############################################################################

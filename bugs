@@ -1,11 +1,4 @@
-./C-Preprocessor/sanitize.h: Fit lines to 79 chars. | id:43ece27a3dd41aa01c4e7f5385f925b09bb4edc8
-./.emacs: Fit lines to 79 chars. | id:6c9297a00cdf5257142153a9e226cd216003ceb5
-./c-prep.txt: Fit lines to 79 chars. | id:7564342617a16b0a942ebe81ac0b6f5b32c406a0
 ./.bash_aliases: Update b to except certain files (maybe a .bignore file?) | id:8ff1943fcd03fa4163bec8659cad12a976a801a6
-./.bash_aliases: Fit lines to 79 chars. | id:aeaccf41f01da0890a8a178ef8c1fe7ab4456ad8
-./C-Preprocessor/error.h: Fit lines to 79 chars. | id:b0da4e43950835015178c80668d9f930e20c27e7
 ./Emacs-Lisp/insert-banner.el: Create end-of-file marker | id:c0aa2f3d685b48bed7baaa00990f923d29d9344d
-./C-Preprocessor/arg-parse.h: Fit lines to 79 chars. | id:c4f123af46e829e9f8df9fa9ce7835cfc359fae9
-./C-Preprocessor/arg-parse.c: Fit lines to 79 chars. | id:d1778f882e2ed45259629b921cd8276ad2c043a0
 ./Emacs-Lisp/insert-banner.el: insert-file-banner doesn't work for C++ | id:eb7a368951574aa06180224a73cd2dd9f2d7a003
 ./Emacs-Lisp/line-wrap.el: Line delimiting is broken | id:ec1e506462e5f94085fb087874c51b82270ee3f9

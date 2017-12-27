@@ -1,4 +1,4 @@
-/*******************************************************************************
+/******************************************************************************
  * NAME:	    arg-parse.c
  *
  * AUTHOR:	    Ethan D. Twardy
@@ -6,18 +6,17 @@
  * DESCRIPTION:	    This file contains most of the source code for an argument
  *		    parser that I built for a U-Boot script preprocessor. It
  *		    fully supports command line argument parsing. Spaces
- *		    between switches and switch arguments are optional. Switches
- *		    may have arguments or be boolean. In addition, up to one
- *		    argument may be passed without requiring a switch. It is by
- *		    no means a 'minimal example.'
- *		    TODO: Fit lines to 79 chars.
+ *		    between switches and switch arguments are optional.
+ *		    Switches may have arguments or be boolean. In addition, up
+ *		    to one argument may be passed without requiring a switch.
+ *		    It is by no means a 'minimal example.'
  *
  * CREATED:	    09/25/2017
  *
  * LAST EDITED:	    12/27/2017
  ***/
 
-/*******************************************************************************
+/******************************************************************************
  * INCLUDES
  ***/
 
@@ -33,13 +32,13 @@
 #include "arg-parse.h"
 #include "error.h"
 
-/*******************************************************************************
+/******************************************************************************
  * MACRO DEFINITIONS
  ***/
 
 #define DEBUG
 
-/*******************************************************************************
+/******************************************************************************
  * STATIC FUNCTION PROTOTYPES
  ***/
 
@@ -52,7 +51,7 @@ static void print_clargs(); /* For debugging, mostly. */
 static void next_arg(int * pArgc, char *** pArgv);
 static void destroy_clargs();
 
-/*******************************************************************************
+/******************************************************************************
  * GLOBAL VARIABLES
  ***/
 
@@ -61,7 +60,7 @@ struct parser_info clargs = (struct parser_info){
 };
 int parsing_error = 0;
 
-/*******************************************************************************
+/******************************************************************************
  * MAIN
  ***/
 
@@ -95,11 +94,11 @@ int main(int argc, char * argv[])
   return parsing_error;
 }
 
-/*******************************************************************************
+/******************************************************************************
  * STATIC FUNCTIONS
  ***/
 
-/*******************************************************************************
+/******************************************************************************
  * FUNCTION:	    try_get_clargs
  *
  * DESCRIPTION:	    Get all command line arguments that are specified with a
@@ -144,7 +143,7 @@ static int try_get_clargs(int argc, char *** args)
   return argc;
 }
 
-/*******************************************************************************
+/******************************************************************************
  * FUNCTION:	    add_includes
  *
  * DESCRIPTION:	    Add a directory name to the end of the member 'includedirs'
@@ -175,7 +174,7 @@ static void add_include(char * directory)
   clargs.includedirs[clargs.numdirs++] = directory;
 }
 
-/*******************************************************************************
+/******************************************************************************
  * FUNCTION:	    add_warning
  *
  * DESCRIPTION:	    Toggles a warning switch in clargs, if the warning is
@@ -194,11 +193,12 @@ static void add_warning(char * warning)
   if (!strcmp(warning, "no-TODO")) {
     clargs.todo_warnings = false;
   } else {
-    StopIf(1, 7, "Fatal error: Unknown command line argument \"W%s\"", warning);
+    StopIf(1, 7, "Fatal error: Unknown command line argument \"W%s\"",
+	   warning);
   }
 }
 
-/*******************************************************************************
+/******************************************************************************
  * FUNCTION:	    print_clargs
  *
  * DESCRIPTION:	    Prints out the struct 'clargs' in a pretty way. Mostly for
@@ -223,7 +223,7 @@ static void print_clargs()
 }
 #endif
 
-/*******************************************************************************
+/******************************************************************************
  * FUNCTION:	    next_arg
  *
  * DESCRIPTION:	    Increments the argument (argv) to the next argument. This
@@ -245,7 +245,7 @@ static void next_arg(int * pArgc, char *** pArgv)
   }
 }
 
-/*******************************************************************************
+/******************************************************************************
  * FUNCTION:	    destroy_clargs
  *
  * DESCRIPTION:	    Free memory held by clargs, the static info-struct.
@@ -262,4 +262,4 @@ static void destroy_clargs()
   free(clargs.includedirs);
 }
 
-/******************************************************************************/
+/*****************************************************************************/

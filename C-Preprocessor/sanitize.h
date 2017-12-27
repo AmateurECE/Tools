@@ -1,4 +1,4 @@
-/*******************************************************************************
+/******************************************************************************
  * NAME:	    sanitize.h
  *
  * AUTHOR:	    Ethan D. Twardy
@@ -6,7 +6,6 @@
  * DESCRIPTION:	    This is an idea for a macro I had that would declare a fn
  *		    which sanitizes inputs to a function based on supplied bool
  *		    expressions. It is available in the public domain.
- *		    TODO: Fit lines to 79 chars.
  *
  * CREATED:	    09/12/2017
  *
@@ -16,7 +15,7 @@
 #ifndef __ET_SANITIZE_H__
 #define __ET_SANITIZE_H__
 
-/*******************************************************************************
+/******************************************************************************
  * MACRO DEFINITIONS
  ***/
 
@@ -31,4 +30,4 @@
   
 #endif /* __ET_SANITIZE_H__ */
 
-/******************************************************************************/
+/*****************************************************************************/

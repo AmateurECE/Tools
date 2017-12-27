@@ -1,11 +1,10 @@
-################################################################################
+###############################################################################
 # NAME:		    c-prep.txt
 #
 # AUTHOR:	    Ethan D. Twardy
 #
 # DESCRIPTION:	    A file depicting the necessary operations for the c-prep.sh
 #		    file to perform.
-#                   TODO: Fit lines to 79 chars.
 #
 # CREATED:	    07/16/2017
 #
@@ -26,4 +25,4 @@
 * Move *.pdf to top leve directory
 * Add latex/ directory to .gitignore
 
-################################################################################
+###############################################################################
