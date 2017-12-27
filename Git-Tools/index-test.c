@@ -5,10 +5,11 @@
  *
  * DESCRIPTION:	    This file parses the .git/index file to see if there are
  *		    untracked files in the working tree.
+ *		    TODO: Remove this file?
  *
  * CREATED:	    11/02/2017
  *
- * LAST EDITED:	    11/02/2017
+ * LAST EDITED:	    12/27/2017
  ***/
 
 /*******************************************************************************

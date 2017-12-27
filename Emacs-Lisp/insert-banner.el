@@ -1,4 +1,4 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; NAME:	    insert-banner.el
 ;;
 ;; AUTHOR:	    Ethan D. Twardy
@@ -9,7 +9,7 @@
 ;;
 ;; CREATED:	    06/16/2017
 ;;
-;; LAST EDITED:	    12/26/2017
+;; LAST EDITED:	    12/27/2017
 ;;;
 
 ;; ====== NOTE: ======
@@ -18,7 +18,7 @@
 ;; know.
 ;; ===================
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Variable Definitions
 ;;;
 
@@ -36,7 +36,7 @@
   :group 'banner-comments)
 
 (defcustom file-copyright-license nil
-  "The license that the programmer wishes to use. Multiple choices are provided.
+  "The license that the programmer wishes to use. Choices are provided.
 file-gpl-3-license\t\tThe GNU GPL-3.0+
 file-lgpl-3-license\t\tThe GNU Lesser GPL, version 3.0+
 file-bsd-4-license\t\tThe BSD 4-Clause license
@@ -114,20 +114,20 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.")
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Function Definitions
 ;;;
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Utilities
 ;;;
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    insert-and-tab
 ;;
 ;; DESCRIPTION:	    Insert 'field' then tab, and then insert 'strings'.
 ;;
-;; ARGUMENTS:	    field: The string to be printed at the beginning of the line
+;; ARGUMENTS:	    field: The string to be printed at the line beginning.
 ;;		    strings: The rest of the strings to be printed.
 ;;
 ;; RETURN:	    none.
@@ -143,7 +143,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.")
     (insert (car strings))
     (setq strings (cdr strings))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    get-file-banner-license
 ;;
 ;; DESCRIPTION:	    Returns the license, as a string.
@@ -165,11 +165,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.")
     file-mit-license)
    (t nil)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    end-of-comment
 ;;
 ;; DESCRIPTION:	    This function returns a relatively accurate (but not exact)
-;;		    position for the end of the current comment, or nil if point
+;;		    position for the end of the current comment, or nil.
 ;;		    is not currently in a comment.
 ;;
 ;; ARGUMENTS:	    none.
@@ -198,7 +198,7 @@ end of the current comment, or nil if point is not currently in a comment."
 	  nil
 	(point)))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    update-last-edited-date
 ;;
 ;; DESCRIPTION:	    If the file was written by me, and corresponds to my
@@ -228,11 +228,11 @@ end of the current comment, or nil if point is not currently in a comment."
 	    (delete-char 1))
 	  (insert (shell-command-to-string "echo -n $(date +%m/%d/%Y)")))))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; File Banners
 ;;;
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    generic-file-banner
 ;;
 ;; DESCRIPTION:	    Function for inserting a generic file-banner. This function
@@ -266,8 +266,8 @@ end of the current comment, or nil if point is not currently in a comment."
 
   (when (not (null stt)) (insert stt))
   (if (null stt)
-      (setq iter 80)
-    (setq iter 79))
+      (setq iter 79)
+    (setq iter 78))
   
   (let (val)
     (dotimes (num iter val)
@@ -299,7 +299,7 @@ end of the current comment, or nil if point is not currently in a comment."
       (insert nl sym sym))
     (when (not (null stt)) (insert stt))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    ubt-file-banner
 ;;
 ;; DESCRIPTION:	    Insert a file banner for the U-Boot scripting language.
@@ -316,7 +316,7 @@ end of the current comment, or nil if point is not currently in a comment."
 (defun ubt-file-banner (nl sym stt)
   "Insert a file banner at the top of a U-Boot Script file"
 
-  (setq iter 80)
+  (setq iter 79)
   (let (val)
     (dotimes (num iter val)
       (insert sym)))
@@ -335,7 +335,7 @@ end of the current comment, or nil if point is not currently in a comment."
     (insert " DEPENDENCIES:	    \n")
     (insert nl sym sym)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    fortran-file-banner
 ;;
 ;; DESCRIPTION:	    This function inserts a banner according to fortran style.
@@ -370,10 +370,10 @@ end of the current comment, or nil if point is not currently in a comment."
 	      (insert sym " " line "\n"))
 	    (insert sym "\n"))))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    insert-file-banner
 ;;
-;; DESCRIPTION:	    This function is responsible for inserting the pretty banner
+;; DESCRIPTION:	    This function is responsible for inserting the banner
 ;;		    that you see at the beginning of every one of my source
 ;;		    files.
 ;;
@@ -383,7 +383,6 @@ end of the current comment, or nil if point is not currently in a comment."
 ;;
 ;; NOTES:	    TODO: insert-file-banner doesn't work for C++
 ;;		    TODO: Create end-of-file marker
-;;		    TODO: Fix it to 80 chars. Right now, We're at 81.
 ;;;
 (defun insert-file-banner ()
   "Insert a banner at the top of a file"
@@ -414,11 +413,11 @@ end of the current comment, or nil if point is not currently in a comment."
     (fortran-file-banner "C"))
    (t (generic-file-banner "#" "#" nil)))) ;; Default case
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Function Header
 ;;;
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    generic-function-header
 ;;
 ;; DESCRIPTION:	    Function for inserting a generic function-banner. This
@@ -446,8 +445,8 @@ end of the current comment, or nil if point is not currently in a comment."
   "Inserts the generic function header"
   (when (not (null stt)) (insert stt))
   (if (null stt)
-      (setq iter 80)
-    (setq iter 79))
+      (setq iter 79)
+    (setq iter 78))
   (let (val)
     (dotimes (num iter val)
       (insert sym)))
@@ -464,7 +463,7 @@ end of the current comment, or nil if point is not currently in a comment."
       (insert nl sym sym))
     (when (not (null stt)) (insert stt))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    latex-function-header
 ;;
 ;; DESCRIPTION:	    Inserts a function header for LaTeX.
@@ -479,7 +478,7 @@ end of the current comment, or nil if point is not currently in a comment."
   "Inserts a command header for LaTeX."
   
   (let (val)
-    (dotimes (num 80 val)
+    (dotimes (num 79 val)
       (insert "%")))
   (insert "% Command:	    " name "\n")
   (insert "% Function:	    ")
@@ -488,7 +487,7 @@ end of the current comment, or nil if point is not currently in a comment."
   (insert "% Arguments:	    \n")
   (goto-char currpos))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    asm-function-header
 ;;
 ;; DESCRIPTION:	    Insert an assembly subroutine header.
@@ -514,7 +513,7 @@ end of the current comment, or nil if point is not currently in a comment."
     (insert-and-tab " REGISTER USAGE:" "\n *\n *")
     (insert-and-tab " RETURN:" "\n ***/")))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    python-function-header
 ;;
 ;; DESCRIPTION:	    Inserts a PyDoc Function "header" inside of a function
@@ -549,7 +548,7 @@ end of the current comment, or nil if point is not currently in a comment."
   (insert "\"\"\"")
   (goto-char currpos))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    insert-function-header
 ;;
 ;; DESCRIPTION:	    This function inserts the headers that are at the beginning
@@ -585,11 +584,11 @@ end of the current comment, or nil if point is not currently in a comment."
    ;; Default case
    (t (generic-function-header "#" "#" nil))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Section Header
 ;;;
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    generic-section-header
 ;;
 ;; DESCRIPTION:	    Inserts a generic section-header. This function exists
@@ -609,8 +608,8 @@ end of the current comment, or nil if point is not currently in a comment."
   "Insert a generic-section header."
   (when (not (null stt)) (insert stt))
   (if (null stt)
-      (setq iter 80)
-    (setq iter 79))
+      (setq iter 79)
+    (setq iter 78))
 
   (let (val)
     (dotimes (num iter val)
@@ -622,7 +621,7 @@ end of the current comment, or nil if point is not currently in a comment."
     (insert nl sym sym))
   (when (not (null stt)) (insert stt)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    insert-section-header
 ;;
 ;; DESCRIPTION:	    This function inserts the headers that separate each part
@@ -654,11 +653,11 @@ end of the current comment, or nil if point is not currently in a comment."
    ;; Default case
    (t (generic-section-header "#" "#" nil))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Class Docs
 ;;;
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    python-class-header
 ;;
 ;; DESCRIPTION:	    Insert a PyDoc class header in the Google style.
@@ -684,7 +683,7 @@ end of the current comment, or nil if point is not currently in a comment."
     (insert "\"\"\"")
     (goto-char currpos)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    insert-class-header
 ;;
 ;; DESCRIPTION:	    Insert a header for a class.
@@ -705,4 +704,4 @@ end of the current comment, or nil if point is not currently in a comment."
    (t
     (message "Support for this mode has not been implemented"))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

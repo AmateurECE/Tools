@@ -13,10 +13,11 @@
 ;;		    this file around for reference for the time being. I'll be
 ;;		    changing all of the 'TODO' statmenets to 'NODO' so that they
 ;;		    do not clutter up my space.
+;;		    TODO: Fix lines to 79 chars.
 ;;
 ;; CREATED:	    06/28/2017
 ;;
-;; LAST EDITED:	    11/03/2017
+;; LAST EDITED:	    12/27/2017
 ;;;
 
 ;; NODO: Fix indentation for lines that continue with '...'

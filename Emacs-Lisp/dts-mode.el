@@ -32,7 +32,8 @@
     ;; names like `name: hi {`
     (,(concat dts-re-ident ":") 1 font-lock-variable-name-face)
     ;; nodes
-    (,(concat dts-re-ident "\\(@[[:xdigit:]]+\\)?[[:space:]]*{") 1 font-lock-type-face)
+    (,(concat dts-re-ident "\\(@[[:xdigit:]]+\\)?[[:space:]]*{")
+     1 font-lock-type-face)
     ;; assignments
     (,(concat dts-re-ident "[[:space:]]*=") 1 font-lock-variable-name-face)
     (,(concat dts-re-ident "[[:space:]]*;") 1 font-lock-variable-name-face)
@@ -104,7 +105,8 @@
   :syntax-table dts-mode-syntax-table
 
   ;; Fonts
-  (set (make-local-variable 'font-lock-defaults) '(dts-mode-font-lock-keywords nil nil nil nil))
+  (set (make-local-variable 'font-lock-defaults)
+       '(dts-mode-font-lock-keywords nil nil nil nil))
 
   (set (make-local-variable 'comment-start) "/* ")
   (set (make-local-variable 'comment-end)   " */")

@@ -5,10 +5,11 @@
 #
 # DESCRIPTION:	    A file depicting the necessary operations for the c-prep.sh
 #		    file to perform.
+#                   TODO: Fit lines to 79 chars.
 #
 # CREATED:	    07/16/2017
 #
-# LAST EDITED:	    07/16/2017
+# LAST EDITED:	    12/27/2017
 ###
 
 * User provides a shell script to run all of the testing -- run this (Located

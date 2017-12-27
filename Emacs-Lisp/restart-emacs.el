@@ -1,14 +1,15 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; NAME:	    restart-emacs.el
 ;;
 ;; AUTHOR:	    Ethan D. Twardy
 ;;
 ;; DESCRIPTION:	    A function to kill and restart emacs--useful for making
-;;		    small edits to an emacs script and needing to re-load a file
+;;		    small edits to an emacs script which require reloading the
+;;		    file.
 ;;
 ;; CREATED:	    09/18/2017
 ;;
-;; LAST EDITED:	    09/18/2017
+;; LAST EDITED:	    12/27/2017
 ;;;
 
 (defun launch-separate-emacs-in-terminal ()
@@ -23,11 +24,12 @@
   ;; have been processed and there is nothing interesting left
   (setq name buffer-file-name)
   (let
-      ((kill-emacs-hook (append kill-emacs-hook
-				(list (if (display-graphic-p)
-					  #'launch-separate-emacs-under-x
-					#'launch-separate-emacs-in-terminal)))))
-    (save-buffers-kill-emacs))
-  )
+      ((kill-emacs-hook
+	(append kill-emacs-hook
+		(list
+		 (if (display-graphic-p)
+		     #'launch-separate-emacs-under-x
+		   #'launch-separate-emacs-in-terminal)))))
+    (save-buffers-kill-emacs)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

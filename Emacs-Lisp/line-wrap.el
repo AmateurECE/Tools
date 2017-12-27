@@ -1,21 +1,21 @@
 ;;; -*- lexical-binding: t -*-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; NAME:	    line-wrap.el
 ;;
 ;; AUTHOR:	    Ethan D. Twardy
 ;;
-;; DESCRIPTION:	    This file contains a function which truncates lines that are
-;;		    too long.
+;; DESCRIPTION:	    This file contains a function which truncates lines that
+;;		    are too long.
 ;;
 ;; CREATED:	    10/24/2017
 ;;
-;; LAST EDITED:	    10/24/2017
+;; LAST EDITED:	    12/27/2017
 ;;;
 
 (defgroup line-wrap nil
   "Group for the variables that pertain to the functions in line-wrap.el")
 
-(defcustom line-wrap-column-number 80
+(defcustom line-wrap-column-number 79
   "The number that line-wrap truncates lines at."
   :type 'integer
   :group 'line-wrap)
@@ -36,23 +36,23 @@ unbroken character strings, for example, URLs."
 `line-wrap-delimit-next-line' is non-nil. This function should return a cell of
 the form (string . length) where <string> is a string to be inserted before
 truncating the line, and <length> is the length of the delimiter. Ideally, the
-delimiter string should be as short as possible. The behaviour will be undefined
-if the delimiter is longer than `line-wrap-column-number' or if <length> is
-longer than the actual length of the string."
+delimiter string should be as short as possible. The behaviour will be
+undefined if the delimiter is longer than `line-wrap-column-number' or if
+<length> is longer than the actual length of the string."
   :options '(line-wrap-default-delimiter-hook)
   :group 'line-wrap)
 
 (defcustom line-wrap-indentation 'line-wrap-default-indentation-hook
-  "A function that determines how to indent truncated lines in the current mode.
+  "Determines how to indent truncated lines in the current mode.
 This function takes no arguments, and should indent the next line accordingly."
   :options '(line-wrap-default-indentation-hook)
   :group 'line-wrap)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTIONS
 ;;;
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    line-wrap
 ;;
 ;; DESCRIPTION:	    This function truncates the lines to a length of less than
@@ -88,11 +88,12 @@ number `line-wrap-column-number'."
       	      (setq string (car cell))
       	      (setq length (cdr cell))
       	      (if (cdr '(length))
-      		  (error "%s%s%s%s"
-      			 "The list returned by the hook in line-wrap-delimiter "
-      			 "must return a cons cell pair of the form (string . "
-      			 "length). Please see the documentation for line-wrap-"
-      			 "delimiter for more informtation."))
+		  (error
+		   "%s%s%s%s"
+		   "The list returned from line-wrap-delimiter "
+		   "must return a cons cell pair of the form (string . "
+		   "length). Please see the documentation for line-wrap-"
+		   "delimiter for more informtation."))
 	      t))
 	(goto-char reg-end)
 	(if (= (point) (point-max))
@@ -106,7 +107,7 @@ number `line-wrap-column-number'."
 	  (setq eol (save-excursion (end-of-line) (point)))))))
   (deactivate-mark t))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    line-wrap-helper
 ;;
 ;; DESCRIPTION:	    This function is a helper for line-wrap().
@@ -158,7 +159,7 @@ prettier."
 		  (indent-for-tab-command))))))
     (next-line)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    line-wrap-test-lines
 ;;
 ;; DESCRIPTION:	    This function traverses the region to test if any of the
@@ -194,7 +195,7 @@ prettier."
 	(message (format "Current line length is %d; Limit is %d"
 			 (- eol bol) line-wrap-column-number)))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    line-wrap-default-delimiter-hook
 ;;
 ;; DESCRIPTION:	    This function returns a cons cell containing a string and
@@ -210,16 +211,16 @@ prettier."
 ;; NOTES:	    none.
 ;;;
 (defun line-wrap-default-delimiter-hook ()
-  "Returns a cons cell of the form (string . length) to determine how to delimit
-newlines placed into the buffer."
+  "Returns a cons cell of the form (string . length) to determine how to
+delimit newlines placed into the buffer."
   '("\\" . 1))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    line-wrap-default-indentation-hook
 ;;
 ;; DESCRIPTION:	    This function indents the line according to the major-mode.
-;;		    This is the default value for the hook line-wrap-indentation
-;;		    but it can be changed by the user.
+;;		    This is the default value for the hook
+;;		    line-wrap-indentation, but it can be changed by the user.
 ;;
 ;; ARGUMENTS:	    none.
 ;;
@@ -237,4 +238,4 @@ newlines placed into the buffer."
    (t
     (indent-for-tab-command))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

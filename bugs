@@ -1,12 +1,28 @@
+./FlowDoc/src/lexer.c: Remove this file. | id:016f91b4265041a3f2e48d38b82c9265a44ce8c4
+./sew: Remove this file. | id:109a5aba8c28c540078cc60b47389b370c9b736b
+./Emacs-Lisp/matlab-mode.el: Fix lines to 79 chars. | id:1f7f5491fea0314fd273d54143815f955764a594
 ./Git-Tools/index-main.c: */ | id:24f043e80fdbf2aef2751ff1fce1c67989bdeb31
+./FlowDoc/include/tree.h: Fix lines to 79 chars. | id:2a708ba7e17b5e2a57a24efe72ae5b156a34fd69
+./FlowDoc/src/hash-functions.c: Remove this file. | id:2a93167f25249b98f5050179f6f74601f2ad7c87
+./Git-Tools/index-test.h: Remove this file? | id:2b0ed510c85c83d1a21ee02fc031c81c8a2327c0
 ./Git-Tools/index-test.c: Return -1 if it's not a valid index file. */ | id:3ce6a10abbc3cf548c7f255c99e4920b9e3ae907
-./Emacs-Lisp/insert-banner.el: Fix it to 80 chars. Right now, We're at 81. | id:4911b6d3b2d6146b46bba31e793aa5151cd29f69
-./rewards/src/tasks.c: Implement tasks.c here */ | id:57eff402d80b04ee42da449b2c9a75150e3017bf
+./C-Preprocessor/sanitize.h: Fit lines to 79 chars. | id:43ece27a3dd41aa01c4e7f5385f925b09bb4edc8
+./FlowDoc/src/tree.c: Remove this file. | id:5c74e26bc2be8c6e75a8297d4e69c571475b5436
+./.emacs: Fit lines to 79 chars. | id:6c9297a00cdf5257142153a9e226cd216003ceb5
+./c-prep.txt: Fit lines to 79 chars. | id:7564342617a16b0a942ebe81ac0b6f5b32c406a0
 ./.bash_aliases: Update b to except certain files (maybe a .bignore file?) | id:8ff1943fcd03fa4163bec8659cad12a976a801a6
 ./FlowDoc/include/tree.h: Record all nodes which reference the function? | id:9a4730e20783bed364a41af959dbe09322215897
-./rewards/Makefile: Makefile | id:9d3b79ff28b76d636d94462f65b108df48220005
-./rewards/src/tasks.c: Interactive shell-mode */ | id:b078e825c20aeb2aa30f2ea266399c0ad5a66dd6
+./.bash_aliases: Fit lines to 79 chars. | id:aeaccf41f01da0890a8a178ef8c1fe7ab4456ad8
+./C-Preprocessor/error.h: Fit lines to 79 chars. | id:b0da4e43950835015178c80668d9f930e20c27e7
+./FlowDoc/include/lexer.h: Fix lines to 79 chars. | id:b284e260bfd378dacf0f0882b1e3c00b5dec349f
 ./FlowDoc/src/hash.c: Make the hash dynamically sizeable. */ | id:b2e9d21a70c14a93395567527af233bf3e2933dc
+./Git-Tools/index-test.c: Remove this file? | id:b9d11e464f7f3769da0b28b4153f1418cc5bd726
 ./Emacs-Lisp/insert-banner.el: Create end-of-file marker | id:c0aa2f3d685b48bed7baaa00990f923d29d9344d
+./C-Preprocessor/arg-parse.h: Fit lines to 79 chars. | id:c4f123af46e829e9f8df9fa9ce7835cfc359fae9
+./C-Preprocessor/arg-parse.c: Fit lines to 79 chars. | id:d1778f882e2ed45259629b921cd8276ad2c043a0
+./FlowDoc/include/hash.h: Fix lines to 79 chars. | id:d8ad83f27f0536e19dab986bb6c45b32ad96ffb5
+./Git-Tools/index-main.c: Remove this file? | id:e30acb2a88584d44ba6149d927d075d88fe09e5a
+./Emacs-Lisp/yacc-mode.el: Remove this file. | id:e516f5180f213a236b0450d9e02dc3a77d12fb94
 ./Emacs-Lisp/insert-banner.el: insert-file-banner doesn't work for C++ | id:eb7a368951574aa06180224a73cd2dd9f2d7a003
 ./Emacs-Lisp/line-wrap.el: Line delimiting is broken | id:ec1e506462e5f94085fb087874c51b82270ee3f9
+./FlowDoc/src/hash.c: Remove this file. | id:ef9bbcf9b97dd07260ab50eef771d3025b172dfb

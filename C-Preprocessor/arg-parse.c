@@ -10,10 +10,11 @@
  *		    may have arguments or be boolean. In addition, up to one
  *		    argument may be passed without requiring a switch. It is by
  *		    no means a 'minimal example.'
+ *		    TODO: Fit lines to 79 chars.
  *
  * CREATED:	    09/25/2017
  *
- * LAST EDITED:	    11/02/2017
+ * LAST EDITED:	    12/27/2017
  ***/
 
 /*******************************************************************************

@@ -8,10 +8,11 @@
 ;;		    day I'll revive it. Until then, I'm changing all of the
 ;;		    'TODO' statements to 'NODO' statements, so that they don't
 ;;		    clutter up my bug list.
+;;		    TODO: Remove this file.
 ;;
 ;; CREATED:	    09/25/2017
 ;;
-;; LAST EDITED:	    11/03/2017
+;; LAST EDITED:	    12/27/2017
 ;;;
 
 (eval-when-compile

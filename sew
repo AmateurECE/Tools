@@ -1,5 +1,5 @@
 #!/bin/sh
-
+# TODO: Remove this file.
 PROG=$1
 
 nasm -f macho64 -o $PROG.o $PROG.s

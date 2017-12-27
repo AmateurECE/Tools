@@ -10,10 +10,11 @@
  *		    the next power of two. Because of this, it is suggested that
  *		    the user utilize the ISFULL() macro to check if the table
  *		    is full.
+ *		    TODO: Fix lines to 79 chars.
  *
  * CREATED:	    10/04/2017
  *
- * LAST EDITED:	    10/04/2017
+ * LAST EDITED:	    12/27/2017
  ***/
 
 #ifndef __HASH_H__

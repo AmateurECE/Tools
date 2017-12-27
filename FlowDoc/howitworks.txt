@@ -1,4 +1,4 @@
-################################################################################
+###############################################################################
 # NAME:		    howitworks.txt
 #
 # AUTHOR:	    Ethan D. Twardy
@@ -7,7 +7,7 @@
 #
 # CREATED:	    10/05/2017
 #
-# LAST EDITED:	    10/05/2017
+# LAST EDITED:	    12/27/2017
 ###
 
 1. Most of the program will be controlled using command line switches. These
@@ -27,11 +27,11 @@
 	which will keep track of functions that reference this function, and
 	unresolved dependencies.
     * Iterate through the function definition and record any function call. If
-	main has not been discovered, and the function has not yet been added to
-	the hash, create an entry in the hash with all members NULL except the
-	unresolved dependencies container, which will contain an entry with the
-	name of the calling function. If main has not been discovered and the
-	function already exists in the hash, add an entry in the unresolved
+	main has not been discovered, and the function has not yet been added
+	to the hash, create an entry in the hash with all members NULL except
+	the unresolved dependencies container, which will contain an entry with
+	the name of the calling function. If main has not been discovered and
+	the function already exists in the hash, add an entry in the unresolved
 	dependencies container with the name of the calling function.
 
-################################################################################
+###############################################################################

@@ -8,10 +8,11 @@
  *		    implementation of a hashing table, used to keep track of
  *		    preprocessor tokens created with @define tokens, and used
  *		    in @if (etc...) tokens.
+ *		    TODO: Remove this file.
  *
  * CREATED:	    10/04/2017
  *
- * LAST EDITED:	    10/04/2017
+ * LAST EDITED:	    12/27/2017
  ***/
 
 /* TODO: Make the hash dynamically sizeable. */

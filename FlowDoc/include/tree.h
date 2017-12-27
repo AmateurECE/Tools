@@ -15,10 +15,11 @@
  *		    theme is to insert children to the right of any previously
  *		    existing children, so that the tree may be generally viewed
  *		    chronologically when traversed inorder.
+ *		    TODO: Fix lines to 79 chars.
  *
  * CREATED:	    09/29/2017
  *
- * LAST EDITED:	    09/29/2017
+ * LAST EDITED:	    12/27/2017
  ***/
 
 #ifndef __ET_TREE_H__

@@ -8,10 +8,11 @@
 #		    of the directory containing all of my git repos, so that I
 #		    can just run this file as a shell script from my actual
 #		    .bash_aliases file in both my home and work machines.
+#		    TODO: Fit lines to 79 chars.
 #
 # CREATED:	    10/23/2017
 #
-# LAST EDITED:	    12/23/2017
+# LAST EDITED:	    12/27/2017
 ###
 
 alias ls='ls -A'

@@ -7,10 +7,11 @@
  *		    found in arg-parse.c. This header contains the declaration
  *		    of the argument struct, so that its members may be used in
  *		    other translation units.
+ *		    TODO: Fit lines to 79 chars.
  *
  * CREATED:	    10/02/2017
  *
- * LAST EDITED:	    10/23/2017
+ * LAST EDITED:	    12/27/2017
  ***/
 
 #ifndef __ARG_PARSE_H__

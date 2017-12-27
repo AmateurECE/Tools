@@ -6,10 +6,11 @@
  * DESCRIPTION:	    This file contains a few macros that are helpful for
  *		    handling errors. Use these by invoking parse_error(), which
  *		    is a macro defined here.
+ *		    TODO: Fit lines to 79 chars.
  *
  * CREATED:	    09/26/2017
  *
- * LAST EDITED:	    09/26/2017
+ * LAST EDITED:	    12/27/2017
  ***/
 
 #ifndef __ERROR_H__

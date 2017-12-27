@@ -206,7 +206,7 @@ and \(point\)"
 
   ;; try to set the indentation correctly
   (setq c-basic-offset 4)
-  ;; (setq c-syntactic-indentation) ;; So that c-indent-line knows how to indent
+  ;; (setq c-syntactic-indentation) ;; So that c-indent-line works.
   (c-set-offset 'knr-argdecl-intro 0)
   
   ;; remove auto and hungry anything
@@ -898,7 +898,7 @@ declaration section, then indent to bison-decl-token-column."
 			  (just-no-space)
 			  (indent-to-column bison-decl-token-column)))))))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Code Added by Ethan D. Twardy
 ;;;
 

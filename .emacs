@@ -4,10 +4,11 @@
 ;; AUTHOR:	    Ethan D. Twardy
 ;;
 ;; DESCRIPTION:	    Emacs initialization file.
+;;		    TODO: Fit lines to 79 chars.
 ;;
 ;; CREATED:	    09/15/2017
 ;;
-;; LAST EDITED:	    12/12/2017
+;; LAST EDITED:	    12/27/2017
 ;;;
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

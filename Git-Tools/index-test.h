@@ -5,10 +5,11 @@
  *
  * DESCRIPTION:	    Header file, containing external declarations of functions
  *		    for use in other programs.
+ *		    TODO: Remove this file?
  *
  * CREATED:	    11/02/2017
  *
- * LAST EDITED:	    11/02/2017
+ * LAST EDITED:	    12/27/2017
  ***/
 
 #ifndef __ET_INDEX_TEST_H__
