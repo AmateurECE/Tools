@@ -1,3 +1,4 @@
+#!/bin/bash
 ###############################################################################
 # NAME:		    .bash_aliases
 #
@@ -38,6 +39,17 @@ function latex-template {
     fi
 }
 
+function join-by {
+    local d=$1
+    local SAVE=$IFS
+    IFS=""
+    shift
+    echo -n "$1"
+    shift
+    printf "%s" "${@/#/$d}"
+    IFS=$SAVE
+}
+
 # TODO: Update b to except certain files (maybe a .bignore file?)
 function b {
     GIT="."
@@ -56,7 +68,17 @@ function b {
 	if [ -e $PWD/bugs ]; then
 	    rm -f $PWD/bugs
 	fi
-	LIST=`find $GIT -type f | grep -v '.git/'`
+	# Read in the .bignore file.
+	REGX=""
+	if [ -f "$GIT/.bignore" ]; then
+	    IGNORE=`cat "$GIT/.bignore" | sed -e 's/#.*$//' -e '/^\s*$/d'`
+	    IGNORE=`echo $IGNORE | sed -e 's/\n/ /'`
+	    REGX=`join-by '\|' ".git/" $IGNORE`
+	fi
+	if [ "x$REGX" == "x" ]; then
+	    REGX='.git/'
+	fi
+	LIST=`find $GIT -type f | grep -v "$REGX"`
 	BUGS=`awk -F'TODO:? ' '/(# |\/* )TODO:? /{print FILENAME": "$2}' $LIST`
 	IFS=$(echo -e "\n\b")
 	for f in $BUGS; do
