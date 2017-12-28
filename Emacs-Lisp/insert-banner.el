@@ -347,7 +347,7 @@ end of the current comment, or nil if point is not currently in a comment."
 ;; NOTES:	    none.
 ;;;
 (defun fortran-file-banner (sym)
-  "Insert a function banner in the FORTRAN style."
+  "Insert a file banner in the FORTRAN style."
   (insert sym "\n" sym)
   (insert-and-tab " NAME:" name "\n" sym "\n" sym " DESCRIPTION:")
   (indent-to-column 20)
@@ -355,7 +355,7 @@ end of the current comment, or nil if point is not currently in a comment."
     (insert "\n" sym "\n" sym)
     (insert-and-tab " CREATED:" date sym "\n" sym)
     (insert-and-tab " LAST EDITED:" date sym "\n")
-    (if  file-banner-license-notice
+    (if file-banner-license-notice
 	(progn
 	  (insert sym "\n" sym " ")
 	  (let ((notice (get-file-banner-license))
@@ -371,6 +371,40 @@ end of the current comment, or nil if point is not currently in a comment."
 	    (insert sym "\n"))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; FUNCTION:	    markdown-file-banner
+;;
+;; DESCRIPTION:	    Insert a file banner in the Markdown style.
+;;
+;; ARGUMENTS:	    none.
+;;
+;; RETURN:	    none.
+;;
+;; NOTES:	    none.
+;;;
+(defun markdown-file-banner ()
+  "Insert a file banner in the Markdown style."
+  (insert "<!--\n")
+  (insert-and-tab " NAME:" name "\n\n" " DESCRIPTION:")
+  (indent-to-column 20)
+  (save-excursion
+    (insert "\n\n")
+    (insert-and-tab " CREATED:" date "\n")
+    (insert-and-tab " LAST EDITED:" date)
+    (if file-banner-license-notice
+	(progn
+	  (insert "\n")
+	  (let ((notice (get-file-banner-license))
+		(cpydate file-copyright-notice)
+		(date (shell-command-to-string "date +%Y")))
+	    (if (null notice)
+		(error "Must select a license to use."))
+	    (setq cpydate (replace-regexp-in-string "Date" date cpydate))
+	    (insert " " (replace-regexp-in-string "\n" "" cpydate) "\n\n")
+	    (dolist (line (split-string notice "\n"))
+	      (insert " " line "\n")))))
+    (insert "-->")))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    insert-file-banner
 ;;
 ;; DESCRIPTION:	    This function is responsible for inserting the banner
@@ -383,7 +417,6 @@ end of the current comment, or nil if point is not currently in a comment."
 ;;
 ;; NOTES:	    TODO: insert-file-banner doesn't work for C++
 ;;		    TODO: Create end-of-file marker
-;;		    TODO: insert-file-banner doesn't work for Markdown
 ;;;
 (defun insert-file-banner ()
   "Insert a banner at the top of a file"
@@ -412,6 +445,8 @@ end of the current comment, or nil if point is not currently in a comment."
     (fortran-file-banner "!"))
    ((eq major-mode 'fortran-mode)
     (fortran-file-banner "C"))
+   ((eq major-mode 'markdown-mode)
+    (markdown-file-banner))
    (t (generic-file-banner "#" "#" nil)))) ;; Default case
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -633,7 +668,7 @@ end of the current comment, or nil if point is not currently in a comment."
 ;;
 ;; RETURN:	    void.
 ;;
-;; NOTES:	    
+;; NOTES:	    none.
 ;;;
 (defun insert-section-header (name)
   "Insert a section header"
