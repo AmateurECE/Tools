@@ -12,7 +12,7 @@
 #
 # CREATED:	    10/23/2017
 #
-# LAST EDITED:	    12/27/2017
+# LAST EDITED:	    12/29/2017
 ###
 
 alias ls='ls -A'
@@ -28,6 +28,8 @@ alias t="python $MY_GIT/not-mine/t/t.py --task-dir $MY_GIT/Tools/tasks/ \
 --list tasks"
 alias p="python $MY_GIT/not-mine/t/t.py --task-dir $MY_GIT/Tools/tasks/ \
 --list projects"
+
+LANG="en_US.UTF-8"
 
 function latex-template {
     GITHUB='https://raw.githubusercontent.com'
