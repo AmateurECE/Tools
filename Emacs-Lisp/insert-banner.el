@@ -9,7 +9,7 @@
 ;;
 ;; CREATED:	    06/16/2017
 ;;
-;; LAST EDITED:	    12/28/2017
+;; LAST EDITED:	    01/28/2018
 ;;;
 
 ;; ====== NOTE: ======
@@ -94,10 +94,10 @@ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
 DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
 DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
 (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.")
+	    LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+	    ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+	    (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+	    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.")
 
 (defconst file-gpl-3-license
   "\
@@ -433,7 +433,8 @@ end of the current comment, or nil if point is not currently in a comment."
 	(eq major-mode 'asm-mode)
 	(eq major-mode 'dts-mode)
 	(eq major-mode 'bison-mode)
-	(eq major-mode 'yacc-mode))
+	(eq major-mode 'yacc-mode)
+	(eq major-mode 'java-mode))
     (generic-file-banner " *" "*" "/"))
    ((eq major-mode 'emacs-lisp-mode)
     (generic-file-banner ";;" ";" nil))
@@ -584,6 +585,16 @@ end of the current comment, or nil if point is not currently in a comment."
   (insert "\"\"\"")
   (goto-char currpos))
 
+(defun java-function-header ()
+  "Inserts a JavaDoc function header in the style required by my CS2321 class."
+  ;; Not interactive
+  (insert "/**\n  * Don't forget your TCJ comment!")
+  (save-excursion
+    (insert-and-tab "\n  * @param")
+    (insert-and-tab "\n  * @return")
+    (insert-and-tab "\n  * @throws"
+		    "\n  */\n@TimeComplexity(\"O(/* TODO */)\")")))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    insert-function-header
 ;;
@@ -617,6 +628,8 @@ end of the current comment, or nil if point is not currently in a comment."
     (asm-function-header))
    ((eq major-mode 'python-mode)
     (python-function-header))
+   ((eq major-mode 'java-mode)
+    (java-function-header))
    ;; Default case
    (t (generic-function-header "#" "#" nil))))
 
@@ -679,7 +692,8 @@ end of the current comment, or nil if point is not currently in a comment."
 	(eq major-mode 'asm-mode)
 	(eq major-mode 'dts-mode)
 	(eq major-mode 'bison-mode)
-	(eq major-mode 'yacc-mode))
+	(eq major-mode 'yacc-mode)
+	(eq major-mode 'java-mode))
     (generic-section-header " *" "*" "/"))
    ((eq major-mode 'emacs-lisp-mode)
     (generic-section-header ";;" ";" nil))
