@@ -7,7 +7,7 @@
 ;;
 ;; CREATED:	    09/15/2017
 ;;
-;; LAST EDITED:	    12/27/2017
+;; LAST EDITED:	    01/27/2018
 ;;;
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -78,6 +78,8 @@
 
 ;; alist additions
 (add-to-list 'auto-mode-alist '("\\.bash_aliases" . sh-mode))
+(delete "[Mm]akefile\\'" auto-mode-alist)
+(add-to-list 'auto-mode-alist '("[Mm]akefile\\'" . makefile-gmake-mode))
 
 ;;; Key bindings
 ;; Set undo to \C-z
