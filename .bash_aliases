@@ -24,7 +24,7 @@ alias python='python3'
 alias repo-check='$MY_GIT/Tools/Git-Tools/post.sh'
 alias screen='screen -c ~/.screenrc'
 alias svn='svn --no-auth-cache'
-alias t="python $MY_GIT/not-mine/t/t.py --task-dir ~/Desktop \
+alias t="python $MY_GIT/not-mine/t/t.py --task-dir ~/Desktop/tasks/ \
 --list tasks"
 alias p="python $MY_GIT/not-mine/t/t.py --task-dir $MY_GIT/Tools/tasks/ \
 --list projects"
