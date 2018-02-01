@@ -12,7 +12,7 @@
 #
 # CREATED:	    10/23/2017
 #
-# LAST EDITED:	    01/31/2018
+# LAST EDITED:	    02/01/2018
 ###
 
 alias ls='ls -A'
@@ -52,7 +52,6 @@ function join-by {
     IFS=$SAVE
 }
 
-# TODO: b - bash errors caused by backtick-single quote combo
 function b {
     GIT="."
     while [[ ! -e "$GIT/.git" ]] && [[ `ls $GIT` != `ls /` ]]; do
@@ -88,7 +87,9 @@ function b {
 	    if [ "x$f" = "x" ]; then
 		continue
 	    fi
-	    eval python $MY_GIT/not-mine/t/t.py "$T \"$f\""
+
+	    f=`echo $f | sed -e 's/\`/\\\\\`/g'`
+	    eval python $MY_GIT/not-mine/t/t.py "$T" "\"$f\""
 	done
     elif [[ $1 == "" ]]; then
 	eval python $MY_GIT/not-mine/t/t.py $T

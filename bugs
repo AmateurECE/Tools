@@ -1,4 +1,3 @@
 Emacs-Lisp/line-wrap.el: Line delimiting is broken | id:5f6118be79702529b1d4d232f695c47242758595
 Emacs-Lisp/insert-banner.el: Create end-of-file marker | id:adb6bdb4c67abf67c6163a59f921ce655f86dedb
 Emacs-Lisp/insert-banner.el: insert-file-banner doesn't work for C++ | id:dc9f778cbd88e47654293fc869953da0d245d0ad
-.bash_aliases: b - bash errors caused by backtick-single quote combo | id:f4aca312d95cef4ef66fbb7f0002b2a1d37590a6
