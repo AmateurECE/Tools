@@ -1,4 +1,3 @@
-./.bash_aliases: b - fix unexpected token ) error | id:11b0cf3b55bcef7c5b812728efaed8cd77bf16e1
 ./.bash_aliases: b - b doesn't work if run from a sub-directory | id:af6953743efe9741da380f632a17d7dcf0e174db
 ./Emacs-Lisp/insert-banner.el: Create end-of-file marker | id:c0aa2f3d685b48bed7baaa00990f923d29d9344d
 ./.bash_aliases: b - bash errors caused by backtick-single quote combo | id:c1da2a91e68b7d54e3554e161f073faa049baa95

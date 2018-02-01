@@ -54,7 +54,6 @@ function join-by {
 
 # TODO: b - b doesn't work if run from a sub-directory
 # TODO: b - bash errors caused by backtick-single quote combo
-# TODO: b - fix unexpected token ) error
 # TODO: b - Create bugs file in git top dir
 # TODO: b - fix duplicate naming
 # If run from a sub-directory, b update will produce duplicate entries for
@@ -90,6 +89,10 @@ function b {
 	BUGS=`awk -F'TODO:? ' '/(# |\/* )TODO:? /{print FILENAME": "$2}' $LIST`
 	IFS=$(echo -e "\n\b")
 	for f in $BUGS; do
+	    f=`echo $f | grep -v '[^[:space:]]\+: \*/'`
+	    if [ "x$f" = "x" ]; then
+		continue
+	    fi
 	    eval python $MY_GIT/not-mine/t/t.py "$T \"$f\""
 	done
     elif [[ $1 == "" ]]; then
