@@ -9,7 +9,7 @@
 ;;
 ;; CREATED:	    06/16/2017
 ;;
-;; LAST EDITED:	    01/28/2018
+;; LAST EDITED:	    01/30/2018
 ;;;
 
 ;; ====== NOTE: ======
@@ -405,6 +405,29 @@ end of the current comment, or nil if point is not currently in a comment."
     (insert "-->")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; FUNCTION:	    java-file-banner
+;;
+;; DESCRIPTION:	    This function inserts a JavaDoc file banner in the style
+;;		    preferred by my CS2321 class.
+;;
+;; ARGUMENTS:	    none.
+;;
+;; RETURN:	    none.
+;;
+;; NOTES:	    none.
+;;;
+(defun java-file-banner ()
+  "Insert a file banner in the JavaDoc style."
+  (insert "\n/**")
+  (insert-and-tab "\n * NAME:" name)
+  (insert-and-tab "\n *\n * DESCRIPTION:")
+  (save-excursion
+    (insert-and-tab "\n *\n * @author" "Ethan D. Twardy "
+		    "<edtwardy@mtu.edu>")
+    (insert-and-tab "\n *\n * CREATED:" date)
+    (insert-and-tab " *\n * LAST EDITED:" date " */")))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    insert-file-banner
 ;;
 ;; DESCRIPTION:	    This function is responsible for inserting the banner
@@ -433,8 +456,7 @@ end of the current comment, or nil if point is not currently in a comment."
 	(eq major-mode 'asm-mode)
 	(eq major-mode 'dts-mode)
 	(eq major-mode 'bison-mode)
-	(eq major-mode 'yacc-mode)
-	(eq major-mode 'java-mode))
+	(eq major-mode 'yacc-mode))
     (generic-file-banner " *" "*" "/"))
    ((eq major-mode 'emacs-lisp-mode)
     (generic-file-banner ";;" ";" nil))
@@ -448,6 +470,8 @@ end of the current comment, or nil if point is not currently in a comment."
     (fortran-file-banner "C"))
    ((eq major-mode 'markdown-mode)
     (markdown-file-banner))
+   ((eq major-mode 'java-mode)
+    (java-file-banner))
    (t (generic-file-banner "#" "#" nil)))) ;; Default case
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -585,15 +609,36 @@ end of the current comment, or nil if point is not currently in a comment."
   (insert "\"\"\"")
   (goto-char currpos))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; FUNCTION:	    java-function-header
+;;
+;; DESCRIPTION:	    Inserts a JavaDoc function header.
+;;
+;; ARGUMENTS:	    none
+;;
+;; RETURN:	    none
+;;
+;; NOTES:	    none.
+;;;
 (defun java-function-header ()
   "Inserts a JavaDoc function header in the style required by my CS2321 class."
   ;; Not interactive
-  (insert "/**\n  * Don't forget your TCJ comment!")
+  (indent-for-tab-command)
+  (insert "/**\n* ")
+  (indent-for-tab-command)
+  (insert name "\n* ")
+  (indent-for-tab-command)
   (save-excursion
-    (insert-and-tab "\n  * @param")
-    (insert-and-tab "\n  * @return")
-    (insert-and-tab "\n  * @throws"
-		    "\n  */\n@TimeComplexity(\"O(/* TODO */)\")")))
+    (insert "Don't forget your TCJ comment!\n* ")
+    (dolist (elm '(("@param" "\n* ")
+		   ("@return" "\n* ")
+		   ("@throws" "\n*/"))
+		 t)
+      (indent-for-tab-command)
+      (insert-and-tab (car elm) (car (cdr elm))))
+    (indent-for-tab-command)
+    (insert "\n@TimeComplexity(\"O(/* TODO */)\")")
+    (indent-for-tab-command)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    insert-function-header
@@ -671,6 +716,28 @@ end of the current comment, or nil if point is not currently in a comment."
   (when (not (null stt)) (insert stt)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; FUNCTION:	    java-section-header
+;;
+;; DESCRIPTION:	    Insert a JavaDoc section header.
+;;
+;; ARGUMENTS:	    none
+;;
+;; RETURN:	    none
+;;
+;; NOTES:	    none
+;;;
+(defun java-section-header ()
+  "Insert a JavaDoc Section header."
+  (indent-for-tab-command)
+  (insert "/")
+  (while (< (current-column) 78)
+    (insert "*"))
+  (insert "\n* " name)
+  (indent-for-tab-command)
+  (insert "\n***/")
+  (indent-for-tab-command))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    insert-section-header
 ;;
 ;; DESCRIPTION:	    This function inserts the headers that separate each part
@@ -681,7 +748,7 @@ end of the current comment, or nil if point is not currently in a comment."
 ;;
 ;; RETURN:	    void.
 ;;
-;; NOTES:	    none.
+;; NOTES:	    none
 ;;;
 (defun insert-section-header (name)
   "Insert a section header"
@@ -692,14 +759,15 @@ end of the current comment, or nil if point is not currently in a comment."
 	(eq major-mode 'asm-mode)
 	(eq major-mode 'dts-mode)
 	(eq major-mode 'bison-mode)
-	(eq major-mode 'yacc-mode)
-	(eq major-mode 'java-mode))
+	(eq major-mode 'yacc-mode))
     (generic-section-header " *" "*" "/"))
    ((eq major-mode 'emacs-lisp-mode)
     (generic-section-header ";;" ";" nil))
    ((or (eq major-mode 'latex-mode)
 	(eq major-mode 'matlab-mode))
     (generic-section-header "%" "%" nil))
+   ((eq major-mode 'java-mode)
+    (java-section-header))
    ;; Default case
    (t (generic-section-header "#" "#" nil))))
 
@@ -734,6 +802,30 @@ end of the current comment, or nil if point is not currently in a comment."
     (goto-char currpos)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; FUNCTION:	    java-class-header
+;;
+;; DESCRIPTION:	    Insert a JavaDoc class header.
+;;
+;; ARGUMENTS:	    name: The name of the class.
+;;
+;; RETURN:	    none.
+;;
+;; NOTES:	    none.
+;;;
+(defun java-class-header (name)
+  "Inserts a JavaDoc class header."
+  (indent-for-tab-command)
+  (insert "/**\n* ")
+  (indent-for-tab-command)
+  (insert name "\n* ")
+  (indent-for-tab-command)
+  (save-excursion
+    (insert-and-tab "\n  * @param")
+    (indent-for-tab-command)
+    (insert "\n*/")
+    (indent-for-tab-command)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    insert-class-header
 ;;
 ;; DESCRIPTION:	    Insert a header for a class.
@@ -750,6 +842,8 @@ end of the current comment, or nil if point is not currently in a comment."
   (cond
    ((eq major-mode 'python-mode)
     (python-class-header name))
+   ((eq major-mode 'java-mode)
+    (java-class-header name))
    ;; Default case
    (t
     (message "Support for this mode has not been implemented"))))
