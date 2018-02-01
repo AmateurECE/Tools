@@ -12,7 +12,7 @@
 #
 # CREATED:	    10/23/2017
 #
-# LAST EDITED:	    01/28/2018
+# LAST EDITED:	    01/31/2018
 ###
 
 alias ls='ls -A'
@@ -52,6 +52,13 @@ function join-by {
     IFS=$SAVE
 }
 
+# TODO: b - b doesn't work if run from a sub-directory
+# TODO: b - bash errors caused by backtick-single quote combo
+# TODO: b - fix unexpected token ) error
+# TODO: b - Create bugs file in git top dir
+# TODO: b - fix duplicate naming
+# If run from a sub-directory, b update will produce duplicate entries for
+# some of the files in the current directory. Investigate and fix.
 function b {
     GIT="."
     while [[ ! -e "$GIT/.git" ]] && [[ `ls $GIT` != `ls /` ]]; do
@@ -89,6 +96,14 @@ function b {
 	eval python $MY_GIT/not-mine/t/t.py $T
     else
 	echo >&2 "fatal: command not understood"
+    fi
+}
+
+recipes() {
+    if [ -f "$RECIPES/$1.7" ]; then
+	man $RECIPES/$1.7
+    else
+	echo >&2 "No recipe found for $1"
     fi
 }
 

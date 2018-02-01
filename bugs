@@ -1,3 +1,8 @@
+./.bash_aliases: b - fix unexpected token ) error | id:11b0cf3b55bcef7c5b812728efaed8cd77bf16e1
+./.bash_aliases: b - b doesn't work if run from a sub-directory | id:af6953743efe9741da380f632a17d7dcf0e174db
 ./Emacs-Lisp/insert-banner.el: Create end-of-file marker | id:c0aa2f3d685b48bed7baaa00990f923d29d9344d
+./.bash_aliases: b - bash errors caused by backtick-single quote combo | id:c1da2a91e68b7d54e3554e161f073faa049baa95
+./.bash_aliases: b - Create bugs file in git top dir | id:ceb57173da145f99ebe9d833b910b4f4d2c31264
+./.bash_aliases: b - fix duplicate naming | id:e8fb52fc0e0911f095262e3832f14e6ed9df55a5
 ./Emacs-Lisp/insert-banner.el: insert-file-banner doesn't work for C++ | id:eb7a368951574aa06180224a73cd2dd9f2d7a003
 ./Emacs-Lisp/line-wrap.el: Line delimiting is broken | id:ec1e506462e5f94085fb087874c51b82270ee3f9
