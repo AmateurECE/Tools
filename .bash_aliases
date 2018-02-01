@@ -52,12 +52,7 @@ function join-by {
     IFS=$SAVE
 }
 
-# TODO: b - b doesn't work if run from a sub-directory
 # TODO: b - bash errors caused by backtick-single quote combo
-# TODO: b - Create bugs file in git top dir
-# TODO: b - fix duplicate naming
-# If run from a sub-directory, b update will produce duplicate entries for
-# some of the files in the current directory. Investigate and fix.
 function b {
     GIT="."
     while [[ ! -e "$GIT/.git" ]] && [[ `ls $GIT` != `ls /` ]]; do
@@ -70,10 +65,10 @@ function b {
 	return 1
     fi
     
-    T="--task-dir . --list bugs --delete-if-empty"
+    T="--task-dir . --list $GIT/bugs --delete-if-empty"
     if [[ $1 == "update" ]]; then
-	if [ -e $PWD/bugs ]; then
-	    rm -f $PWD/bugs
+	if [ -e $GIT/bugs ]; then
+	    rm -f $GIT/bugs
 	fi
 	# Read in the .bignore file.
 	REGX=""
@@ -89,7 +84,7 @@ function b {
 	BUGS=`awk -F'TODO:? ' '/(# |\/* )TODO:? /{print FILENAME": "$2}' $LIST`
 	IFS=$(echo -e "\n\b")
 	for f in $BUGS; do
-	    f=`echo $f | grep -v '[^[:space:]]\+: \*/'`
+	    f=`echo $f | grep -v '[^[:space:]]\+: \*/' | sed -Ee 's|[.]+/||g'`
 	    if [ "x$f" = "x" ]; then
 		continue
 	    fi
