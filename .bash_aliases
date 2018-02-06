@@ -12,7 +12,7 @@
 #
 # CREATED:	    10/23/2017
 #
-# LAST EDITED:	    02/01/2018
+# LAST EDITED:	    02/03/2018
 ###
 
 alias ls='ls -A'
@@ -84,6 +84,7 @@ function b {
 	IFS=$(echo -e "\n\b")
 	for f in $BUGS; do
 	    f=`echo $f | grep -v '[^[:space:]]\+: \*/' | sed -Ee 's|[.]+/||g'`
+	    f=`echo $f | sed -e 's#\*/.*##'`
 	    if [ "x$f" = "x" ]; then
 		continue
 	    fi
