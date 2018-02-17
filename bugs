@@ -3,3 +3,4 @@ Emacs-Lisp/line-wrap.el: Line delimiting is broken | id:5f6118be79702529b1d4d232
 LaTeX/template.tex: Add the method for including an image | id:6285c2fef775e6887ce1be37cad26f0bfaf52ed4
 Emacs-Lisp/insert-banner.el: Create end-of-file marker | id:adb6bdb4c67abf67c6163a59f921ce655f86dedb
 Emacs-Lisp/insert-banner.el: insert-file-banner doesn't work for C++ | id:dc9f778cbd88e47654293fc869953da0d245d0ad
+.bash_aliases: recipes does not work | id:e58acb94181c4e3f0b662b330da0b752a0277d60

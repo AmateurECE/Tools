@@ -12,7 +12,7 @@
 #
 # CREATED:	    10/23/2017
 #
-# LAST EDITED:	    02/03/2018
+# LAST EDITED:	    02/17/2018
 ###
 
 alias ls='ls -A'
@@ -99,6 +99,7 @@ function b {
     fi
 }
 
+# TODO: recipes does not work
 recipes() {
     if [ -f "$RECIPES/$1.7" ]; then
 	man $RECIPES/$1.7
