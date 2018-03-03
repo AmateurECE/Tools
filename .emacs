@@ -20,8 +20,6 @@
  '(standard-indent 8)
  '(tab-stop-list (quote (4 8 12 16 20 24 28 32))))
 
-;; TODO: Chane the port number for the server.
-
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -1,5 +1,4 @@
 LaTeX/template.tex: Add the method for including a pdf | id:1d9e436487b5f9917ac49196412344f426a3c2eb
-.emacs: Chane the port number for the server. | id:40ee9746c2ae1359c0518f7683985c5b10eca9d7
 Emacs-Lisp/line-wrap.el: Line delimiting is broken | id:5f6118be79702529b1d4d232f695c47242758595
 LaTeX/template.tex: Add the method for including an image | id:6285c2fef775e6887ce1be37cad26f0bfaf52ed4
 Emacs-Lisp/insert-banner.el: Create end-of-file marker | id:adb6bdb4c67abf67c6163a59f921ce655f86dedb
