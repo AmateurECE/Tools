@@ -7,7 +7,7 @@
 ;;
 ;; CREATED:	    09/15/2017
 ;;
-;; LAST EDITED:	    01/27/2018
+;; LAST EDITED:	    03/02/2018
 ;;;
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -19,6 +19,8 @@
  '(inhibit-default-init t)
  '(standard-indent 8)
  '(tab-stop-list (quote (4 8 12 16 20 24 28 32))))
+
+;; TODO: Chane the port number for the server.
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

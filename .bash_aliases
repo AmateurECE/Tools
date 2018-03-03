@@ -12,7 +12,7 @@
 #
 # CREATED:	    10/23/2017
 #
-# LAST EDITED:	    02/17/2018
+# LAST EDITED:	    03/02/2018
 ###
 
 alias ls='ls -A'
@@ -30,6 +30,7 @@ alias p="python $MY_GIT/not-mine/t/t.py --task-dir $MY_GIT/Tools/tasks/ \
 --list projects"
 
 LANG="en_US.UTF-8"
+export RECIPES="$MY_GIT/Doc/Recipes"
 
 function latex-template {
     GITHUB='https://raw.githubusercontent.com'
@@ -52,6 +53,8 @@ function join-by {
     IFS=$SAVE
 }
 
+# TODO: b shouldn't save bugs from anything in .gitignore
+# TODO: b shouldn't save bugs from anything with `~'.
 function b {
     GIT="."
     while [[ ! -e "$GIT/.git" ]] && [[ `ls $GIT` != `ls /` ]]; do
@@ -99,8 +102,12 @@ function b {
     fi
 }
 
-# TODO: recipes does not work
 recipes() {
+    if [ "x$1" = "x" ]; then
+	ls $RECIPES
+	return
+    fi
+
     if [ -f "$RECIPES/$1.7" ]; then
 	man $RECIPES/$1.7
     else
