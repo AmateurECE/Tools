@@ -7,7 +7,7 @@
 ;;
 ;; CREATED:	    09/15/2017
 ;;
-;; LAST EDITED:	    03/02/2018
+;; LAST EDITED:	    04/24/2018
 ;;;
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -65,7 +65,7 @@
   (load-file (concat lisp-dir "line-wrap.el"))
   ;; The point is to uncomment these if I find I'll be using them for extended
   ;; periods of time. This keeps emacs free to do other things on startup.
-  (load-file (concat lisp-dir "ubt-mode.el"))
+  ;; (load-file (concat lisp-dir "ubt-mode.el"))
   ;; (load-file (concat lisp-dir "dts-mode.el"))
   ;; (load-file (concat lisp-dir "matlab.el"))
   ;; (load-file (concat lisp-dir "yacc-mode.el"))
@@ -78,6 +78,7 @@
 
 ;; alist additions
 (add-to-list 'auto-mode-alist '("\\.bash_aliases" . sh-mode))
+(add-to-list 'auto-mode-alist '("\\.plist" . xml-mode))
 (delete "[Mm]akefile\\'" auto-mode-alist)
 (add-to-list 'auto-mode-alist '("[Mm]akefile\\'" . makefile-gmake-mode))
 

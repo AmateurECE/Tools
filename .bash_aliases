@@ -12,7 +12,7 @@
 #
 # CREATED:	    10/23/2017
 #
-# LAST EDITED:	    03/02/2018
+# LAST EDITED:	    04/24/2018
 ###
 
 alias ls='ls -A'
@@ -34,8 +34,26 @@ export RECIPES="$MY_GIT/Doc/Recipes"
 
 function latex-template {
     GITHUB='https://raw.githubusercontent.com'
-    curl -s "$GITHUB/AmateurECE/Tools/master/LaTeX/template.tex" > template.tex
-    if [ $? = "0" ]; then
+    T=$1
+    if [[ "x$T" = "x" ]]; then
+	T="template"
+    fi
+    curl -s "$GITHUB/AmateurECE/Tools/master/LaTeX/template.tex" > $T.tex
+    if [[ $? = "0" ]]; then
+	echo Done!
+    else
+	echo Something went wrong!
+    fi
+}
+
+function plist-template {
+    GITHUB='https://raw.githubusercontent.com'
+    T=$1
+    if [[ "x$T" = "x" ]]; then
+	T="template"
+    fi
+    curl -s "$GITHUB/AmateurECE/Tools/master/template.plist" > $T.plist
+    if [[ $? = "0" ]]; then
 	echo Done!
     else
 	echo Something went wrong!
