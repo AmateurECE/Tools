@@ -9,7 +9,7 @@
 ;;
 ;; CREATED:	    06/16/2017
 ;;
-;; LAST EDITED:	    01/30/2018
+;; LAST EDITED:	    04/26/2018
 ;;;
 
 ;; ====== NOTE: ======
@@ -440,6 +440,7 @@ end of the current comment, or nil if point is not currently in a comment."
 ;;
 ;; NOTES:	    TODO: insert-file-banner doesn't work for C++
 ;;		    TODO: Create end-of-file marker
+;;		    TODO: Add Email address in <>.
 ;;;
 (defun insert-file-banner ()
   "Insert a banner at the top of a file"

@@ -12,7 +12,7 @@
 #
 # CREATED:	    10/23/2017
 #
-# LAST EDITED:	    04/24/2018
+# LAST EDITED:	    05/11/2018
 ###
 
 alias ls='ls -A'
@@ -131,6 +131,26 @@ recipes() {
     else
 	echo >&2 "No recipe found for $1"
     fi
+}
+
+# Calculate the number of system lines of code in all files in this and all
+# subdirectories which match the regular expression given.
+sloc() {
+    if [[ "x$1" = "x" ]]; then
+	REG='\.[ch]'
+    else
+	REG=$1
+    fi
+    total=0
+    # Calculate the lines in each individual file
+    for f in `find . | grep $REG`; do
+	lines=`cat $f | sed -e '/^\s*$/d' | wc -l \
+		   | awk -F'[[:blank:]]+' '{print $2;}'`
+	echo "$f: $lines"
+	total=$(expr $total + $lines)
+    done
+    echo "-------------"
+    echo "Total: $total"
 }
 
 ###############################################################################
