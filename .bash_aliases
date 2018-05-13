@@ -12,7 +12,7 @@
 #
 # CREATED:	    10/23/2017
 #
-# LAST EDITED:	    05/11/2018
+# LAST EDITED:	    05/13/2018
 ###
 
 alias ls='ls -A'
@@ -28,10 +28,12 @@ alias t="python $MY_GIT/not-mine/t/t.py --task-dir ~/Desktop/tasks/ \
 --list tasks"
 alias p="python $MY_GIT/not-mine/t/t.py --task-dir $MY_GIT/Tools/tasks/ \
 --list projects"
+alias bits="$MY_GIT/Tools/bits/bits"
 
 LANG="en_US.UTF-8"
 export RECIPES="$MY_GIT/Doc/Recipes"
 
+# TODO: Add docs for these functions
 function latex-template {
     GITHUB='https://raw.githubusercontent.com'
     T=$1
