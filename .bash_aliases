@@ -12,7 +12,7 @@
 #
 # CREATED:	    10/23/2017
 #
-# LAST EDITED:	    05/13/2018
+# LAST EDITED:	    06/11/2018
 ###
 
 alias ls='ls -A'
@@ -32,6 +32,17 @@ alias bits="$MY_GIT/Tools/bits/bits"
 
 LANG="en_US.UTF-8"
 export RECIPES="$MY_GIT/Doc/Recipes"
+
+# PREGIT environment variables.
+export PREGIT_PREFIX=".pregit-"
+export PREGIT_ALLOW_DIR=1
+export PREGIT_ALLOW_SCRIPTS=1
+export PREGIT_GIT_LOCATION="/usr/bin/git"
+# If PREGIT_SILENT is not "", pregit will be silent.
+# export PREGIT_SILENT="1"
+
+# Alias for PREGIT
+alias git="$MY_GIT/Tools/Git-Tools/pregit/pregit.sh"
 
 # TODO: Add docs for these functions
 function latex-template {
