@@ -12,7 +12,7 @@
 #
 # CREATED:	    10/23/2017
 #
-# LAST EDITED:	    06/11/2018
+# LAST EDITED:	    06/12/2018
 ###
 
 alias ls='ls -A'
@@ -38,6 +38,8 @@ export PREGIT_PREFIX=".pregit-"
 export PREGIT_ALLOW_DIR=1
 export PREGIT_ALLOW_SCRIPTS=1
 export PREGIT_GIT_LOCATION="/usr/bin/git"
+export PREGIT_CHECK_RET=1
+# export PREGIT_TEST_MODE=1
 # If PREGIT_SILENT is not "", pregit will be silent.
 # export PREGIT_SILENT="1"
 
