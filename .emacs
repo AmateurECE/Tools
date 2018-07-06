@@ -7,7 +7,7 @@
 ;;
 ;; CREATED:	    09/15/2017
 ;;
-;; LAST EDITED:	    05/09/2018
+;; LAST EDITED:	    07/01/2018
 ;;;
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -71,6 +71,7 @@
   ;; (load-file (concat lisp-dir "yacc-mode.el"))
   (load-file (concat lisp-dir "spice-mode.el"))
   ;; (load-file (concat lisp-dir "markdown-mode.el"))
+  (load-file (concat lisp-dir "nxml-hide.el"))
   t)
 
 ;; Turn on error-catching.
