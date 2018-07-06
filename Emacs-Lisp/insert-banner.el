@@ -9,7 +9,7 @@
 ;;
 ;; CREATED:	    06/16/2017
 ;;
-;; LAST EDITED:	    04/26/2018
+;; LAST EDITED:	    07/06/2018
 ;;;
 
 ;; ====== NOTE: ======
@@ -113,6 +113,8 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.")
+
+(defvar my-name "Ethan D. Twardy <edtwardy@mtu.edu>")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Function Definitions
@@ -219,7 +221,7 @@ end of the current comment, or nil if point is not currently in a comment."
 	  eos c)
       (beginning-of-buffer)
       (setq eos (end-of-comment))
-      (when (re-search-forward "Ethan D. Twardy" eos 'keep-point)
+      (when (re-search-forward my-name eos 'keep-point)
 	(re-search-forward "LAST EDITED:" eos 'keep-point)
 	(forward-whitespace 1)
 	(setq c (char-after (point)))
@@ -275,7 +277,7 @@ end of the current comment, or nil if point is not currently in a comment."
 
   (insert "\n" nl)
   (insert-and-tab " NAME:" name "\n" nl "\n" nl)
-  (insert-and-tab " AUTHOR:" "Ethan D. Twardy\n" nl "\n" nl)
+  (insert-and-tab " AUTHOR:" my-name "\n" nl "\n" nl)
   (insert-and-tab " DESCRIPTION:")
   (save-excursion
     (insert "\n" nl "\n" nl)
@@ -323,7 +325,7 @@ end of the current comment, or nil if point is not currently in a comment."
 
   (insert "\n" nl)
   (insert-and-tab " NAME:" name "\n" nl "\n" nl)
-  (insert-and-tab " AUTHOR:" "Ethan D. Twardy\n" nl "\n" nl)
+  (insert-and-tab " AUTHOR:" my-name "\n" nl "\n" nl)
   (insert " DESCRIPTION:")
   (indent-to-column 20)
   (save-excursion
@@ -422,8 +424,7 @@ end of the current comment, or nil if point is not currently in a comment."
   (insert-and-tab "\n * NAME:" name)
   (insert-and-tab "\n *\n * DESCRIPTION:")
   (save-excursion
-    (insert-and-tab "\n *\n * @author" "Ethan D. Twardy "
-		    "<edtwardy@mtu.edu>")
+    (insert-and-tab "\n *\n * @author" my-name)
     (insert-and-tab "\n *\n * CREATED:" date)
     (insert-and-tab " *\n * LAST EDITED:" date " */")))
 
@@ -440,7 +441,6 @@ end of the current comment, or nil if point is not currently in a comment."
 ;;
 ;; NOTES:	    TODO: insert-file-banner doesn't work for C++
 ;;		    TODO: Create end-of-file marker
-;;		    TODO: Add Email address in <>.
 ;;;
 (defun insert-file-banner ()
   "Insert a banner at the top of a file"

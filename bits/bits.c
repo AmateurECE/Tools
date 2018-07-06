@@ -3,11 +3,12 @@
  *
  * AUTHOR:	    Ethan D. Twardy
  *
- * DESCRIPTION:	    TODO: bits.c
+ * DESCRIPTION:	    This file implements a basic tool to convert numbers from
+ *		    one base to another.
  *
  * CREATED:	    05/11/2018
  *
- * LAST EDITED:	    05/13/2018
+ * LAST EDITED:	    07/05/2018
  ***/
 
 /******************************************************************************
