@@ -9,7 +9,7 @@
 ;;
 ;; CREATED:	    06/16/2017
 ;;
-;; LAST EDITED:	    07/06/2018
+;; LAST EDITED:	    07/10/2018
 ;;;
 
 ;; ====== NOTE: ======
@@ -221,7 +221,7 @@ end of the current comment, or nil if point is not currently in a comment."
 	  eos c)
       (beginning-of-buffer)
       (setq eos (end-of-comment))
-      (when (re-search-forward my-name eos 'keep-point)
+      (when (re-search-forward "Ethan D. Twardy" eos 'keep-point)
 	(re-search-forward "LAST EDITED:" eos 'keep-point)
 	(forward-whitespace 1)
 	(setq c (char-after (point)))
