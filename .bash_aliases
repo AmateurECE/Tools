@@ -12,7 +12,7 @@
 #
 # CREATED:	    10/23/2017
 #
-# LAST EDITED:	    06/12/2018
+# LAST EDITED:	    07/15/2018
 ###
 
 alias ls='ls -A'
@@ -87,7 +87,6 @@ function join-by {
 }
 
 # TODO: b shouldn't save bugs from anything in .gitignore
-# TODO: b shouldn't save bugs from anything with `~'.
 function b {
     GIT="."
     while [[ ! -e "$GIT/.git" ]] && [[ `ls $GIT` != `ls /` ]]; do
@@ -115,6 +114,7 @@ function b {
 	if [ "x$REGX" == "x" ]; then
 	    REGX='.git/'
 	fi
+	REGX=${REGX}"\|~"
 	LIST=`find $GIT -type f | grep -v "$REGX"`
 	BUGS=`awk -F'TODO:? ' '/(# |\/* )TODO:? /{print FILENAME": "$2}' $LIST`
 	IFS=$(echo -e "\n\b")
