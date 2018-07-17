@@ -9,7 +9,7 @@
 ;;
 ;; CREATED:	    06/16/2017
 ;;
-;; LAST EDITED:	    07/10/2018
+;; LAST EDITED:	    07/16/2018
 ;;;
 
 ;; ====== NOTE: ======
@@ -123,6 +123,74 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Utilities
 ;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; FUNCTION:	    insert-define-guards
+;;
+;; DESCRIPTION:	    Inserts define guards into the current file at the current
+;;		    position.
+;;
+;; ARGUMENTS:	    none.
+;;
+;; RETURN:	    none.
+;;
+;; NOTES:	    none.
+;;;
+(defun insert-define-guards ()
+  "Inserts define guards into the current file at the current position."
+  (setq file-name (short-buffer-file-name))
+  (setq guard-name-regexp (concat
+			   "\\<"
+			   (rx (group (one-or-more (any alpha))))
+			   "\\.h\\>"))
+  (string-match guard-name-regexp file-name)
+  (setq guard-name (concat "__ET_"
+			   (upcase (match-string 1 file-name))
+			   "__"))
+  (insert "#ifndef " guard-name "\n")
+  (insert "#define " guard-name "\n\n")
+  (insert "#endif /* " guard-name " */\n"))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; FUNCTION:	    insert-end-of-file-marker
+;;
+;; DESCRIPTION:	    Inserts an end-of-file marker at the end of the file.
+;;
+;; ARGUMENTS:	    nl: (string) -- char printed at new line.
+;;		    sym: (string) -- standard comment char.
+;;		    stt: (string) -- char that starts & ends a comment. Only
+;;			used in c-mode.
+;;
+;; RETURN:	    void
+;;
+;; NOTES:	    none.
+;;;
+(defun insert-end-of-file-marker (nl sym stt)
+  "Inserts an end-of-file marker at the end of the file."
+  (when (not (null stt)) (insert stt))
+  (if (null stt)
+      (setq iter 78)
+    (setq iter 77))
+
+  (let (val)
+    (dotimes (num iter val)
+      (insert sym)))
+  (when (not (null stt)) (insert stt)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; FUNCTION:	    short-buffer-file-name
+;;
+;; DESCRIPTION:	    Return the shortened version of buffer-file-name.
+;;
+;; ARGUMENTS:	    void
+;;
+;; RETURN:	    none.
+;;
+;; NOTES:	    none.
+;;;
+(defun short-buffer-file-name ()
+  "Return the shortened version of buffer-file-name."
+  (buffer-name (window-buffer (minibuffer-selected-window))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    insert-and-tab
@@ -299,7 +367,15 @@ end of the current comment, or nil if point is not currently in a comment."
     (if (string-equal sym ";")
 	(insert sym sym sym)
       (insert nl sym sym))
-    (when (not (null stt)) (insert stt))))
+    (when (not (null stt)) (insert stt))
+    (insert "\n\n")
+
+    ;; If our file is a C Header, add include define guards
+    (if (string-match "\\.h" (short-buffer-file-name))
+	(progn
+	  (insert-define-guards)
+	  (insert "\n")))
+    (insert-end-of-file-marker nl sym stt)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FUNCTION:	    ubt-file-banner
