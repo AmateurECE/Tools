@@ -641,7 +641,7 @@ end of the current comment, or nil if point is not currently in a comment."
 
   (insert "/")
   (let (val)
-    (dotimes (num 79 val)
+    (dotimes (num 78 val)
       (insert "*")))
   (insert "\n *")
   (insert-and-tab " SUBROUTINE:" name "\n *\n *")
