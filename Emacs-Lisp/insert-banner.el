@@ -9,7 +9,7 @@
 ;;
 ;; CREATED:	    06/16/2017
 ;;
-;; LAST EDITED:	    07/16/2018
+;; LAST EDITED:	    07/17/2018
 ;;;
 
 ;; ====== NOTE: ======
@@ -371,7 +371,7 @@ end of the current comment, or nil if point is not currently in a comment."
     (insert "\n\n")
 
     ;; If our file is a C Header, add include define guards
-    (if (string-match "\\.h" (short-buffer-file-name))
+    (if (string-match "\\.h$" (short-buffer-file-name))
 	(progn
 	  (insert-define-guards)
 	  (insert "\n")))
@@ -530,6 +530,7 @@ end of the current comment, or nil if point is not currently in a comment."
   (setq name (match-string 1 buffer-file-name))
   (cond
    ((or (eq major-mode 'c-mode)
+	(eq major-mode 'c++-mode)
 	(eq major-mode 'asm-mode)
 	(eq major-mode 'dts-mode)
 	(eq major-mode 'bison-mode)
@@ -737,6 +738,7 @@ end of the current comment, or nil if point is not currently in a comment."
   (setq stt nil)
   (cond
    ((or (eq major-mode 'c-mode)
+	(eq major-mode 'c++-mode)
 	(eq major-mode 'bison-mode)
 	(eq major-mode 'yacc-mode))
     (generic-function-header " *" "*" "/"))
@@ -833,6 +835,7 @@ end of the current comment, or nil if point is not currently in a comment."
 
   (cond
    ((or (eq major-mode 'c-mode)
+	(eq major-mode 'c++-mode)
 	(eq major-mode 'asm-mode)
 	(eq major-mode 'dts-mode)
 	(eq major-mode 'bison-mode)
