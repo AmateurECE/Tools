@@ -7,7 +7,7 @@
 ;;
 ;; CREATED:	    09/15/2017
 ;;
-;; LAST EDITED:	    07/01/2018
+;; LAST EDITED:	    07/17/2018
 ;;;
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -88,6 +88,15 @@
 (global-unset-key (kbd "C-/"))
 (global-unset-key (kbd "C-z"))
 (global-set-key (kbd "C-z") 'undo)
+
+;; forward-whitespace and backward-whitespace are shadowed by C-j key binding
+;; in LaTeX mode and Asm mode. These hooks fix that.
+(add-hook 'latex-mode-hook
+	  (lambda()
+	    (local-unset-key (kbd "C-j"))))
+(add-hook 'asm-mode-hook
+	  (lambda()
+	    (local-unset-key (kbd "C-j"))))
 
 ;; Bindings for forward-whitespace and backward whitespace, etc.
 (global-unset-key (kbd "C-k"))
