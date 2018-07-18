@@ -595,8 +595,7 @@ end of the current comment, or nil if point is not currently in a comment."
   (save-excursion
     (insert "\n" nl "\n" nl)
     (insert-and-tab " ARGUMENTS:" "\n" nl "\n" nl)
-    (insert-and-tab " RETURN:" "\n" nl "\n" nl)
-    (insert-and-tab " NOTES:" "\n")
+    (insert-and-tab " RETURN:" "\n")
     (if (string-equal sym ";")
 	(insert sym sym sym)
       (insert nl sym sym))
