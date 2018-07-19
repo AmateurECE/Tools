@@ -7,7 +7,7 @@
 ;;
 ;; CREATED:	    09/15/2017
 ;;
-;; LAST EDITED:	    07/17/2018
+;; LAST EDITED:	    07/18/2018
 ;;;
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -52,10 +52,8 @@
 
 ;;; Load files
 (let ((lisp-dir (cond
-		 ((file-exists-p "~/misc/Tools/Emacs-Lisp")
-		  "~/misc/Tools/Emacs-Lisp/")
-		 ((file-exists-p "~/Git/Tools/Emacs-Lisp")
-		  "~/Git/Tools/Emacs-Lisp/")
+		 ((file-exists-p "~/Git/Emacs-Extensions")
+		  "~/Git/Emacs-Extensions/")
 		 ((file-exists-p "~/Documents/Tools/Emacs-Lisp")
 		  "~/Documents/Tools/Emacs-Lisp/")
 		 (t
