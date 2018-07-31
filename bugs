@@ -1,7 +1,4 @@
 LaTeX/template.tex: Add the method for including a pdf | id:1d9e436487b5f9917ac49196412344f426a3c2eb
-Emacs-Lisp/line-wrap.el: Line delimiting is broken | id:5f6118be79702529b1d4d232f695c47242758595
 LaTeX/template.tex: Add the method for including an image | id:6285c2fef775e6887ce1be37cad26f0bfaf52ed4
-Emacs-Lisp/insert-banner.el: Create end-of-file marker | id:adb6bdb4c67abf67c6163a59f921ce655f86dedb
 .bash_aliases: Add docs for these functions | id:d006bcc7935b664a2cafb1d18232aca45e09900a
-Emacs-Lisp/insert-banner.el: insert-file-banner doesn't work for C++ | id:dc9f778cbd88e47654293fc869953da0d245d0ad
 .bash_aliases: b shouldn't save bugs from anything in .gitignore | id:f379ea2f165724b1aad5641ef5c6ae96189fa326

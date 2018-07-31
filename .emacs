@@ -7,8 +7,13 @@
 ;;
 ;; CREATED:	    09/15/2017
 ;;
-;; LAST EDITED:	    07/18/2018
+;; LAST EDITED:	    07/25/2018
 ;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; MISCELLANEOUS INITIALIZATION
+;;;
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -50,28 +55,6 @@
 	      auto-mode-alist))
 (global-set-key [(f9)] 'gnuplot-make-buffer)
 
-;;; Load files
-(let ((lisp-dir (cond
-		 ((file-exists-p "~/Git/Emacs-Extensions")
-		  "~/Git/Emacs-Extensions/")
-		 ((file-exists-p "~/Documents/Tools/Emacs-Lisp")
-		  "~/Documents/Tools/Emacs-Lisp/")
-		 (t
-		  (error "User's Emacs-Lisp directory could not be found.")))))
-  (load-file (concat lisp-dir "restart-emacs.el"))
-  (load-file (concat lisp-dir "insert-banner.el"))
-  (load-file (concat lisp-dir "line-wrap.el"))
-  ;; The point is to uncomment these if I find I'll be using them for extended
-  ;; periods of time. This keeps emacs free to do other things on startup.
-  ;; (load-file (concat lisp-dir "ubt-mode.el"))
-  ;; (load-file (concat lisp-dir "dts-mode.el"))
-  ;; (load-file (concat lisp-dir "matlab.el"))
-  ;; (load-file (concat lisp-dir "yacc-mode.el"))
-  (load-file (concat lisp-dir "spice-mode.el"))
-  ;; (load-file (concat lisp-dir "markdown-mode.el"))
-  (load-file (concat lisp-dir "nxml-hide.el"))
-  t)
-
 ;; Turn on error-catching.
 (setq debug-on-error t)
 
@@ -81,14 +64,42 @@
 (delete "[Mm]akefile\\'" auto-mode-alist)
 (add-to-list 'auto-mode-alist '("[Mm]akefile\\'" . makefile-gmake-mode))
 
-;;; Key bindings
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; LOAD EXTERNAL FILES
+;;;
+
+(let ((lisp-dir (cond
+		 ((file-exists-p "~/Git/Emacs-Extensions")
+		  "~/Git/Emacs-Extensions/")
+		 ((file-exists-p "~/Documents/Tools/Emacs-Lisp")
+		  "~/Documents/Tools/Emacs-Lisp/")
+		 (t
+		  (error "User's Emacs-Lisp directory could not be found.")))))
+  ;; The point is to uncomment these if I find I'll be using them for extended
+  ;; periods of time. This keeps emacs free to do other things on startup.
+  (load-file (concat lisp-dir "insert-banner.el"))
+  (load-file (concat lisp-dir "line-wrap.el"))
+  ;; (load-file (concat lisp-dir "restart-emacs.el"))
+  ;; (load-file (concat lisp-dir "ubt-mode.el"))
+  ;; (load-file (concat lisp-dir "dts-mode.el"))
+  ;; (load-file (concat lisp-dir "matlab.el"))
+  ;; (load-file (concat lisp-dir "yacc-mode.el"))
+  ;; (load-file (concat lisp-dir "spice-mode.el"))
+  (load-file (concat lisp-dir "markdown-mode.el"))
+  (load-file (concat lisp-dir "nxml-hide.el"))
+  t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; KEY BINDINGS
+;;;
+
 ;; Set undo to \C-z
 (global-unset-key (kbd "C-/"))
 (global-unset-key (kbd "C-z"))
 (global-set-key (kbd "C-z") 'undo)
 
-;; forward-whitespace and backward-whitespace are shadowed by C-j key binding
-;; in LaTeX mode and Asm mode. These hooks fix that.
+;; forward-whitespace and backward-whitespace (see below) are shadowed by C-j
+;; key binding in LaTeX mode and Asm mode. These hooks fix that.
 (add-hook 'latex-mode-hook
 	  (lambda()
 	    (local-unset-key (kbd "C-j"))))
@@ -113,22 +124,5 @@
 			 (while (looking-back "[^[:space:]]" (- (point) 1))
 			   (re-search-backward "[^[:space:]]"))
 			 (skip-chars-backward " \t"))))))
-
-;; Set key bindings for inserting headers and banners
-(global-unset-key (kbd "C-b"))
-(global-unset-key (kbd "C-b b"))
-(global-set-key (kbd "C-b b") 'insert-file-banner)
-(global-unset-key (kbd "C-b f"))
-(global-set-key (kbd "C-b f") 'insert-function-header)
-(global-unset-key (kbd "C-b h"))
-(global-set-key (kbd "C-b h") 'insert-section-header)
-(global-unset-key (kbd "C-b c"))
-(global-set-key (kbd "C-b c") 'insert-class-header)
-(global-unset-key (kbd "C-x C-s"))
-(global-set-key (kbd "C-x C-s")
-		'(lambda ()
-		   (interactive)
-		   (update-last-edited-date) ;; insert-banner.el
-		   (save-buffer)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
