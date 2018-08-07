@@ -7,7 +7,7 @@
 ;;
 ;; CREATED:	    09/15/2017
 ;;
-;; LAST EDITED:	    07/25/2018
+;; LAST EDITED:	    08/02/2018
 ;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -63,6 +63,7 @@
 (add-to-list 'auto-mode-alist '("\\.plist" . xml-mode))
 (delete "[Mm]akefile\\'" auto-mode-alist)
 (add-to-list 'auto-mode-alist '("[Mm]akefile\\'" . makefile-gmake-mode))
+(add-to-list 'auto-mode-alist '("\\.html" . nxml-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; LOAD EXTERNAL FILES
