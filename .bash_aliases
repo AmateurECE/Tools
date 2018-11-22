@@ -15,19 +15,26 @@
 # LAST EDITED:	    11/22/2018
 ###
 
+# Standard aliases
 alias ls='ls -A'
 alias ll='ls -lA'
 alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -i'
-alias python='python3'
-alias repo-check='$MY_GIT/Tools/Git-Tools/post.sh'
 alias screen='screen -c ~/.screenrc'
 alias svn='svn --no-auth-cache'
+
+# repo-check is an old tool, about to be EOL'd
+# TODO: EOL repo-check
+alias repo-check='$MY_GIT/Tools/Git-Tools/post.sh'
+
+# Config for `t' and `p'
 alias t="python $MY_GIT/not-mine/t/t.py --task-dir ~/Desktop/tasks/ \
 --list tasks"
 alias p="python $MY_GIT/not-mine/t/t.py --task-dir $MY_GIT/Tools/tasks/ \
 --list projects"
+
+# Setup for bits, another tool
 alias bits="$MY_GIT/Tools/bits/bits"
 
 LANG="en_US.UTF-8"
@@ -37,6 +44,10 @@ export RECIPES="$MY_GIT/Doc/Recipes"
 export C_NC="\033[0m"
 export C_RED="\033[0;31m"
 export C_RED_BOLD="\033[2;31m"
+
+# Setup for Sysgit
+alias sysgit='$MY_GIT/Tools/Sysgit/sysgit.py'
+export SYSGIT_PATH="~/Git"
 
 # TODO: Add docs for these functions
 function latex-template {

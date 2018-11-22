@@ -1,3 +1,4 @@
+.bash_aliases: EOL repo-check | id:11a37d4a35a24887454663af2cb9664c2f1cf9d2
 .bash_aliases: `notify` wrapper. Usage: `notify grep -r 'int main'` -- create an alert | id:1a6c715de021bc5633034d63b4d4ae59a09b2210
 LaTeX/template.tex: Add the method for including a pdf | id:1d9e436487b5f9917ac49196412344f426a3c2eb
 LaTeX/template.tex: Add the method for including an image | id:6285c2fef775e6887ce1be37cad26f0bfaf52ed4

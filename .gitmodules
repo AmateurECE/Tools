@@ -1,0 +1,4 @@
+[submodule "Sysgit"]
+	path = Sysgit
+	url = https://github.com/AmateurECE/Sysgit
+	ignore = dirty
