@@ -7,8 +7,40 @@
 ;;
 ;; CREATED:	    09/15/2017
 ;;
-;; LAST EDITED:	    08/02/2018
+;; LAST EDITED:	    11/17/2018
 ;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; LOAD EXTERNAL FILES
+;;;
+
+;; TODO: Replace with "add-to-list 'load-path"
+(let ((lisp-dir (cond
+		 ((file-exists-p "~/Git/Emacs-Extensions")
+		  "~/Git/Emacs-Extensions/")
+		 ((file-exists-p "~/Documents/Tools/Emacs-Lisp")
+		  "~/Documents/Tools/Emacs-Lisp/")
+		 (t
+		  (error "User's Emacs-Lisp directory could not be found.")))))
+  ;; The point is to uncomment these if I find I'll be using them for extended
+  ;; periods of time. This keeps emacs free to do other things on startup.
+  (load-file (concat lisp-dir "insert-banner.el"))
+  (load-file (concat lisp-dir "line-wrap.el"))
+  ;; (load-file (concat lisp-dir "restart-emacs.el"))
+  ;; (load-file (concat lisp-dir "ubt-mode.el"))
+  (load-file (concat lisp-dir "dts-mode.el"))
+  ;; (load-file (concat lisp-dir "matlab.el"))
+  ;; (load-file (concat lisp-dir "yacc-mode.el"))
+  ;; (load-file (concat lisp-dir "spice-mode.el"))
+  (load-file (concat lisp-dir "markdown-mode.el"))
+  (load-file (concat lisp-dir "nxml-hide.el"))
+  (load-file (concat lisp-dir "dockerfile-mode.el"))
+  (load-file (concat lisp-dir "tex-mode.el"))
+  t)
+
+(add-to-list 'load-path "~/Git/Emacs-Extensions/rust-mode")
+(autoload 'rust-mode "rust-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; MISCELLANEOUS INITIALIZATION
@@ -58,37 +90,17 @@
 ;; Turn on error-catching.
 (setq debug-on-error t)
 
+;; Prevent verilog mode from automatically inserting a newline after every
+;; semicolon.
+(setq verilog-auto-newline nil)
+
 ;; alist additions
 (add-to-list 'auto-mode-alist '("\\.bash_aliases" . sh-mode))
 (add-to-list 'auto-mode-alist '("\\.plist" . xml-mode))
 (delete "[Mm]akefile\\'" auto-mode-alist)
 (add-to-list 'auto-mode-alist '("[Mm]akefile\\'" . makefile-gmake-mode))
 (add-to-list 'auto-mode-alist '("\\.html" . nxml-mode))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; LOAD EXTERNAL FILES
-;;;
-
-(let ((lisp-dir (cond
-		 ((file-exists-p "~/Git/Emacs-Extensions")
-		  "~/Git/Emacs-Extensions/")
-		 ((file-exists-p "~/Documents/Tools/Emacs-Lisp")
-		  "~/Documents/Tools/Emacs-Lisp/")
-		 (t
-		  (error "User's Emacs-Lisp directory could not be found.")))))
-  ;; The point is to uncomment these if I find I'll be using them for extended
-  ;; periods of time. This keeps emacs free to do other things on startup.
-  (load-file (concat lisp-dir "insert-banner.el"))
-  (load-file (concat lisp-dir "line-wrap.el"))
-  ;; (load-file (concat lisp-dir "restart-emacs.el"))
-  ;; (load-file (concat lisp-dir "ubt-mode.el"))
-  ;; (load-file (concat lisp-dir "dts-mode.el"))
-  ;; (load-file (concat lisp-dir "matlab.el"))
-  ;; (load-file (concat lisp-dir "yacc-mode.el"))
-  ;; (load-file (concat lisp-dir "spice-mode.el"))
-  (load-file (concat lisp-dir "markdown-mode.el"))
-  (load-file (concat lisp-dir "nxml-hide.el"))
-  t)
+(add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; KEY BINDINGS

@@ -12,7 +12,7 @@
 #
 # CREATED:	    10/23/2017
 #
-# LAST EDITED:	    08/07/2018
+# LAST EDITED:	    11/22/2018
 ###
 
 alias ls='ls -A'
@@ -32,6 +32,11 @@ alias bits="$MY_GIT/Tools/bits/bits"
 
 LANG="en_US.UTF-8"
 export RECIPES="$MY_GIT/Doc/Recipes"
+
+# Colors!
+export C_NC="\033[0m"
+export C_RED="\033[0;31m"
+export C_RED_BOLD="\033[2;31m"
 
 # TODO: Add docs for these functions
 function latex-template {
@@ -74,6 +79,7 @@ function join-by {
 }
 
 # TODO: b shouldn't save bugs from anything in .gitignore
+# TODO: b is still having trouble with quotes in todo statements
 function b {
     GIT="."
     while [[ ! -e "$GIT/.git" ]] && [[ `ls $GIT` != `ls /` ]]; do
@@ -154,5 +160,27 @@ sloc() {
     echo "-------------"
     echo "Total: $total"
 }
+
+# Used to locate the plist files for launchd services which match the first
+# argument given. Taken from here (and slightly modified):
+# https://stackoverflow.com/questions/18502705
+launchctlFind () {
+    LaunchctlPATHS=( \
+        ~/Library/LaunchAgents \
+        /Library/LaunchAgents \
+        /Library/LaunchDaemons \
+        /System/Library/LaunchAgents \
+        /System/Library/LaunchDaemons \
+    )
+
+    for curPATH in "${LaunchctlPATHS[@]}"
+    do
+        grep -rl "$curPATH" -e "$1"
+    done
+    return 0;
+}
+
+# TODO: `notify` wrapper. Usage: `notify grep -r 'int main'` -- create an alert
+# when `grep -r 'int main'` finishes execution.
 
 ###############################################################################
