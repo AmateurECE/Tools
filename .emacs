@@ -7,7 +7,7 @@
 ;;
 ;; CREATED:	    09/15/2017
 ;;
-;; LAST EDITED:	    12/20/2018
+;; LAST EDITED:	    12/21/2018
 ;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -28,13 +28,14 @@
   (load-file (concat lisp-dir "line-wrap.el"))
   ;; (load-file (concat lisp-dir "restart-emacs.el"))
   ;; (load-file (concat lisp-dir "ubt-mode.el"))
-  (load-file (concat lisp-dir "dts-mode.el"))
+  ;; (load-file (concat lisp-dir "dts-mode.el"))
   ;; (load-file (concat lisp-dir "matlab.el"))
   ;; (load-file (concat lisp-dir "yacc-mode.el"))
   ;; (load-file (concat lisp-dir "spice-mode.el"))
-  (load-file (concat lisp-dir "markdown-mode.el"))
+  ;; (load-file (concat lisp-dir "markdown-mode.el"))
   (load-file (concat lisp-dir "nxml-hide.el"))
-  (load-file (concat lisp-dir "dockerfile-mode.el"))
+  ;; (load-file (concat lisp-dir "s.el/s.el")) ;; needed by dockerfile-mode
+  ;; (load-file (concat lisp-dir "dockerfile-mode.el"))
   t)
 
 (add-to-list 'load-path "~/Git/Emacs-Extensions/rust-mode")
