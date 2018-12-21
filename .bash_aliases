@@ -43,7 +43,7 @@ export C_RED_BOLD="\033[2;31m"
 
 # Setup for Sysgit
 alias sysgit='$MY_GIT/Tools/Sysgit/sysgit.py'
-export SYSGIT_PATH="~/Git"
+export SYSGIT_PATH="$MY_GIT"
 
 # TODO: Add docs for these functions
 function latex-template {
