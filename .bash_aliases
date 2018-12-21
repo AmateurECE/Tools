@@ -12,7 +12,7 @@
 #
 # CREATED:	    10/23/2017
 #
-# LAST EDITED:	    11/22/2018
+# LAST EDITED:	    12/12/2018
 ###
 
 # Standard aliases
@@ -35,6 +35,8 @@ alias p="python $MY_GIT/not-mine/t/t.py --task-dir $MY_GIT/Tools/tasks/ \
 --list projects"
 
 # Setup for bits, another tool
+# TODO: Get my .gitconfig under version control.
+# TODO: Get my .bash_profile under version control.
 alias bits="$MY_GIT/Tools/bits/bits"
 
 LANG="en_US.UTF-8"
@@ -89,7 +91,7 @@ function join-by {
     IFS=$SAVE
 }
 
-# TODO: b shouldn't save bugs from anything in .gitignore
+# TODO: b should not save bugs from anything in .gitignore
 # TODO: b is still having trouble with quotes in todo statements
 function b {
     GIT="."
@@ -191,7 +193,7 @@ launchctlFind () {
     return 0;
 }
 
-# TODO: `notify` wrapper. Usage: `notify grep -r 'int main'` -- create an alert
+# TODO: `notify` wrapper. Usage: `notify grep -r int main` -- create an alert
 # when `grep -r 'int main'` finishes execution.
 
 ###############################################################################

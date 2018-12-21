@@ -7,7 +7,7 @@
 ;;
 ;; CREATED:	    09/15/2017
 ;;
-;; LAST EDITED:	    11/17/2018
+;; LAST EDITED:	    12/20/2018
 ;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -35,7 +35,6 @@
   (load-file (concat lisp-dir "markdown-mode.el"))
   (load-file (concat lisp-dir "nxml-hide.el"))
   (load-file (concat lisp-dir "dockerfile-mode.el"))
-  (load-file (concat lisp-dir "tex-mode.el"))
   t)
 
 (add-to-list 'load-path "~/Git/Emacs-Extensions/rust-mode")
