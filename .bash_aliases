@@ -12,7 +12,7 @@
 #
 # CREATED:	    10/23/2017
 #
-# LAST EDITED:	    12/12/2018
+# LAST EDITED:	    12/21/2018
 ###
 
 # Standard aliases
@@ -27,12 +27,6 @@ alias svn='svn --no-auth-cache'
 # repo-check is an old tool, about to be EOL'd
 # TODO: EOL repo-check
 alias repo-check='$MY_GIT/Tools/Git-Tools/post.sh'
-
-# Config for `t' and `p'
-alias t="python $MY_GIT/not-mine/t/t.py --task-dir ~/Desktop/tasks/ \
---list tasks"
-alias p="python $MY_GIT/not-mine/t/t.py --task-dir $MY_GIT/Tools/tasks/ \
---list projects"
 
 # Setup for bits, another tool
 # TODO: Get my .gitconfig under version control.
@@ -132,10 +126,10 @@ function b {
 	    fi
 
 	    f=`echo $f | sed -e 's/\`/\\\\\`/g'`
-	    eval python $MY_GIT/not-mine/t/t.py "$T" "\"$f\""
+	    eval python $MY_GIT/Tools/t/t.py "$T" "\"$f\""
 	done
     elif [[ $1 == "" ]]; then
-	eval python $MY_GIT/not-mine/t/t.py $T
+	eval python $MY_GIT/Tools/t/t.py $T
     else
 	echo >&2 "fatal: command not understood"
     fi
