@@ -7,7 +7,7 @@
 ;;
 ;; CREATED:	    09/15/2017
 ;;
-;; LAST EDITED:	    12/21/2018
+;; LAST EDITED:	    12/27/2018
 ;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -16,10 +16,10 @@
 
 ;; TODO: Replace with "add-to-list 'load-path"
 (let ((lisp-dir (cond
-		 ((file-exists-p "~/Git/Emacs-Extensions")
-		  "~/Git/Emacs-Extensions/")
-		 ((file-exists-p "~/Documents/Tools/Emacs-Lisp")
-		  "~/Documents/Tools/Emacs-Lisp/")
+		 ((file-exists-p "/home/edtwardy/Git/Emacs-Extensions")
+		  "/home/edtwardy/Git/Emacs-Extensions/")
+		 ((file-exists-p "/Users/ethantwardy/Git/Emacs-Extensions")
+		  "/Users/ethantwardy/Documents/Tools/Emacs-Lisp/")
 		 (t
 		  (error "User's Emacs-Lisp directory could not be found.")))))
   ;; The point is to uncomment these if I find I'll be using them for extended
@@ -34,13 +34,18 @@
   ;; (load-file (concat lisp-dir "spice-mode.el"))
   ;; (load-file (concat lisp-dir "markdown-mode.el"))
   (load-file (concat lisp-dir "nxml-hide.el"))
-  ;; (load-file (concat lisp-dir "s.el/s.el")) ;; needed by dockerfile-mode
-  ;; (load-file (concat lisp-dir "dockerfile-mode.el"))
+
+  ;; Dockerfile mode initialization.
+  (load-file (concat lisp-dir "s.el/s.el")) ;; needed by dockerfile-mode
+  (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
+  (load-file (concat lisp-dir "dockerfile-mode.el"))
+
+  ;; Load rust-mode
+  (add-to-list 'load-path (concat lisp-dir "rust-mode"))
+  (autoload 'rust-mode "rust-mode" nil t)
+  (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
   t)
 
-(add-to-list 'load-path "~/Git/Emacs-Extensions/rust-mode")
-(autoload 'rust-mode "rust-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; MISCELLANEOUS INITIALIZATION
@@ -100,7 +105,6 @@
 (delete "[Mm]akefile\\'" auto-mode-alist)
 (add-to-list 'auto-mode-alist '("[Mm]akefile\\'" . makefile-gmake-mode))
 (add-to-list 'auto-mode-alist '("\\.html" . nxml-mode))
-(add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; KEY BINDINGS
@@ -108,7 +112,7 @@
 
 ;; Set undo to \C-z
 (global-unset-key (kbd "C-/"))
-(global-unset-key (kbd "C-z"))
+;; (global-unset-key (kbd "C-z"))
 (global-set-key (kbd "C-z") 'undo)
 
 ;; forward-whitespace and backward-whitespace (see below) are shadowed by C-j
