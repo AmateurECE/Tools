@@ -19,7 +19,7 @@
 		 ((file-exists-p "/home/edtwardy/Git/Emacs-Extensions")
 		  "/home/edtwardy/Git/Emacs-Extensions/")
 		 ((file-exists-p "/Users/ethantwardy/Git/Emacs-Extensions")
-		  "/Users/ethantwardy/Documents/Tools/Emacs-Lisp/")
+		  "/Users/ethantwardy/Git/Tools/Emacs-Extensions/")
 		 (t
 		  (error "User's Emacs-Lisp directory could not be found.")))))
   ;; The point is to uncomment these if I find I'll be using them for extended

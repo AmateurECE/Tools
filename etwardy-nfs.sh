@@ -9,7 +9,7 @@
 #
 # CREATED:	    07/12/2018
 #
-# LAST EDITED:	    07/12/2018
+# LAST EDITED:	    12/26/2018
 ###
 
 if [ `whoami` != "root" ]; then
@@ -17,10 +17,10 @@ if [ `whoami` != "root" ]; then
     exit 1
 fi
 
-serverIp=192.168.0.29
+serverIp=192.168.0.20
 mountPoint=/Volumes/Passport
 
 mkdir $mountPoint
-mount -o resvport $serverIp:/export/Passport $mountPoint
+mount -o resvport $serverIp:/exports/Passport $mountPoint
 
 ###############################################################################
