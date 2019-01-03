@@ -9,7 +9,7 @@
 #
 # CREATED:	    12/30/2018
 #
-# LAST EDITED:	    12/30/2018
+# LAST EDITED:	    01/03/2019
 ###
 
 if [ `whoami` != "root" ]; then
@@ -17,10 +17,15 @@ if [ `whoami` != "root" ]; then
     exit
 fi
 
+resetParams() {
+    pmset -b sleep 60
+    pmset -b disablesleep 0
+}
+
+trap resetParams EXIT
+
 pmset -b sleep 0
 pmset -b disablesleep 1
 sleep 1800 # Process sleeps for 30 minutes
-pmset -b sleep 60
-pmset -b disablesleep 0
 
 ##############################################################################
