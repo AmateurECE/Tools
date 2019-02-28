@@ -9,23 +9,35 @@
 #
 # CREATED:	    12/30/2018
 #
-# LAST EDITED:	    01/03/2019
+# LAST EDITED:	    02/28/2019
 ###
 
-if [ `whoami` != "root" ]; then
-    >&2 echo "This script must be run as root."
-    exit
-fi
+usage() {
+    printf '%s\n' \
+	   "Usage: coffee <numSeconds>" \
+	   "" \
+	   "Disables sleep for <numSeconds> seconds."
+}
 
 resetParams() {
     pmset -b sleep 60
     pmset -b disablesleep 0
 }
 
+if [ `whoami` != "root" ]; then
+    >&2 echo "This script must be run as root."
+    exit
+fi
+
+if [ "x$1" = "x" ]; then
+    usage
+    exit 1
+fi
+
 trap resetParams EXIT
 
 pmset -b sleep 0
 pmset -b disablesleep 1
-sleep 1800 # Process sleeps for 30 minutes
+sleep $1 # Process sleeps for <numSeconds>
 
 ##############################################################################

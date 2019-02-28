@@ -7,7 +7,7 @@
 ;;
 ;; CREATED:	    09/15/2017
 ;;
-;; LAST EDITED:	    12/27/2018
+;; LAST EDITED:	    02/28/2019
 ;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -82,16 +82,6 @@
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
 (package-initialize)
 
-;; GNUPlot-mode initialization
-(autoload 'gnuplot-mode "gnuplot"
-  "gnuplot major mode" t)
-(autoload 'gnuplot-make-buffer "gnuplot"
-  "open a buffer in gnuplot mode" t)
-(setq auto-mode-alist
-      (append '(("\\.gp$" . gnuplot-mode))
-	      auto-mode-alist))
-(global-set-key [(f9)] 'gnuplot-make-buffer)
-
 ;; Turn on error-catching.
 (setq debug-on-error t)
 
@@ -100,6 +90,7 @@
 (setq verilog-auto-newline nil)
 
 ;; alist additions
+(add-to-list 'auto-mode-alist '("\\.gradle" . java-mode))
 (add-to-list 'auto-mode-alist '("\\.bash_aliases" . sh-mode))
 (add-to-list 'auto-mode-alist '("\\.plist" . xml-mode))
 (delete "[Mm]akefile\\'" auto-mode-alist)
@@ -114,6 +105,19 @@
 (global-unset-key (kbd "C-/"))
 ;; (global-unset-key (kbd "C-z"))
 (global-set-key (kbd "C-z") 'undo)
+
+;; Rebind universal-argument to C-n
+(global-unset-key (kbd "C-n"))
+(global-set-key (kbd "C-n") 'universal-argument)
+
+(global-unset-key (kbd "C-u"))
+(global-set-key (kbd "C-u u") '(lambda() (interactive) (insert "{\\\"u}")))
+(global-set-key (kbd "C-u a") '(lambda() (interactive) (insert "{\\\"a}")))
+(global-set-key (kbd "C-u o") '(lambda() (interactive) (insert "{\\\"o}")))
+(global-set-key (kbd "C-u U") '(lambda() (interactive) (insert "{\\\"U}")))
+(global-set-key (kbd "C-u A") '(lambda() (interactive) (insert "{\\\"A}")))
+(global-set-key (kbd "C-u O") '(lambda() (interactive) (insert "{\\\"O}")))
+(global-set-key (kbd "C-u s") '(lambda() (interactive) (insert "{\\ss}")))
 
 ;; forward-whitespace and backward-whitespace (see below) are shadowed by C-j
 ;; key binding in LaTeX mode and Asm mode. These hooks fix that.
