@@ -1,0 +1,52 @@
+#!/bin/sh
+###############################################################################
+# NAME:		    sloc
+#
+# AUTHOR:	    Ethan D. Twardy <edtwardy@mtu.edu>
+#
+# DESCRIPTION:	    Get the number of sloc (system lines of code) in the
+#		    current directory. Supports a multitude of languages.
+#
+# CREATED:	    02/04/2019
+#
+# LAST EDITED:	    02/28/2019
+###
+
+usage() {
+    printf '%s\n' \
+	   "Usage: sloc <c | python>" \
+	   "" \
+	   "Count the number of system lines of code (including comments" \
+	   "but not blank lines) in the current directory."
+}
+
+# Calculate the number of system lines of code in all files in this and all
+# subdirectories which match the regular expression given.
+sloc() {
+    REG=$1
+    total=0
+    # Calculate the lines in each individual file
+    for f in `find . | grep $REG`; do
+	lessEmpty=`cat $f | sed -e '/^\s*$/d'`
+	numLines=`echo $lessEmpty | wc -l \
+		       | awk -F'[[:blank:]]+' '{print $2;}'`
+	echo "$f: $numLines"
+	total=$(expr $total + $numLines)
+    done
+    echo "-------------"
+    echo "Total: $total"
+}
+
+case "$1" in
+    python)
+	sloc '\.py$'
+	;;
+    c)
+	sloc '\.[ch]$'
+	;;
+    *)
+	usage
+	;;
+esac
+
+##############################################################################

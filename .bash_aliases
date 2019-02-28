@@ -12,7 +12,7 @@
 #
 # CREATED:	    10/23/2017
 #
-# LAST EDITED:	    12/21/2018
+# LAST EDITED:	    02/28/2019
 ###
 
 # Standard aliases
@@ -21,7 +21,6 @@ alias ll='ls -lA'
 alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -i'
-alias screen='screen -c ~/.screenrc'
 alias svn='svn --no-auth-cache'
 
 # repo-check is an old tool, about to be EOL'd
@@ -44,6 +43,18 @@ export C_RED_BOLD="\033[2;31m"
 # Setup for Sysgit
 alias sysgit='$MY_GIT/Tools/Sysgit/sysgit.py'
 export SYSGIT_PATH="$MY_GIT"
+export SYSGIT_IGNORE="$MY_GIT/not-mine"
+
+# Setup for sloc
+alias sloc="$MY_GIT/Tools/sloc"
+
+# Setup for tmux
+alias tmux="tmux -f $MY_GIT/Tools/.tmux.conf"
+
+# Setup for screen
+if [ "x$STY" != "x" ]; then # This var is only defined during screen sessions
+    PS1='\h(${WINDOW}):\W \u$ '
+fi
 
 # TODO: Add docs for these functions
 function latex-template {
@@ -83,6 +94,24 @@ function join-by {
     shift
     printf "%s" "${@/#/$d}"
     IFS=$SAVE
+}
+
+# On OSX, creates an alert in the foreground displaying the text $1. If $1
+# is '', display 'An alert has been dispatched by process $$!', where $$ is
+# replaced with the PID of the shell. This function does nothing on other
+# systems.
+function alert {
+    if [ `uname` != "Darwin" ]; then
+	return
+    fi
+
+    message="$1"
+    if [ "x$message" = "x" ]; then
+	message="An alert has been dispatched by process $$"'!'
+    fi
+
+    # Generate the alert
+    osascript -e "tell app \"System Events\" to display dialog \"$message\""
 }
 
 # TODO: b should not save bugs from anything in .gitignore
@@ -146,26 +175,6 @@ recipes() {
     else
 	echo >&2 "No recipe found for $1"
     fi
-}
-
-# Calculate the number of system lines of code in all files in this and all
-# subdirectories which match the regular expression given.
-sloc() {
-    if [[ "x$1" = "x" ]]; then
-	REG='\.[ch]'
-    else
-	REG=$1
-    fi
-    total=0
-    # Calculate the lines in each individual file
-    for f in `find . | grep $REG`; do
-	lines=`cat $f | sed -e '/^\s*$/d' | wc -l \
-		   | awk -F'[[:blank:]]+' '{print $2;}'`
-	echo "$f: $lines"
-	total=$(expr $total + $lines)
-    done
-    echo "-------------"
-    echo "Total: $total"
 }
 
 # Used to locate the plist files for launchd services which match the first
