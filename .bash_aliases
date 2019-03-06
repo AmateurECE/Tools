@@ -12,7 +12,7 @@
 #
 # CREATED:	    10/23/2017
 #
-# LAST EDITED:	    02/28/2019
+# LAST EDITED:	    03/05/2019
 ###
 
 # Standard aliases
@@ -50,6 +50,9 @@ alias sloc="$MY_GIT/Tools/sloc"
 
 # Setup for tmux
 alias tmux="tmux -f $MY_GIT/Tools/.tmux.conf"
+
+# Setup for bugs.py
+alias b="$MY_GIT/Tools/bug-tool/bugs.py"
 
 # Setup for screen
 if [ "x$STY" != "x" ]; then # This var is only defined during screen sessions
@@ -112,56 +115,6 @@ function alert {
 
     # Generate the alert
     osascript -e "tell app \"System Events\" to display dialog \"$message\""
-}
-
-# TODO: b should not save bugs from anything in .gitignore
-# TODO: b is still having trouble with quotes in todo statements
-function b {
-    GIT="."
-    while [[ ! -e "$GIT/.git" ]] && [[ `ls $GIT` != `ls /` ]]; do
-	GIT="$GIT/.."
-    done
-
-    if [[ ! -e "$GIT/.git" ]]; then
-	echo >&2 "fatal: Not a git repository (or any of the parent " \
-		 "directories): .git"
-	return 1
-    fi
-    
-    T="--task-dir . --list $GIT/bugs --delete-if-empty"
-    if [[ $1 == "update" ]]; then
-	if [ -e $GIT/bugs ]; then
-	    rm -f $GIT/bugs
-	fi
-	# Read in the .bignore file.
-	REGX=""
-	if [ -f "$GIT/.bignore" ]; then
-	    IGNORE=`cat "$GIT/.bignore" | sed -e 's/#.*$//' -e '/^\s*$/d'`
-	    IGNORE=`echo $IGNORE | sed -e 's/\n/ /'`
-	    REGX=`join-by '\|' ".git/" $IGNORE`
-	fi
-	if [ "x$REGX" == "x" ]; then
-	    REGX='.git/'
-	fi
-	REGX=${REGX}"\|~"
-	LIST=`find $GIT -type f | grep -v "$REGX"`
-	BUGS=`awk -F'TODO:? ' '/(# |\/* )TODO:? /{print FILENAME": "$2}' $LIST`
-	IFS=$(echo -e "\n\b")
-	for f in $BUGS; do
-	    f=`echo $f | grep -v '[^[:space:]]\+: \*/' | sed -Ee 's|[.]+/||g'`
-	    f=`echo $f | sed -e 's#\*/.*##'`
-	    if [ "x$f" = "x" ]; then
-		continue
-	    fi
-
-	    f=`echo $f | sed -e 's/\`/\\\\\`/g'`
-	    eval python $MY_GIT/Tools/t/t.py "$T" "\"$f\""
-	done
-    elif [[ $1 == "" ]]; then
-	eval python $MY_GIT/Tools/t/t.py $T
-    else
-	echo >&2 "fatal: command not understood"
-    fi
 }
 
 recipes() {

@@ -1,10 +1,12 @@
 [submodule "Sysgit"]
 	path = Sysgit
 	url = https://github.com/AmateurECE/Sysgit
-	ignore = dirty
 [submodule "t"]
 	path = t
 	url = https://github.com/AmateurECE/t
 [submodule "Emacs-Extensions"]
 	path = Emacs-Extensions
 	url = https://github.com/AmateurECE/Emacs-Extensions
+[submodule "bug-tool"]
+	path = bug-tool
+	url = https://github.com/AmateurECE/bugs

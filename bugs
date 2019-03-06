@@ -1,10 +1,12 @@
-.bash_aliases: EOL repo-check | id:11a37d4a35a24887454663af2cb9664c2f1cf9d2
-.bash_aliases: Get my .bash_profile under version control. | id:1ccf9a57d69586b18e55aacbd159d87bcb6f8026
-LaTeX/template.tex: Add the method for including a pdf | id:1d9e436487b5f9917ac49196412344f426a3c2eb
-.bash_aliases: Get my .gitconfig under version control. | id:4d2ad282e810f499529bb8f88345e3154f35335a
-LaTeX/template.tex: Add the method for including an image | id:6285c2fef775e6887ce1be37cad26f0bfaf52ed4
-.bash_aliases: b should not save bugs from anything in .gitignore | id:7a59956bf8329fe0a93a444046ca4735b9e52c19
-.bash_aliases: b is still having trouble with quotes in todo statements | id:c65521bfb899a8a0ca6fc2b47b5f339de981e0a4
-.bash_aliases: Add docs for these functions | id:d006bcc7935b664a2cafb1d18232aca45e09900a
-.bash_aliases: `notify` wrapper. Usage: `notify grep -r int main` -- create an alert | id:d741368c2c8b696410f59562893580e21c796154
-login-mount.sh: Update to use launchctl. | id:f5b0f351e52840a07beec25ce30e727f43610f4e
+./Sysgit/repository.py: Stabilize Repository.info() | id:0f9be2b0c243925e90e9d05160164c5ca76b083f
+./.bash_aliases: Get my .bash_profile under version control. | id:112ab8b2a3eed78ce3837977cba4c8c3921890c1
+./.bash_aliases: EOL repo-check | id:3465d8c74eb16cb205c403e9e23e31f34c389655
+./Sysgit/sysgit.py: Add SYSGIT_IGNORE env var. | id:6f548c62e98de1a3dd1a75956913e6fbd85b5a38
+./Sysgit/sysgit.py: Also output information for `bugs` | id:749b45240c49dccff70fefa9215133b13f486920
+./.bash_aliases: Add docs for these functions | id:7b3a085b7bad7bcfcf5cb13d11aa034241a287b5
+./Sysgit/sysgit.py: Also output information for commits behind/ahead | id:aad2964fc6278cc932a640d77ce15b0e1c9b149e
+./LaTeX/template.tex: Add the method for including a pdf | id:c7bb7adb4072dd10902da89e0f41460a78acd3f5
+./.bash_aliases: `notify` wrapper. Usage: `notify grep -r int main` -- create an alert | id:cc3c6d535af5b3e9c5580a94260b50dbb5137ab7
+./login-mount.sh: Update to use launchctl. | id:d7017992950d86d9519a525686f25e7bfded8a39
+./.bash_aliases: Get my .gitconfig under version control. | id:d7cbb240b690b716b5bb57e9e9a83cfa18696863
+./LaTeX/template.tex: Add the method for including an image | id:dc6ad5f1c68de3feaa74101f68b82353a30bfd7a
