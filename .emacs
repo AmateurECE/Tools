@@ -15,6 +15,8 @@
 ;;;
 
 ;; TODO: Replace with "add-to-list 'load-path"
+;; TODO: bytecode compile all extensions
+;; TODO: Conditionally load all major modes
 (let ((lisp-dir (cond
 		 ((file-exists-p "/home/edtwardy/Git/Emacs-Extensions")
 		  "/home/edtwardy/Git/Emacs-Extensions/")
@@ -26,6 +28,17 @@
   ;; periods of time. This keeps emacs free to do other things on startup.
   (load-file (concat lisp-dir "insert-banner.el"))
   (load-file (concat lisp-dir "line-wrap.el"))
+
+  ;; Load custom python.el, if we are loading a python file.
+  (let ((loading-python nil))
+    (dolist (arg command-line-args)
+      (when (string-match "\\.py$" arg)
+	(setq loading-python t)))
+    (when (eq loading-python t)
+      (if (file-exists-p (concat lisp-dir "python.elc"))
+	  (load-file (concat lisp-dir "python.elc"))
+	(byte-compile-file (concat lisp-dir "python.el") t))))
+
   ;; (load-file (concat lisp-dir "restart-emacs.el"))
   ;; (load-file (concat lisp-dir "ubt-mode.el"))
   ;; (load-file (concat lisp-dir "dts-mode.el"))
