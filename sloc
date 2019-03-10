@@ -9,7 +9,7 @@
 #
 # CREATED:	    02/04/2019
 #
-# LAST EDITED:	    02/28/2019
+# LAST EDITED:	    03/10/2019
 ###
 
 usage() {
@@ -27,9 +27,9 @@ sloc() {
     total=0
     # Calculate the lines in each individual file
     for f in `find . | grep $REG`; do
-	lessEmpty=`cat $f | sed -e '/^\s*$/d'`
-	numLines=`echo $lessEmpty | wc -l \
-		       | awk -F'[[:blank:]]+' '{print $2;}'`
+	numLines=`cat $f | sed -e '/^\s*$/d' \
+		      | wc -l \
+		      | awk -F'[[:blank:]]+' '{print $2;}'`
 	echo "$f: $numLines"
 	total=$(expr $total + $numLines)
     done
