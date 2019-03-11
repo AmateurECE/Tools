@@ -1,9 +1,6 @@
 [submodule "Sysgit"]
 	path = Sysgit
 	url = https://github.com/AmateurECE/Sysgit
-[submodule "t"]
-	path = t
-	url = https://github.com/AmateurECE/t
 [submodule "Emacs-Extensions"]
 	path = Emacs-Extensions
 	url = https://github.com/AmateurECE/Emacs-Extensions
