@@ -1,12 +1,18 @@
-./Sysgit/repository.py: Stabilize Repository.info() | id:0f9be2b0c243925e90e9d05160164c5ca76b083f
-./.bash_aliases: Get my .bash_profile under version control. | id:112ab8b2a3eed78ce3837977cba4c8c3921890c1
-./.bash_aliases: EOL repo-check | id:3465d8c74eb16cb205c403e9e23e31f34c389655
-./Sysgit/sysgit.py: Add SYSGIT_IGNORE env var. | id:6f548c62e98de1a3dd1a75956913e6fbd85b5a38
-./Sysgit/sysgit.py: Also output information for `bugs` | id:749b45240c49dccff70fefa9215133b13f486920
-./.bash_aliases: Add docs for these functions | id:7b3a085b7bad7bcfcf5cb13d11aa034241a287b5
-./Sysgit/sysgit.py: Also output information for commits behind/ahead | id:aad2964fc6278cc932a640d77ce15b0e1c9b149e
-./LaTeX/template.tex: Add the method for including a pdf | id:c7bb7adb4072dd10902da89e0f41460a78acd3f5
-./.bash_aliases: `notify` wrapper. Usage: `notify grep -r int main` -- create an alert | id:cc3c6d535af5b3e9c5580a94260b50dbb5137ab7
-./login-mount.sh: Update to use launchctl. | id:d7017992950d86d9519a525686f25e7bfded8a39
-./.bash_aliases: Get my .gitconfig under version control. | id:d7cbb240b690b716b5bb57e9e9a83cfa18696863
-./LaTeX/template.tex: Add the method for including an image | id:dc6ad5f1c68de3feaa74101f68b82353a30bfd7a
+../login-mount.sh: Update to use launchctl. | id:02d108e28f30c7ae4448a0747847a46d5dfdabc5
+../Sysgit/Sysgit.py: Fix for git submodule edge cases | id:0501db5b0e9b9e86b7435a656cb3bab9ac09586d
+../Sysgit/Sysgit.py: `update' subcommand: Do all the slow networking operations | id:0cb3ae80e47d38f40cfe2f35efd8dd51901fc2b2
+../LaTeX/template.tex: Add the method for including an image | id:0d8b6e40228f33332332612a688313ec2af6cba3
+../.bash_aliases: Add docs for these functions | id:1d31b77b655cf2c4cea016d0064605f40f6264d9
+../Sysgit/Sysgit.py: `history' subcommand: view commits created in a span of time | id:2af6500da20dad9b2d8b4c24fe3283f41463e291
+../.bash_aliases: Get my .bash_profile under version control. | id:31c91559a58e3f86e9b2c375632d11885794f4b5
+../LaTeX/template.tex: Add the method for including a pdf | id:369679522e6cdb2b3eb4ef7c2916b93267b485af
+../Sysgit/Repository.py: Refactor Repository.checkRemotes() | id:4569909f7a31e06aba7d816639c02a942c3a00ce
+../.bash_aliases: EOL repo-check | id:856406ec47573676fd16241037269708c478a2b7
+../bug-tool/bugs.py: Make to work with emacs-lisp comments | id:8722190373b2d328d6509e8b77481455eabc0ab1
+../Sysgit/RepositoryInfo.py: Integrate iInfo | id:aad49f338c1d1cb2829c0bcc3a37cf70fccdc46a
+../Sysgit/Sysgit.py: -r,--remotes should show if ANY branches are not up to date. | id:bc299f9b0b8e63f9353c4625d8f86c6efb7615f1
+../.bash_aliases: Get my .gitconfig under version control. | id:d1f75e0bf6a5911c922ca0909f24de1e5dde66c2
+../Sysgit/Sysgit.py: `info' subcommand: Show extra info about repository: | id:e0a0ecf766970737a48e83383b0b4428bf32ad4e
+../.bash_aliases: `notify` wrapper. Usage: `notify grep -r int main` -- create an alert | id:e3180f2609038daf209b2e5fe514d3ed629c6b6b
+../Sysgit/Repository.py: Fix too-many-statements in parseGitmodules | id:ed36681aeb20d78fe8a2249b5deb4de80712d13e
+../bug-tool/bugs.py: Implement glob matching for ignore file entries | id:f34c7e1df2933459965c8ceb772e2cbe3c44a632

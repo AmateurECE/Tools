@@ -7,7 +7,7 @@
 ;;
 ;; CREATED:	    09/15/2017
 ;;
-;; LAST EDITED:	    02/28/2019
+;; LAST EDITED:	    03/31/2019
 ;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -46,7 +46,12 @@
   ;; (load-file (concat lisp-dir "yacc-mode.el"))
   ;; (load-file (concat lisp-dir "spice-mode.el"))
   ;; (load-file (concat lisp-dir "markdown-mode.el"))
-  (load-file (concat lisp-dir "nxml-hide.el"))
+  ;; (load-file (concat lisp-dir "nxml-hide.el"))
+
+  ;; Swift mode initialization
+  (add-to-list 'load-path (concat lisp-dir "swift-mode"))
+  (autoload 'swift-mode "swift-mode" nil t)
+  (add-to-list 'auto-mode-alist '("\\.swift\\'" . swift-mode))
 
   ;; Dockerfile mode initialization.
   (load-file (concat lisp-dir "s.el/s.el")) ;; needed by dockerfile-mode
