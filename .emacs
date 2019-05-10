@@ -7,7 +7,7 @@
 ;;
 ;; CREATED:	    09/15/2017
 ;;
-;; LAST EDITED:	    03/31/2019
+;; LAST EDITED:	    05/09/2019
 ;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -78,6 +78,7 @@
  '(electric-pair-mode t)
  '(inhibit-default-init t)
  '(standard-indent 8)
+ '(indent-tabs-mode nil)
  '(tab-stop-list (quote (4 8 12 16 20 24 28 32))))
 
 (custom-set-faces
@@ -107,13 +108,14 @@
 ;; semicolon.
 (setq verilog-auto-newline nil)
 
-;; alist additions
+;; mode-alist additions
 (add-to-list 'auto-mode-alist '("\\.gradle" . java-mode))
 (add-to-list 'auto-mode-alist '("\\.bash_aliases" . sh-mode))
 (add-to-list 'auto-mode-alist '("\\.plist" . xml-mode))
 (delete "[Mm]akefile\\'" auto-mode-alist)
 (add-to-list 'auto-mode-alist '("[Mm]akefile\\'" . makefile-gmake-mode))
 (add-to-list 'auto-mode-alist '("\\.html" . nxml-mode))
+(add-to-list 'auto-mode-alist '("\\.Rd\\'" . doctex-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; KEY BINDINGS
@@ -145,6 +147,22 @@
 (add-hook 'asm-mode-hook
 	  (lambda()
 	    (local-unset-key (kbd "C-j"))))
+
+
+(defun forward-whitespace (arg)
+  "Move point to the end of the next sequence of whitespace chars.
+Each such sequence may be a single newline, or a sequence of
+consecutive space and/or tab characters.
+With prefix argument ARG, do it ARG times if positive, or move
+backwards ARG times if negative."
+  (interactive "^p")
+  (if (natnump arg)
+      (re-search-forward "[ \t]+\\|\n" nil 'move arg)
+    (while (< arg 0)
+      (if (re-search-backward "[ \t]+\\|\n" nil 'move)
+	  (or (eq (char-after (match-beginning 0)) ?\n)
+	      (skip-chars-backward " \t")))
+      (setq arg (1+ arg)))))
 
 ;; Bindings for forward-whitespace and backward whitespace, etc.
 (global-unset-key (kbd "C-k"))
