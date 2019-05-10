@@ -12,7 +12,7 @@
 #
 # CREATED:	    10/23/2017
 #
-# LAST EDITED:	    03/05/2019
+# LAST EDITED:	    05/09/2019
 ###
 
 # Standard aliases
@@ -53,6 +53,9 @@ alias tmux="tmux -f $MY_GIT/Tools/.tmux.conf"
 
 # Setup for bugs.py
 alias b="$MY_GIT/Tools/bug-tool/bugs.py"
+
+# Quickly SSH into my home server
+alias hopto="ssh -p 5000 edtwardy@edtwardy.hopto.org"
 
 # Setup for screen
 if [ "x$STY" != "x" ]; then # This var is only defined during screen sessions
