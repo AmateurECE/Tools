@@ -7,3 +7,6 @@
 [submodule "bug-tool"]
 	path = bug-tool
 	url = https://github.com/AmateurECE/bugs
+[submodule "designdoc"]
+	path = designdoc
+	url = ssh://edtwardy@edtwardy.hopto.org:5000/home/edtwardy/Git/Serve/designdoc/
