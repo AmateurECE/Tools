@@ -9,12 +9,12 @@
 #
 # CREATED:	    02/04/2019
 #
-# LAST EDITED:	    03/10/2019
+# LAST EDITED:	    06/11/2019
 ###
 
 usage() {
     printf '%s\n' \
-	   "Usage: sloc <c | python>" \
+	   "Usage: sloc <js | c | python>" \
 	   "" \
 	   "Count the number of system lines of code (including comments" \
 	   "but not blank lines) in the current directory."
@@ -44,6 +44,9 @@ case "$1" in
     c)
 	sloc '\.[ch]$'
 	;;
+    js)
+        sloc '\.js\(on\)\?$'
+        ;;
     *)
 	usage
 	;;
