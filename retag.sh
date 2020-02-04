@@ -9,7 +9,7 @@
 #
 # CREATED:          07/16/2019
 #
-# LAST EDITED:      07/16/2019
+# LAST EDITED:      01/23/2020
 ###
 
 usage()
@@ -25,6 +25,7 @@ usage()
 
 if [[ "x$1" = "x" || "$1" = "-h" || "$1" = "--help" ]]; then
     usage
+    exit
 fi
 
 play="$HOME/Git/Apple/CoreAudioExperiments/AudioQueueOutput/build/Release/\
@@ -34,24 +35,27 @@ AudioQueueOutput"
 # the naming convention used by ~/Git/Tools/chapter.sh.
 IFS=$'\n'
 numberChapters=$(ls *.mp3 | sort | awk 'BEGIN{RS="";FS="\n"}{print $NF}' \
-                     | sed -e 's/Chapter-\([0-9][0-9]\)\.mp3/\1/')
+                     | sed -e 's/Chapter-\([0-9]\{1,\}\)\.mp3/\1/')
 numberChapters=$(expr "$numberChapters" + 1)
 for f in `ls *.mp3`; do
-    chapter=$(echo $f | sed -e 's/Chapter-\([0-9][0-9]\)\.mp3/\1/')
+    chapter=$(echo $f | sed -e 's/Chapter-\([0-9]\{1,\}\)\.mp3/\1/')
     chapter=$(printf '%02g' $(expr $chapter + 1))
     printf 'Chapter: %s\n' "$chapter"
 
-    trap "printf '%s' 'Title: '" INT
-    eval "($play $f)"
-    trap - INT
-    read title
-    if [[ "x$title" = "x" ]]; then
+    if [[ "x$1" = "xNormal" ]]; then
         title="Chapter ${chapter}"
+    else
+        trap "printf '%s' 'Title: '" INT
+        eval "($play $f)"
+        trap - INT
+        read title
+        if [[ "x$title" = "x" ]]; then
+            title="Chapter ${chapter}"
+        fi
     fi
 
     mid3v2 --TIT2 "$title" --TRCK "${chapter}/${numberChapters}" "$f"
     mid3v2 --delete-frames=CHAP "$f"
-    mv "$f" "${chapter} ${title//[^A-Za-z0-9 ._-]/_}.mp3"
 done
 
 ###############################################################################

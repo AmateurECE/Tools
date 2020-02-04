@@ -7,7 +7,7 @@
 ;;
 ;; CREATED:	    09/15/2017
 ;;
-;; LAST EDITED:	    05/09/2019
+;; LAST EDITED:	    08/18/2019
 ;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -64,6 +64,9 @@
   (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
   t)
 
+;; Repository specific configuration
+(if (file-exists-p "./.emacs-config")
+    (load-file "./.emacs-config"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; MISCELLANEOUS INITIALIZATION
@@ -116,6 +119,14 @@
 (add-to-list 'auto-mode-alist '("[Mm]akefile\\'" . makefile-gmake-mode))
 (add-to-list 'auto-mode-alist '("\\.html" . nxml-mode))
 (add-to-list 'auto-mode-alist '("\\.Rd\\'" . doctex-mode))
+
+(add-to-list 'auto-mode-alist '("\\.c\\'" . c-mode))
+(setq auto-mode-alist (delete '("\\.[ch]\\'" . c-mode) auto-mode-alist))
+(setq auto-mode-alist (delete '("\\.[ch]\\(pp\\|xx\\|\\+\\+\\)\\?\\'"
+                                . c++-mode)
+                              auto-mode-alist))
+(add-to-list 'auto-mode-alist '("\\.[ch]\\(pp\\|xx\\|\\+\\+\\)\\?\\'"
+                                . c++-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; KEY BINDINGS
