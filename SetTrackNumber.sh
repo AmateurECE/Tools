@@ -8,7 +8,7 @@
 #
 # CREATED:          01/23/2020
 #
-# LAST EDITED:      01/23/2020
+# LAST EDITED:      03/31/2020
 ###
 
 die()
@@ -31,10 +31,7 @@ for f in `ls $fileGlob`; do
     printf '%s\n' "$f"
     case "$1" in
         FLAC)
-            track=$(metaflac --show-tag=TRACKNUMBER "$f" \
-                        | grep -o -m1 '[0-9]\+')
-            metaflac --remove-tag=TRACKNUMBER "$f"
-            metaflac --set-tag="TRACKNUMBER=$track/$2" "$f"
+            metaflac --set-tag="TOTALTRACKS=$2" "$f"
         ;;
         MP3)
             track=$(mid3v2 --list "$f" | grep 'TRCK' \
