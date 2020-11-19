@@ -8,7 +8,7 @@
 #
 # CREATED:          01/23/2020
 #
-# LAST EDITED:      03/31/2020
+# LAST EDITED:      04/15/2020
 ###
 
 die()
@@ -24,6 +24,8 @@ fi
 fileGlob="*.mp3"
 if [[ "$1" = "FLAC" ]]; then
     fileGlob="*.flac"
+elif [[ "$1" = "M4A" ]]; then
+    fileGlob="*.m4a"
 fi
 
 IFS=$'\n'
@@ -32,13 +34,16 @@ for f in `ls $fileGlob`; do
     case "$1" in
         FLAC)
             metaflac --set-tag="TOTALTRACKS=$2" "$f"
-        ;;
+            ;;
         MP3)
             track=$(mid3v2 --list "$f" | grep 'TRCK' \
                         | sed -e 's/TRCK=\([0-9]\{1,\}\).*/\1/')
             mid3v2 --delete-frames=TRCK "$f"
             mid3v2 --TRCK="$track/$2" "$f"
-        ;;
+            ;;
+        M4A)
+            mp4tags -T "$2" "$f"
+            ;;
     esac
 done
 

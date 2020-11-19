@@ -9,7 +9,7 @@
 #
 # CREATED:          05/30/2019
 #
-# LAST EDITED:      07/16/2019
+# LAST EDITED:      10/26/2020
 ###
 
 die()
@@ -45,7 +45,7 @@ artworkFile=$(mktemp -q /tmp/$(basename $0).XXXXXX)
 tempFiles="${tempFiles}${IFS}${artworkFile}"
 
 printf '%s\n' "Obtaining artwork from source file..."
-copyArtwork="yes"
+copyArtwork="no" # Update: Artwork is copied from source automatically
 ffmpeg -i "$inputFile" "${artworkFile}.jpg" > "$logFile" 2>&1
 if [[ $? != "0" ]]; then
     printf '%s\n' "Unable to obtain artwork. No artwork will be copied."

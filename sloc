@@ -9,7 +9,7 @@
 #
 # CREATED:	    02/04/2019
 #
-# LAST EDITED:	    06/11/2019
+# LAST EDITED:	    06/25/2020
 ###
 
 usage() {
@@ -23,7 +23,7 @@ usage() {
 # Calculate the number of system lines of code in all files in this and all
 # subdirectories which match the regular expression given.
 sloc() {
-    REG=$1
+    REG="$1"
     total=0
     # Calculate the lines in each individual file
     for f in `find . | grep $REG`; do
@@ -42,10 +42,13 @@ case "$1" in
 	sloc '\.py$'
 	;;
     c)
-	sloc '\.[ch]$'
+	sloc '\.[ch]\(pp\)\?$'
 	;;
     js)
         sloc '\.js\(on\)\?$'
+        ;;
+    cpp)
+        sloc '\.\([ch]\(p{2,3}\)\?\|tcc\)$'
         ;;
     *)
 	usage

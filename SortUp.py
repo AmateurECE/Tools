@@ -7,9 +7,12 @@
 #
 # CREATED:          10/16/2019
 #
-# LAST EDITED:      12/10/2019
+# LAST EDITED:      10/10/2020
 ###
 
+import argparse
+import os
+import re
 import subprocess
 import selectors
 import sys
@@ -45,7 +48,7 @@ def readCue(cueFileName):
         line = cueFile.readline()
         albumData = []
         artist = None
-        albumName = None
+        album = None
         while line:
             while "FILE" not in line and line:
                 if "PERFORMER" in line:
@@ -59,18 +62,32 @@ def readCue(cueFileName):
                 while "TRACK" in line:
                     albumData.append(readTrack(cueFile, fileName, line))
                     line = cueFile.readline()
-        return artist, albumName, albumData
+        return artist, album, albumData
 
-def obtainSegment(trackName, fromFile, start, length):
+def getSampleRate(filename):
+    """Obtain the sample rate of the source"""
+    if '"' in filename:
+        filename = filename.replace('"', '\\"')
+    command = 'ffprobe "' + filename + '"'
+    subp = execPipeToMemory(command)
+    pattern = re.compile(r"^\s+Stream #\d:\d: Audio\D*(\d+) Hz")
+    for line in subp.stderr:
+        match = re.match(pattern, line.decode('utf-8'))
+        if match:
+            return match.group(1)
+
+def obtainSegment(trackName, sampleRate, fromFile, start, length):
     """Obtain the segment of audio from `fromFile`"""
     if length:
-        command = ("ffmpeg -i '{}' -ss {} -t {} "
+        command = ("ffmpeg -y -i '{}' -ss {} -t {} "
                    .format(fromFile, start, length))
     else:
-        command = "ffmpeg -i '{}' -ss {} ".format(fromFile, start)
+        command = "ffmpeg -y -i '{}' -ss {} ".format(fromFile, start)
     # Don't include video streams; set audio sample rate to 192kHz
-    otherOptions = "-vn -ar 192000 "
-    command += otherOptions + trackName + '.flac'
+    otherOptions = "-vn -ar " + sampleRate + " "
+    if '"' in trackName:
+        trackName = trackName.replace('"', '\\"')
+    command += otherOptions + '"' + trackName + '.flac' + '"'
     print("{}".format(command), file=sys.stderr)
     execPipeToMemory(command)
     return trackName + '.flac'
@@ -81,15 +98,16 @@ def populateMetadata(inputFile, dataMap):
     command += createSetTagPair(dataMap, 'ARTIST')
     command += createSetTagPair(dataMap, 'ALBUM')
     command += createSetTagPair(dataMap, 'TRACKNUMBER')
+    command += createSetTagPair(dataMap, 'TOTALTRACKS')
     command += createSetTagPair(dataMap, 'TITLE')
-    command += createSetTagPair(dataMap, 'LABEL')
-    command += createSetTagPair(dataMap, 'CATALOGNUMBER')
     command += createSetTagPair(dataMap, 'GENRE')
     command += createSetTagPair(dataMap, 'DATE')
 
+    if '"' in inputFile:
+        inputFile = inputFile.replace('"', '\\"')
     if 'IMAGE' in dataMap.keys():
         command += ('--import-picture-from="{}" '.format(dataMap['IMAGE']))
-    command += inputFile
+    command += '"' + inputFile + '"'
     execPipeToMemory(command)
 
 def createSetTagPair(dataMap, tagName):
@@ -130,8 +148,15 @@ def execPipeToMemory(command):
 
 def main():
     """Implements main logic"""
-    cueFile = sys.argv[1]
-    artistName, albumName, albumInfo = readCue(cueFile)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("cueFile", help='The path of the cue file')
+    args = parser.parse_args()
+
+    artistName, albumName, albumInfo = readCue(args.cueFile)
+    fileName = os.path.join(os.path.dirname(args.cueFile),
+                            albumInfo[0]['FILE'])
+    sampleRate = getSampleRate(fileName)
+    totalTracks = len(albumInfo)
     for index in range(0, len(albumInfo)):
         album = albumInfo[index]
         length = 0
@@ -140,11 +165,14 @@ def main():
             length = (float(albumInfo[index + 1]['INDEX'])
                       - float(album['INDEX']))
         print('Obtaining "{}"...'.format(album['TITLE']), end="", flush=True)
-        trackName = obtainSegment(str(album['TRACKNUMBER']), album['FILE'],
-                                  float(album['INDEX']), length)
+        trackName = obtainSegment(
+            str(album['TRACKNUMBER']) + ' ' + album['TITLE'],
+            sampleRate, fileName,
+            float(album['INDEX']), length)
         dataMap = {
             'TRACKNUMBER': str(album['TRACKNUMBER']),
-            'TITLE': album['TITLE']
+            'TITLE': album['TITLE'],
+            'TOTALTRACKS': totalTracks,
         }
         if artistName is not None:
             dataMap['ARTIST'] = artistName

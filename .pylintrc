@@ -139,7 +139,9 @@ disable=print-statement,
         xreadlines-attribute,
         deprecated-sys-function,
         exception-escape,
-        comprehension-escape
+        comprehension-escape,
+        missing-docstring,
+        too-many-arguments
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
@@ -368,7 +370,7 @@ attr-naming-style=snake_case
 
 # Regular expression matching correct attribute names. Overrides attr-naming-
 # style.
-attr-rgx=_?_?[a-z][A-Za-z0-9_]{1,30}$
+attr-rgx=_?_?[a-z][A-Za-z0-9_]{1,30}_?_?$
 
 # Bad variable names which should always be refused, separated by a comma.
 bad-names=foo,
@@ -408,7 +410,7 @@ function-naming-style=snake_case
 
 # Regular expression matching correct function names. Overrides function-
 # naming-style.
-function-rgx=_?_?[a-z][A-Za-z0-9]{1,30}$
+function-rgx=_?_?[a-z][A-Za-z0-9]{1,30}_?_?$
 
 # Good variable names which should always be accepted, separated by a comma.
 good-names=i,
@@ -433,7 +435,7 @@ method-naming-style=snake_case
 
 # Regular expression matching correct method names. Overrides method-naming-
 # style.
-method-rgx=_?_?[a-z][A-Za-z0-9]{1,30}$
+method-rgx=_?_?[a-z_][A-Za-z0-9_]{1,30}_?_?$
 
 # Naming style matching correct module names.
 module-naming-style=PascalCase

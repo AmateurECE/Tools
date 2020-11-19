@@ -12,7 +12,7 @@
 #
 # CREATED:	    10/23/2017
 #
-# LAST EDITED:	    03/08/2020
+# LAST EDITED:	    11/18/2020
 ###
 
 # Standard aliases
@@ -55,7 +55,7 @@ alias tmux="tmux -f $MY_GIT/Tools/.tmux.conf"
 alias b="$MY_GIT/Tools/bug-tool/bugs.py"
 
 # Quickly SSH into my home server
-alias hopto="ssh -p 443 edtwardy@edtwardy.hopto.org"
+alias hopto="ssh -p 5000 edtwardy@192.168.1.60"
 
 # Setup for designdoc (yet another LaTeX template)
 alias designdoc="$MY_GIT/Tools/designdoc/clone.sh"

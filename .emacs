@@ -7,7 +7,7 @@
 ;;
 ;; CREATED:	    09/15/2017
 ;;
-;; LAST EDITED:	    08/18/2019
+;; LAST EDITED:	    09/07/2020
 ;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -20,7 +20,8 @@
 (let ((lisp-dir (cond
 		 ((file-exists-p "/home/edtwardy/Git/Emacs-Extensions")
 		  "/home/edtwardy/Git/Emacs-Extensions/")
-		 ((file-exists-p "/Users/ethantwardy/Git/Emacs-Extensions")
+		 ((file-exists-p
+		   "/Users/ethantwardy/Git/Tools/Emacs-Extensions")
 		  "/Users/ethantwardy/Git/Tools/Emacs-Extensions/")
 		 (t
 		  (error "User's Emacs-Lisp directory could not be found.")))))
@@ -45,7 +46,7 @@
   ;; (load-file (concat lisp-dir "matlab.el"))
   ;; (load-file (concat lisp-dir "yacc-mode.el"))
   ;; (load-file (concat lisp-dir "spice-mode.el"))
-  ;; (load-file (concat lisp-dir "markdown-mode.el"))
+  (load-file (concat lisp-dir "markdown-mode.el"))
   ;; (load-file (concat lisp-dir "nxml-hide.el"))
 
   ;; Swift mode initialization
@@ -62,6 +63,14 @@
   (add-to-list 'load-path (concat lisp-dir "rust-mode"))
   (autoload 'rust-mode "rust-mode" nil t)
   (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
+
+  ;; Load nginx mode
+  (add-to-list 'load-path (concat lisp-dir "nginx-mode"))
+  (autoload 'nginx-mode "nginx-mode" nil t)
+  (setq auto-mode-alist (delete '("\\.\\(?:desktop\\|la\\)\\'"
+				  . conf-unix-mode)
+				auto-mode-alist))
+  (add-to-list 'auto-mode-alist '("\\.conf\\'" . nginx-mode))
   t)
 
 ;; Repository specific configuration
@@ -119,6 +128,11 @@
 (add-to-list 'auto-mode-alist '("[Mm]akefile\\'" . makefile-gmake-mode))
 (add-to-list 'auto-mode-alist '("\\.html" . nxml-mode))
 (add-to-list 'auto-mode-alist '("\\.Rd\\'" . doctex-mode))
+(add-to-list 'auto-mode-alist '("\\.tcc\\'" . c++-mode))
+
+(setq auto-mode-alist (delete '("\\.js\\'" . javascript-mode) auto-mode-alist))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
+(add-to-list 'auto-mode-alist '("\\.mjs\\'" . rjsx-mode))
 
 (add-to-list 'auto-mode-alist '("\\.c\\'" . c-mode))
 (setq auto-mode-alist (delete '("\\.[ch]\\'" . c-mode) auto-mode-alist))
@@ -127,6 +141,9 @@
                               auto-mode-alist))
 (add-to-list 'auto-mode-alist '("\\.[ch]\\(pp\\|xx\\|\\+\\+\\)\\?\\'"
                                 . c++-mode))
+
+(if (eq major-mode 'nxml-mode)
+    (setq indent-tabs-mode t))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; KEY BINDINGS
@@ -137,18 +154,31 @@
 ;; (global-unset-key (kbd "C-z"))
 (global-set-key (kbd "C-z") 'undo)
 
-;; Rebind universal-argument to C-n
-(global-unset-key (kbd "C-n"))
-(global-set-key (kbd "C-n") 'universal-argument)
-
 (global-unset-key (kbd "C-u"))
-(global-set-key (kbd "C-u u") '(lambda() (interactive) (insert "{\\\"u}")))
-(global-set-key (kbd "C-u a") '(lambda() (interactive) (insert "{\\\"a}")))
-(global-set-key (kbd "C-u o") '(lambda() (interactive) (insert "{\\\"o}")))
-(global-set-key (kbd "C-u U") '(lambda() (interactive) (insert "{\\\"U}")))
-(global-set-key (kbd "C-u A") '(lambda() (interactive) (insert "{\\\"A}")))
-(global-set-key (kbd "C-u O") '(lambda() (interactive) (insert "{\\\"O}")))
-(global-set-key (kbd "C-u s") '(lambda() (interactive) (insert "{\\ss}")))
+(if (eq major-mode 'latex-mode)
+    (progn
+      (global-set-key (kbd "C-u u") '(lambda()
+                                       (interactive) (insert "{\\\"u}")))
+      (global-set-key (kbd "C-u a") '(lambda()
+                                       (interactive) (insert "{\\\"a}")))
+      (global-set-key (kbd "C-u o") '(lambda()
+                                       (interactive) (insert "{\\\"o}")))
+      (global-set-key (kbd "C-u U") '(lambda()
+                                       (interactive) (insert "{\\\"U}")))
+      (global-set-key (kbd "C-u A") '(lambda()
+                                       (interactive) (insert "{\\\"A}")))
+      (global-set-key (kbd "C-u O") '(lambda()
+                                       (interactive) (insert "{\\\"O}")))
+      (global-set-key (kbd "C-u s") '(lambda()
+                                       (interactive) (insert "{\\ss}")))))
+
+;; For emmet-mode
+(if (fboundp 'emmet-expand-line)
+    (progn
+      (global-set-key (kbd "C-u") 'emmet-expand-line)))
+
+;; Rebind universal argument
+(global-set-key (kbd "C-n") 'universal-argument)
 
 ;; forward-whitespace and backward-whitespace (see below) are shadowed by C-j
 ;; key binding in LaTeX mode and Asm mode. These hooks fix that.
@@ -192,5 +222,9 @@ backwards ARG times if negative."
 			 (while (looking-back "[^[:space:]]" (- (point) 1))
 			   (re-search-backward "[^[:space:]]"))
 			 (skip-chars-backward " \t"))))))
+
+;; Fix indentation for C mode:
+(c-set-offset 'arglist-cont-nonempty '+)
+(c-set-offset 'brace-list-intro '+)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
