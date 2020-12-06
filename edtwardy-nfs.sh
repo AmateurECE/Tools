@@ -9,7 +9,7 @@
 #
 # CREATED:	    07/12/2018
 #
-# LAST EDITED:	    09/01/2019
+# LAST EDITED:	    11/30/2020
 ###
 
 if [ `whoami` != "root" ]; then
@@ -18,9 +18,9 @@ if [ `whoami` != "root" ]; then
 fi
 
 serverIp=192.168.1.60
-mountPoint=/Volumes/Passport
+mountPoint=/Volumes/Library
 
 mkdir $mountPoint
-mount -o resvport $serverIp:/exports/Passport $mountPoint
+mount -o resvport $serverIp:/mnt/Library $mountPoint
 
 ###############################################################################
